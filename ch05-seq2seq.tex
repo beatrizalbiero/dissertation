@@ -1,0 +1,27 @@
+\chapter{Encoder-Decoder}
+\label{ch:05}
+
+Agora que já temos o conhecimento de RNR e modelo de linguagem...
+
+
+
+\section{Definição}
+Um modelo de mapeamento Encoder-Decoder é um sistema composto por duas RNRs cuja principal função é mapear sequências. A primeira rede, chamada \textit{Encoder}, mapeia os dados de uma determinada sequência de origem e devolve uma representação condensada do treinamento (um estado), este alimenta então a segunda rede, \textit{Decoder}, que, por sua vez, tem como objetivo gerar uma nova sequência alvo.  %ref
+Modelos do tipo Encoder-Decoder (também conhecidos como \textit{Seq2Seq}) tem sido bastante utilizados em tarefas linguísticas, especialmente no desenvolvimento de sistemas de diálogo e em tradução automática. Em um contexto de tradução do inglês para o português, por exemplo, uma rede encoder seria treinada com um corpus em inglês, o qual apresenta determinadas probabilidades de arranjo sintático e valores semânticos, ou seja, uma gestalt sequencial armazenada em uma matriz. A rede decoder, ao ser treinada na língua alvo, isto é, português, implicitamente leva em consideração tanto as características sintático-semânticas desta quanto a gestalt da rede encoder, gerando desta forma uma nova sequência que contempla ambas as línguas e assemelha-se a uma tradução humana. Tecnicamente, a gestalt gerada pela rede encoder nada mais é do que o último estado consolidado alcançado a partir dos treinamentos dessa rede. Por fim, obtem-se um sistema capaz de predizer os resultados de uma sequência alvo a partir de uma sequência de origem.
+
+Em função de uma similaridade conceitual, este modelo foi escolhido, uma vez que possibilita uma interação mediada pela essência de duas qualidades de padrões sequencias e tem como objetivo a produção de um resultado orgânico, semelhante, por exemplo, a intuição de um falante nativo que produz a flexão de um verbo na primeira pessoa do presente a partir de um verbo no infinitivo. 
+
+incluir referencias
+
+\section{Modelo Desenvolvido}
+
+\subsection{Inputs e Outputs}
+\begin{itemize}
+    \item dar exemplos de codificação
+    \item são duas LSTMs, então falar sobre o que entra e sai de cada uma delas.
+    \item exemplo de input e output
+    \item acrescentar um desenho com o modelo verdadeiro utilizado
+\end{itemize}
+
+\input{tikz/seq2seq.tex} %reduzir esse desenho
+

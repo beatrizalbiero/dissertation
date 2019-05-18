@@ -1,0 +1,88 @@
+\input{definitions/colors}
+\input{definitions/styles}
+\begin{figure}[ht!]
+\centering
+
+\scalebox{1.0}{
+\begin{tikzpicture}[auto]
+
+% operations =========
+% phon features 1
+\node[textonly] (1pho1) {int-vogal-int};
+
+% Legenda
+\node[textonly, above=10pt of 1pho1] (leg1) {Unidades de Input};
+
+
+% FNN input
+\node[normal, right=5pt of 1pho1] (x1) {};
+\node[normal, below=25pt of x1] (x2) {};
+\node[normal, below=25pt of x2] (x3) {};
+\node[normal, below=25pt of x3] (x4) {};
+\node[normal, below=25pt of x4] (x5) {};
+\node[normal, below=25pt of x5] (x6) {};
+
+% FNN output
+\node[normal, right=45pt of x1] (y1) {};
+\node[normal, right=45pt of x2] (y2) {};
+\node[normal, right=45pt of x3] (y3) {};
+\node[normal, right=45pt of x4] (y4) {};
+\node[normal, right=45pt of x5] (y5) {};
+\node[normal, right=45pt of x6] (y6) {};
+
+% phon features 2
+\node[textonly, right=5pt of y1] (2pho1) {int-vogal-int};
+\node[textonly, above=10pt of 2pho1] (leg2) {Unidades de Output};
+\node[textonly, left=25pt of x2] (1pho2) {anterior-nasal-posterior};
+\node[textonly, right=25pt of y2] (2pho2) {anterior-nasal-posterior};
+\node[textonly, left=25pt of x3] (3pho1) {...};
+\node[textonly, right=25pt of y3] (1pho3) {...};
+\node[textonly, left=25pt of x4] (4pho1) {nasal-cont-ocl};
+\node[textonly, right=25pt of y4] (1pho4) {nasal-cont-ocl};
+\node[textonly, left=25pt of x5] (5pho1) {médio-cont-baixa};
+\node[textonly, right=25pt of y5] (1pho5) {médio-cont-baixa};
+\node[textonly, left=25pt of x6] (6pho1) {vogal-fric-\#};
+\node[textonly, right=25pt of y6] (1pho6) {vogal-fric-\#};
+% edges FNN
+\path[nedge] (x1) -- (y1);
+\path[nedge] (x1) -- (y2);
+\path[nedge] (x1) -- (y3);
+\path[nedge] (x1) -- (y4);
+\path[nedge] (x1) -- (y5);
+\path[nedge] (x1) -- (y6);
+\path[nedge] (x2) -- (y1);
+\path[nedge] (x2) -- (y2);
+\path[nedge] (x2) -- (y3);
+\path[nedge] (x2) -- (y4);
+\path[nedge] (x2) -- (y5);
+\path[nedge] (x2) -- (y6);
+\path[nedge] (x3) -- (y1);
+\path[nedge] (x3) -- (y2);
+\path[nedge] (x3) -- (y3);
+\path[nedge] (x3) -- (y4);
+\path[nedge] (x3) -- (y5);
+\path[nedge] (x3) -- (y6);
+\path[nedge] (x4) -- (y1);
+\path[nedge] (x4) -- (y2);
+\path[nedge] (x4) -- (y3);
+\path[nedge] (x4) -- (y4);
+\path[nedge] (x4) -- (y5);
+\path[nedge] (x4) -- (y6);
+\path[nedge] (x5) -- (y1);
+\path[nedge] (x5) -- (y2);
+\path[nedge] (x5) -- (y3);
+\path[nedge] (x5) -- (y4);
+\path[nedge] (x5) -- (y5);
+\path[nedge] (x5) -- (y6);
+\path[nedge] (x6) -- (y1);
+\path[nedge] (x6) -- (y2);
+\path[nedge] (x6) -- (y3);
+\path[nedge] (x6) -- (y4);
+\path[nedge] (x6) -- (y5);
+\path[nedge] (x6) -- (y6);
+
+
+\end{tikzpicture}
+}\caption{Esquema da rede neural utilizada pelos pesquisadores Rumelhart e McClelland} 
+\label{fig:esquemafdd}
+\end{figure}

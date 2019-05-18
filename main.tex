@@ -1,0 +1,302 @@
+\documentclass[11pt,twoside,a4paper]{book}
+
+% ---------------------------------------------------------------------------- %
+% Pacotes 
+\usepackage[T1]{fontenc}
+\usepackage[portuguese]{babel}
+% \usepackage[latin1]{inputenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[pdftex]{graphicx}           % usamos arquivos pdf/png como figuras
+\usepackage[toc,page]{appendix}
+\usepackage{setspace}                   % espaçamento flexível
+\usepackage{float}
+\usepackage{indentfirst}                % indentação do primeiro parágrafo
+\usepackage{makeidx}                    % índice remissivo
+\usepackage[nottoc]{tocbibind}          % acrescentamos a bibliografia/indice/conteudo no Table of Contents
+\usepackage{courier}                    % usa o Adobe Courier no lugar de Computer Modern Typewriter
+\usepackage{type1cm}                    % fontes realmente escaláveis
+\usepackage{tipa}                       % para utilizar simbolos foneticos
+\usepackage{listings}                   % para formatar código-fonte (ex. em Java)
+\usepackage{titletoc}
+%\usepackage[landscape,dvips]{geometry}
+\usepackage{tabularx} 
+\addto\captionsportuguese{% Replace "english" with the language you use
+  \renewcommand{\contentsname}%
+    {Sumário}%
+}
+\newcommand{\aup}{\textsuperscript}
+
+\usepackage{tipa}
+\let\ipa\textipa
+\usepackage{vowel}
+\newcommand{\BlankCell}{}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{booktabs}
+\usepackage{bm}
+\usepackage{epigraph}
+\setlength\epigraphwidth{.6\textwidth}
+\setlength\epigraphrule{0pt}
+
+%\usepackage[bf,small,compact]{titlesec} % cabeçalhos dos títulos: menores e compactos
+\usepackage[fixlanguage]{babelbib}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up,skip=0pt]{caption}
+\usepackage[usenames,svgnames,dvipsnames]{xcolor}
+\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry} % margens
+%\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=black,linkcolor=black,urlcolor=black,filecolor=black,bookmarksopen=true]{hyperref} % links em preto
+\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=DarkGreen,linkcolor=NavyBlue,urlcolor=DarkRed,filecolor=green,bookmarksopen=true]{hyperref} % links coloridos
+\usepackage[all]{hypcap}                    % soluciona o problema com o hyperref e capitulos
+\usepackage[round,sort,nonamebreak]{natbib} % citação bibliográfica textual(plainnat-ime.bst)
+%\setcitestyle{numbers}
+\usepackage{pgfplots}
+\usepackage{hyperref}
+\fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}
+{\selectfont}
+\nocite{*}
+
+% ---------------------------------------------------------------------------- %
+% Cabeçalhos similares ao TAOCP de Donald E. Knuth
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+% new commands------------------------
+\usepackage{subcaption}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\myprime}[1]{{#1}^{\prime}}
+\newcommand{\grad}[2]{\nabla_{#1} {#2}}
+\newcommand{\dotp}[2]{{#1}^{\top}{#2}}
+\newcommand{\dotpPright}[2]{{#1}^{\top}\left({#2}\right)}
+\newcommand{\outerp}[2]{\left({#1}\right){#2}^{\top}}
+\newcommand{\Jacobian}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\Vocab}{\mathbb{V}}
+\newcommand{\corpus}{\mathbb{C}}
+\newcommand{\A}{\mathcal{A}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+ \DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\E}{\mathbb{E}}
+
+% new commands------------------------
+
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{#1}}{}}
+\renewcommand{\sectionmark}[1]{\markright{\MakeUppercase{#1}}{}}
+\renewcommand{\headrulewidth}{0pt}
+
+% ---------------------------------------------------------------------------- %
+\graphicspath{{./figuras/}}             % caminho das figuras (recomendável)
+\frenchspacing                          % arruma o espaço: id est (i.e.) e exempli gratia (e.g.) 
+\urlstyle{same}                         % URL com o mesmo estilo do texto e não mono-spaced
+\makeindex                              % para o índice remissivo
+\raggedbottom                           % para não permitir espaços extra no texto
+\fontsize{60}{62}\usefont{OT1}{cmr}{m}{n}{\selectfont}
+\cleardoublepage
+\normalsize
+
+% ---------------------------------------------------------------------------- %
+% Opções de listing usados para o código fonte
+% Ref: http://en.wikibooks.org/wiki/LaTeX/Packages/Listings
+\lstset{ %
+language=Python,                  % choose the language of the code
+basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1 each line will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,	                % adds a frame around the code
+framerule=0.6pt,
+tabsize=2,	                    % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+escapeinside={\%*}{*)},         % if you want to add a comment within your code
+backgroundcolor=\color[rgb]{1.0,1.0,1.0}, % choose the background color.
+rulecolor=\color[rgb]{0.8,0.8,0.8},
+extendedchars=true,
+xleftmargin=10pt,
+xrightmargin=10pt,
+framexleftmargin=10pt,
+framexrightmargin=10pt
+}
+
+% Additional packages
+\usepackage{lscape}
+
+\usepackage{booktabs}
+\usepackage{graphicx}
+% \usepackage[table,xcdraw]{xcolor}
+\usepackage{colortbl}
+\usepackage{algpseudocode}
+\usepackage{soul}
+
+% Declaracoes em Português
+\algrenewcommand\algorithmicend{\textbf{fim}}
+\algrenewcommand\algorithmicdo{\textbf{faça}}
+\algrenewcommand\algorithmicwhile{\textbf{enquanto}}
+\algrenewcommand\algorithmicfor{\textbf{para}}
+\algrenewcommand\algorithmicif{\textbf{se}}
+\algrenewcommand\algorithmicthen{\textbf{então}}
+\algrenewcommand\algorithmicelse{\textbf{senão}}
+\algrenewcommand\algorithmicreturn{\textbf{devolve}}
+\algrenewcommand\algorithmicfunction{\textbf{função}}
+
+% Rearranja os finais de cada estrutura
+\algrenewtext{EndWhile}{\algorithmicend\ \algorithmicwhile}
+\algrenewtext{EndFor}{\algorithmicend\ \algorithmicfor}
+\algrenewtext{EndIf}{\algorithmicend\ \algorithmicif}
+\algrenewtext{EndFunction}{\algorithmicend\ \algorithmicfunction}
+% O comando For, a seguir, retorna 'para #1 -- #2 até #3 faça'
+\algnewcommand\algorithmicto{\textbf{até}}
+\algrenewtext{For}[3]%
+{\algorithmicfor\ #1 $\gets$ #2 \algorithmicto\ #3 \algorithmicdo}
+
+\usepackage{adjustbox}
+\usepackage{fancyvrb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\usepackage{cases}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\SetKwComment{Comment}{$\triangleright$\ }{}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,fit,backgrounds, arrows.meta}
+\newcommand{\empt}[2]{$#1^{\langle #2 \rangle}$}
+\include{tikz/styles}
+\usepackage{tkz-euclide}
+
+\include{definitions}
+
+% ---------------------------------------------------------------------------- %
+% Corpo do texto
+\begin{document}
+\frontmatter 
+% cabeçalho para as páginas das seções anteriores ao capítulo 1 (frontmatter)
+\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+\setcounter{tocdepth}{2}
+\fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
+\fancyhead[RE,LO]{}
+\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+
+\onehalfspacing  % espaçamento
+
+% ---------------------------------------------------------------------------- %
+% CAPA
+% Nota: O título para as dissertações/teses do IME-USP devem caber em um 
+% orifício de 10,7cm de largura x 6,0cm de altura que há na capa fornecida pela SPG.
+\thispagestyle{empty}
+\begin{center}
+    \vspace*{2.3cm}
+    \textbf{\Large{Um Estudo Sobre as Irregularidades Verbais do Português Brasileiro Via Redes Neurais Artificiais
+}}\\
+    
+    
+    \vskip 2cm
+    \textsc{
+    Dissertação de Mestrado\\[+0.5cm]
+    Programa de Mestrado em Semiótica e Linguística Geral\\[+0.5cm]
+    Universidade de São Paulo\\[+0.5cm]
+   }
+    
+    \vspace*{6.2cm}
+    Beatriz Albiero\\
+    Orientador: Prof. Dr. Marcelo Barra Ferreira\\
+    Departamento de Linguística FFLCH-USP
+    
+    \vskip 0.5cm
+    \normalsize{São Paulo\\ 2019}
+\end{center}
+
+
+\pagenumbering{roman}     % começamos a numerar
+
+
+% ---------------------------------------------------------------------------- %
+% Dedicatória
+% ---------------------------------------------------------------------------- %
+% Agradecimentos
+\chapter*{Agradecimentos}
+
+% ---------------------------------------------------------------------------- %
+% Abstract
+\chapter*{Resumo}
+% \noindent Albiero, B. \textbf{Um Estudo Sobre as Irregularidades Verbais do Português Brasileiro Via Redes Neurais Artificiais}. 
+% 2018.
+% Projeto de Pesquisa (MSc) - Faculdade de Filosofia e Ciências Humanas,
+% Universidade de São Paulo, São Paulo, 2018.
+% \\
+% \\
+
+
+% Esta pesquisa foi inspirada no experimento de Rumelhart e McClelland de 1986 \cite{rumelhart:1986} em que uma nova teoria em aquisição de linguagem se constituiu a partir da formulação de uma rede neural artifical capaz de aprender padrões fonéticos entre famílias de verbos irregulares da língua inglesa. Neste trabalho, exploram-se as particularidades da modelagem em redes neurais para o aprendizado de padrões fonéticos entre verbos irregulares do Português Brasileiro. Além disso, apresentam-se resultados de experimentos realizados com o uso da arquitetura Encoder-Decoder.  
+
+
+% exploram-se as dificuldades  tem como principal objetivo um estudo sobre as irregularidades verbais do português brasileiro através de técnicas experimentais em aprendizado de máquina, em particular, redes neurais. Neste trabalho, busca-se desenvolver o aprendizado da conjugação de verbos para a primeira pessoa do singular no tempo presente do modo indicativo utilizando como referência a forma infinitiva dos mesmos. A escolha desta conjugação específica ocorre devido ao alto número de irregularidades presentes, fato que dificulta inclusive o processo de aprendizado infantil. 
+
+% Desde a apresentação do problema na década de 80, foram realizados múltiplos avanços tecnológicos e metodológicos que impulsionaram o desenvolvimento e o saber a respeito das técnicas de modelagem em redes neurais. Particularmente, uma técnica conhecida como “encoder-decoder” se destaca dentro do escopo linguístico mostrando-se relevante em múltiplas tarefas, como por exemplo no desenvolvimento de sistemas de diálogo e sistemas de tradução automática. É por esta razão que tal técnica foi utilizada como uma das principais ferramentas para a realização dos objetivos propostos. Para tal, é necessária a realização de uma busca pelos melhores hiperparâmetros bem como as melhores arquiteturas que possibilitem o aprendizado. Múltiplos experimentos serão então estudados e comparados com relação a diferentes métricas, mas principalmente com relação à acurácia. Por fim, espera-se comparar o desempenho do melhor modelo desenvolvido na tarefa de conjugação de pseudo-verbos com a intuição linguística de falantes na mesma tarefa.
+% \\
+
+% \noindent \textbf{Keywords:} Language Acquisition, Neural Networks, Connectionism, Natural Language Processing.
+% ---------------------------------------------------------------------------- %
+% Sumário
+\tableofcontents    % imprime o sumário
+
+% ---------------------------------------------------------------------------- %
+\include{list-abbrev}
+
+% ---------------------------------------------------------------------------- %
+\include{list-symbols}
+
+% ---------------------------------------------------------------------------- %
+% Listas de figuras e tabelas criadas automaticamente
+\listoffigures            
+% \listoftables            
+
+% ---------------------------------------------------------------------------- %
+% Capítulos do trabalho
+\mainmatter
+
+% cabeçalho para as páginas de todos os capítulos
+\fancyhead[RE,LO]{\thesection}
+
+% \singlespacing              % espaçamento simples
+\onehalfspacing            % espaçamento um e meio
+
+\input{ch01-introduction}
+\input{ch02-fonologia.tex}
+\input{ch03-redesneurais.tex}
+\input{ch04-modelolinguagem.tex}
+\input{ch05-seq2seq.tex}
+\input{ch06-corpus.tex}
+\input{ch07-resultados-novo.tex}
+\input{ch08-conclusao.tex}
+\input{Appendice.tex}
+
+
+
+
+% cabeçalho para os apendices
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }
+\fancyhead[RE,LO]{}
+\appendix
+
+% \include{Appendice} pensar sobre isso aqui
+
+% \include{ape-previous-work}
+
+% ---------------------------------------------------------------------------- %
+% Bibliografia
+\backmatter \singlespacing   % espaçamento simples
+\bibliographystyle{references-style-plainnat-ime} % citação bibliográfica textual
+\bibliography{references}  % associado ao arquivo: 'bibliografia.bib'
+
+% ---------------------------------------------------------------------------- %
+
+
+% \printindex   % imprime o índice remissivo no documento 
+
+\end{document}

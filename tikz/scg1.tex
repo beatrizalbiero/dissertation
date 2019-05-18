@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\node[input] (theta) {$\theta$};
+\node[deterministic, right=25pt of theta] (x) {$x$};
+\node[stochastic, right=25pt of x] (y) {$y$};
+\node[deterministic, right=25pt of y] (f) {$f$};
+
+\path[pedge] (theta) -- (x);
+\path[pedge] (x) -- (y);
+\path[pedge] (y) -- (f);
+\end{tikzpicture}

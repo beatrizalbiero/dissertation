@@ -1,0 +1,282 @@
+\chapter{Representações Fonéticas}
+\label{ch:02}
+
+introdução: falar sobre o primeiro passo da construção do modelo: para entender os inputs e outputs precisamos de representaçoes foneticas que nos permitam encontrar essas relaçoes.
+
+falar sobre a representacao letra-som e falar que tem multiplas possibilidades dessas representaçõs, comentar sobre os alfabetos AFI e SAMPA, mas explicar porque os mesmos não foram utilizados (mas poderiam). %nao foram utilizados porque eu podia ter representacoes mais simples
+
+\section{Alfabeto fonético internacional}
+
+\begin{center}
+\scalebox{0.9}{
+    \begin{tabular}{|l|cc|cc|cc|cc|cc|cc|cc|cc|cc|cc|cc|}
+%\begin{tabular}{|l|cc|}
+        \hline & 
+            \multicolumn{2}{|c|}{\footnotesize{Bilabial}} &					% Bilabial
+            \multicolumn{2}{|c|}{\footnotesize{Lab. dent.}} & 			% Labiodental
+            \multicolumn{2}{|c|}{\footnotesize{Dental}} & 					% Dental
+            \multicolumn{2}{|c|}{\footnotesize{Alveolar}} & 				% Alveolar
+            \multicolumn{2}{|c|}{\footnotesize{P-alveo.}} & 		% Post-alveolar
+            \multicolumn{2}{|c|}{\footnotesize{Retroflex}} & 				% Retroflex
+            \multicolumn{2}{|c|}{\footnotesize{Palatal}} & 					% Palatal
+            \multicolumn{2}{|c|}{\footnotesize{Velar}} & 					% Velar
+            \multicolumn{2}{|c|}{\footnotesize{Uvular}} & 					% Uvular
+            \multicolumn{2}{|c|}{\footnotesize{Pharyng.}} & 			% Pharyngeal
+            \multicolumn{2}{|c|}{\footnotesize{Glottal}}  \\					% Glottal
+
+        \hline Plosive &  							% Plosive
+            p & b &													% Bilabial
+            &&														% Labiodental
+            \multicolumn{3}{|r}{t}&							% Dental
+            \multicolumn{3}{l|}{d}&							% Alveolar
+                                                                        % Post-alveolar
+            \ipa{\:t} & \ipa{\:d}&									% Retroflex
+            c & \textbardotlessj &														% Palatal
+            k & g &													% Velar
+            q & \ipa{\;G} &										% Uvular
+            & \BlankCell        &								% Pharyngeal
+            \ipa{P}& \BlankCell         \\								% Glottal
+
+        \hline Nasal & 							% Nasal
+            & m &													% Bilabial
+            & \ipa{M} &											% Labiodental
+            \multicolumn{3}{|r}{}&								% Dental
+            \multicolumn{3}{l|}{n}&							% Alveolar
+                                                                        % Post-alveolar
+            & \ipa{\:n} &														% Retroflex
+            & \textltailn &														% Palatal
+            & \ipa{N} &														% Velar
+            & \ipa{\;N} &														% Uvular
+            \BlankCell        & \BlankCell        &		% Pharyngeal
+            \BlankCell        & \BlankCell         \\		% Glottal
+
+        \hline Trill &  								% Trill
+            & \ipa{\;B}&											% Bilabial
+            & &														% Labiodental
+            \multicolumn{3}{|r}{}&								% Dental
+            \multicolumn{3}{l|}{r}&								% Alveolar
+                                                                        % Post-alveolar
+            & &														% Retroflex
+            & &														% Palatal
+            \BlankCell        & \BlankCell        &		% Velar
+            & \ipa{\;R}&											% Uvular
+            & &														% Pharyngeal
+            \BlankCell        & \BlankCell         \\		% Glottal
+
+        \hline Tap/Flap &  						% Tap /Flap
+            & &													% Bilabial
+            & &														% Labiodental
+            \multicolumn{3}{|r}{} &					% Dental
+            \multicolumn{3}{l|}{\ipa{R}} &					% Alveolar
+                                                                        % Post-alveolar
+            & \ipa{\:r} &														% Retroflex
+            & &														% Palatal
+            \BlankCell        & \BlankCell        &		% Velar
+            & &														% Uvular
+            & &														% Pharyngeal
+            \BlankCell        & \BlankCell         \\		% Glottal
+
+        \hline Fricative & 						% Fricative
+            \ipa{F} & \ipa{B} &									% Bilabial
+            f & v &													% Labiodental
+            \ipa{T} & \ipa{D} &									% Dental
+            s & z &													% Alveolar
+            \ipa{S} & \ipa{Z} &									% Post-alveolar
+            \ipa{\:s} & \ipa{\:z} &								% Retroflex
+            \ipa{\c{c}} & \ipa{J} &								% Palatal
+            x & \ipa{G} &											% Velar
+            \ipa{X} & \ipa{K} &									% Uvular
+            \textcrh & \ipa{Q} &								% Pharyngeal
+            h & \texthth \\										% Glottal
+
+        \hline Lat. Fric. & 					% Lat. Fricative
+            \BlankCell        & \BlankCell        &		% Bilabial
+            \BlankCell        & \BlankCell        &		% Labiodental
+            \multicolumn{3}{|r}{\textbeltl} &				% Dental
+            \multicolumn{3}{l|}{\textlyoghlig} &			% Alveolar
+                                                                        % Post-alveolar
+            & &														% Retroflex
+            & &														% Palatal
+            & &														% Velar
+            & &														% Uvular
+            \BlankCell        & \BlankCell        			% Pharyngeal
+            & \BlankCell        & \BlankCell         \\   % Glottal
+
+        \hline Approx & 							% Approx.
+            & &														% Bilabial
+            & \ipa{V} &											% Labiodental
+            \multicolumn{3}{|r}{}&								% Dental
+            \multicolumn{3}{l|}{\ipa{\*r}} &					% Alveolar
+                                                                        % Post-alveolar
+            & \ipa{\:R} &											% Retroflex
+            & j &														% Palatal
+            & \textturnmrleg &									% Velar
+            & &														% Uvular
+            & &														% Pharyngeal
+            \BlankCell        & \BlankCell         \\		% Glottal
+
+        \hline Lat. appr. & 					% Lat. Approx
+            \BlankCell        & \BlankCell        &		% Bilabial
+            \BlankCell        & \BlankCell        &		% Labiodental
+            \multicolumn{3}{|r}{}&								% Dental
+            \multicolumn{3}{l|}{l}&								% Alveolar
+                                                                        % Post-alveolar
+            & \ipa{\:l} &											% Retroflex
+            & \ipa{L} &												% Palatal
+            & \ipa{\;L} &											% Velar
+            & &														% Uvular
+            \BlankCell        & \BlankCell        &		% Pharyngeal
+            \BlankCell        & \BlankCell         \\		% Glottal
+        \hline
+    \end{tabular}
+}%scalebox
+\captionof{table}{Consoantes IPA}\label{tab:ipa1}
+\end{center}
+
+\begin{center}
+    \begin{vowel}
+        %    \putcvowel[l]{i}{1}
+        \putvowel[l]{i}{0pt}{0pt}
+        \putcvowel[r]{y}{1}
+        \putcvowel[l]{e}{2}
+        \putcvowel[r]{\o}{2}
+        \putcvowel[l]{\textepsilon}{3}
+        \putcvowel[r]{\oe}{3}
+        \putcvowel[l]{a}{4}
+        \putcvowel[r]{\textscoelig}{4}
+        \putcvowel[l]{\textscripta}{5}
+        \putcvowel[r]{\textturnscripta}{5}
+        \putcvowel[l]{\textturnv}{6}
+        \putcvowel[r]{\textopeno}{6}
+        \putcvowel[l]{\textramshorns}{7}
+        \putcvowel[r]{o}{7}
+        \putcvowel[l]{\textturnm}{8}
+        \putcvowel[r]{u}{8}
+        \putcvowel[l]{\textbari}{9}
+        \putcvowel[r]{\textbaru}{9}
+        \putcvowel[l]{\textreve}{10}
+        \putcvowel[r]{\textbaro}{10}
+        \putcvowel{\textschwa}{11}
+        \putcvowel[l]{\textrevepsilon}{12}
+        \putcvowel[r]{\textcloserevepsilon}{12}
+        \putcvowel{\textsci\ \textscy}{13}
+        \putcvowel{\textupsilon}{14}
+        \putcvowel{\textturna}{15}
+        \putcvowel{\ae}{16}
+    \end{vowel}
+\captionof{table}{Vogais IPA}\label{tab:ipa2}   
+\end{center} 
+
+\section{Traços Distintivos}
+uma breve introdução e comentários sobre traços fonológicos
+
+\subsection{Representação de Rumelhart e McClelland}
+uma explicação sobre a representação escolhida pelos pesquisadores
+dar um exemplo de input
+
+\subsection{Uma nova representação}
+
+\begin{center}
+\scalebox{0.9}{
+    \begin{tabular}{|l|cc|cc|cc|cc|cc|cc|cc|cc|}
+        \hline & 
+            \multicolumn{2}{|c|}{\footnotesize{Bilabial}} &					% Bilabial
+            \multicolumn{2}{|c|}{\footnotesize{Lab. dent.}} & 			% Labiodental
+            \multicolumn{2}{|c|}{\footnotesize{Dental}} & 					% Dental
+            \multicolumn{2}{|c|}{\footnotesize{Alveolar}} & 				% Alveolar
+            \multicolumn{2}{|c|}{\footnotesize{P-alveo.}} & 		% Post-alveolar
+
+            \multicolumn{2}{|c|}{\footnotesize{Palatal}} & 					% Palatal
+            \multicolumn{2}{|c|}{\footnotesize{Velar}} & 					% Velar
+            \multicolumn{2}{|c|}{\footnotesize{Glottal}}  \\					% Glottal
+
+        \hline Plosive &  							% Plosive
+            p & b &													% Bilabial
+            &&														% Labiodental
+            \multicolumn{3}{|r}{t}&							% Dental
+            \multicolumn{3}{l|}{d}&							% Alveolar
+            % Post-alveolar
+             &  &% Palatal
+            k & g &													% Velar
+
+            & \BlankCell         \\								% Glottal
+
+        \hline Nasal & 							% Nasal
+            & m &													% Bilabial
+            &  &											% Labiodental
+            \multicolumn{3}{|r}{}&								% Dental
+            \multicolumn{3}{l|}{n}&							% Alveolar
+            % Post-alveolar
+            &  &														% Palatal
+            & N &														% Velar
+
+            \BlankCell        & \BlankCell         \\		% Glottal
+
+        \hline Tap/Flap &  						% Tap /Flap
+            & &													% Bilabial
+            & &														% Labiodental
+            \multicolumn{3}{|r}{} &					% Dental
+            \multicolumn{3}{l|}{r} &					% Alveolar
+                                                                        % Post-alveolar
+            & &														% Palatal
+            \BlankCell        & \BlankCell        &		% Velar
+            \BlankCell        & \BlankCell         \\		% Glottal
+
+        \hline Fricative & 						% Fricative
+            &  &									% Bilabial
+            f & v &													% Labiodental
+             &  &									% Dental
+            s & z &													% Alveolar
+            x & j &									% Post-alveolar
+             &  &								% Palatal
+            &  &											% Velar
+            h &  \\										% Glottal
+
+        \hline Lat. appr. & 					% Lat. Approx
+            \BlankCell        & \BlankCell        &		% Bilabial
+            \BlankCell        & \BlankCell        &		% Labiodental
+            \multicolumn{3}{|r}{}&								% Dental
+            \multicolumn{3}{l|}{l}&								% Alveolar
+                                                                        % Post-alveolar
+  
+            & L & 												% Palatal
+            &  &											% Velar
+            \BlankCell        & \BlankCell         \\		% Glottal
+        \hline
+    \end{tabular}
+}%scalebox
+\captionof{table}{Consoantes na nova representação}\label{tab:new_rep}
+\end{center}
+
+\begin{center}
+\begin{table}[H]
+\begin{center}
+    \begin{tabular}{lll}
+        \hline
+         & Anterior & Posterior \\
+         \hline
+        Fechada & i & u \\
+        \hline
+        Meia-fechada & e & o \\
+        \hline
+        Meia-aberta & E & O \\
+        \hline
+        Aberta & a &  \\
+        \hline
+        Nasais & A (ã) &\\ & 3 ($\tilde{e}$) &\\ 
+        \hline
+    \end{tabular}
+\end{center}
+\caption{Vogais na nova representação}
+\label{tab:new_vocals}
+\end{table}
+\end{center}
+
+apresentar a minha tabela com a nova representaçao fonética
+
+lembrar que nao ha consenso sobre o numero de vogais
+
+dar exemplos de transcrição
+% 
+
+

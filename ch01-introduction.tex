@@ -1,0 +1,110 @@
+\chapter{Introdução}
+\label{ch:01}
+
+O processo de flexão verbal do tempo passado na língua inglesa está certamente entre um dos temas de debate mais controversos entre as principais correntes teóricas no estudo da linguística (\cite{chomsky:1968,Pinker:1988,rumelhart:1986}). O cerne do debate está na exata caracterização dos mecanismos que possibilitam que um falante seja capaz relacionar um verbo no infinitivo à sua forma no tempo passado. 
+
+O tempo passado do inglês é composto por uma variedade de famílias, ocorrendo não somente a distinção entre verbos regulares (verbo + \textit{ed}) e irregulares mas, também, a formação de grupos dentro do conjunto dos irregulares, compostos por verbos que compartilham do mesmo processo de flexão:
+
+\begin{center}
+like - liked, ask - asked, move - moved\\
+blow – blew, grow – grew, know – knew, throw – threw\\
+bear – bore, swear – swore, tear – tore, wear – wore\\
+drink – drank, shrink – shrank, sink – sank, stink – stank \\
+\end{center}
+
+É possível pensar que o aprendizado da pertinência de um verbo a uma ou a outra família decorreria de uma memorização caso a caso. No entanto, experimentos realizados mostraram que, quando apresentados a verbos inventados, os indivíduos testados apresentaram tendências com relação à alocação dos verbos em classes, por exemplo, para o verbo artificial spling, a maioria das pessoas optou pela forma splang  ou splung (\cite{Bybee:1983}). Esse exemplo contradiz a ideia de que os falantes poderiam estar apenas reproduzindo formas memorizadas e sugere que eles estejam ativamente identificando padrões, e mais: possuem uma intuição natural sobre a adequabilidade da alocação de um verbo a uma classe ou a outra.
+
+Uma alternativa é pensar que as próprias unidades fonológicas das palavras possam fornecer pistas aos falantes que os permitam relacionar verbos com traços similares a uma mesma família. É a caracterização de tal processo de categorização que estabelece o debate entre as correntes teóricas racionalistas e empiristas.  
+
+Para a teoria racionalista da Fonologia Gerativa de Chomsky e Halle (\citeyear{chomsky:1968}), os indivíduos seriam portadores de um dispositivo de aquisição de linguagem (Language Acquisition Device) responsável pela formulação e manipulação de estruturas fonológicas abstratas em um sistema intrincado de regras. De modo simplificado, a teoria propõe que o falante seja capaz de identificar e formular regras intuitivamente para dar conta do aprendizado das formas irregulares da língua. Um exemplo disso é a família dos verbos terminados em “-ind”.
+
+\begin{center}
+bind – bound, find – found, grind – ground, wind – wound
+\end{center}
+
+Vemos que, de modo simplificado, a regra em uso aqui é algo como:
+%verificar essa formula fonetica
+\begin{center}
+ai $\rightarrow$ au / \_nd]+past
+\end{center}
+
+Uma estrutura como essa permitiria ao falante construir generalizações e, consequentemente, aprender com eficiência e rapidez. 
+
+Apesar dos argumentos apresentados, a teoria racionalista foi confrontada com um forte questionamento. Tal questionamento apresenta-se com relação a este sistema de manipulação simbólica sugerido pela teoria racionalista, o qual os pesquisadores Rumelhart e McClelland intitularam de Regras Explícitas Inacessíveis (\textit{Explicit Inaccessible Rules}). Rumelhart e McClelland argumentam que comportamentos de caráter regrado podem ser produzidos por mecanismos em que não existam representações explícitas das regras em uso. Ao invés disso, os pesquisadores sugerem que os mecanismos envolvidos no processo de flexão verbal possam ser construídos de tal forma que a sua performance possa ser caracterizada por regras, mas que as regras em si não estejam representadas explicitamente em nenhuma parte do processo. Para sustentar essa ideia, Rumelhart e McClelland apresentaram um modelo computacional  de caráter empirista que foi fundamental para o surgimento de uma nova escola dentro das ciências cognitivas: o conexionismo.
+
+
+\input{tikz/ffd-network}
+
+
+O modelo desenvolvido foi criado por analogia à estrutura em que se relacionam os neurônios no cérebro, por isso, recebeu o nome de rede neural artificial (artificial neural network). Ele é composto basicamente por uma rede artificial de nódulos interconectados paralelamente (Fig. \ref{fig:esquemafdd}).
+
+A primeira camada de nódulos é responsável por receber os dados de entrada (input), que são os dados referentes aos traços fonológicos que caracterizam os sons de um verbo no infinitivo. A segunda camada é uma camada de resposta (output) que deve tentar retornar dados referentes aos traços que caracterizam os sons do mesmo verbo fornecido no input, porém no tempo passado. Concluída esta etapa, os dados de saída obtidos deverão ser então comparados à forma correta do verbo no tempo passado, uma espécie de gabarito. A função das conexões entre as camadas é fortalecer (ou enfraquecer) as relações entre as camadas de input e output de acordo com as comparações realizadas entre a camada de output e o gabarito. É importante notar que, a priori, a rede não possui qualquer tipo de informação para seu funcionamento, essa aprendizagem irá decorrer ao longo de múltiplas iterações.
+
+O modelo de Rumelhart e McClelland apresentou ótimos resultados na tarefa de prever as formas verbais esperadas para o simple past, conseguindo identificar associações corretamente entre todos os 420 verbos em que foi treinado. Além disso, teve um desempenho satisfatório ao ser apresentado a 86 novos verbos que não fizeram parte do treinamento, obtendo uma taxa de acerto de 92\% para verbos regulares e 84\% para verbos irregulares (91\% de acerto para todos os verbos no total). O modelo serviu, portanto, para corroborar o argumento de que é possível realizar essa tarefa eficientemente dispensando o uso de regras explícitas. Além disso, o processo de aprendizagem do modelo computacional exibiu uma performance muito interessante, reproduzindo resultados similares a comportamentos observáveis em crianças durante a fase de aquisição: a Curva de Desenvolvimento em U (U-shaped Development, \cite{marcus:1992}). Na fase inicial do processo, o modelo foi exposto a uma quantidade pequena de verbos de alta frequência na língua inglesa, como: come, get, give, look, take, go, have, live e feel. A performance do modelo foi compatível com o primeiro estágio da curva, ou seja, para uma pequena quantidade de verbos, foi capaz de identificar corretamente a forma correspondente no passado simples. Em um segundo momento, o modelo foi exposto a uma quantidade muito maior de verbos. Esse estágio é interessante porque fica evidente que o modelo está passando por um processo de regularização sistemática dos verbos. O modelo produziu resultados como: breaked, comed, gived; e também combinações entre padrões regulares e irregulares (ex. gaved),  compatível com o estágio intermediário do processo de aprendizagem. Após uma série de ensaios, o modelo foi finalmente capaz de responder corretamente a uma grande quantidade de verbos, assim como no último estágio do processo da aprendizagem natural. 
+
+Embora o modelo conexionista de Rumelhart e McClelland tenha apresentado um desempenho muito interessante, não ficou livre de críticas. \cite{Pinker:1988} dão continuidade ao debate ao apontar uma série de questões pertinentes que a proposta conexionista falhou em explicar.  Pelo fato de ser meramente um mecanismo associativo entre traços fonológicos, o modelo acaba dependendo profundamente dos padrões encontrados entre os traços fonológicos das palavras fornecidas no treinamento. Isso significa que o modelo é incapaz de responder de maneira eficiente a verbos com traços fonológicos que não passaram pelo treinamento. \cite{Pinker:1999} destaca a vulnerabilidade do modelo diante da tarefa de prever a forma no passado para alguns verbos costumeiros na língua inglesa, mas que dispõem de uma sonoridade razoavelmente incomum. Quando exposto aos verbos jump, pump, warm,  trail e glare, o modelo não gerou nenhuma resposta. Além disso, apresentou alguns resultados completamente distorcidos, como: squat – squakt, tour – toureder e mail – membled; associações inaceitáveis para qualquer falante nativo. A solução que Pinker e Prince (\citeyear{Pinker:1988}) encontraram para a formulação de uma nova teoria linguística mais contundente, foi justamente propor uma teoria híbrida em que Chomsky e Halle estariam basicamente corretos quanto ao processo de flexão regular e Rumelhart e McClelland corretos quanto ao processo de flexão irregular. Pinker e Prince propõem que as formas regulares sejam computadas a partir de um mecanismo que deve abstrair o radical do verbo e combiná-lo ao sufixo –ed.  Tal mecanismo pode ser aplicado a qualquer palavra, em um processo independente da memória. As formas irregulares passam por um processo diferente. De fato, verbos irregulares precisam passar por um processo de memorização, mas essa memorização ocorre de maneira associativa, havendo não somente a associação entre uma palavra a outra mas também entre as propriedades (traços fonológicos, rima, stem, núcleo, etc.) de uma palavra e de outra, parecido com o que foi proposto por Rumelhart e McClelland.
+\section{Motivação}
+\label{sec:motivation}
+
+Em comparação com o inglês, o português brasileiro apresenta um sistema verbal flexional mais complexo. Primeiramente, é importante notar que o paradigma conjugacional do português brasileiro apresenta uma maior distinção flexional quanto a pessoas e número, enquanto que o inglês é mais limitado nesse aspecto. Quanto às formas regulares, o português dispõe de três conjugações diferentes determinadas pela vogal temática, enquanto que o inglês possui apenas a conjugação regular de passado (o sufixo –ed). Por último, é importante destacar que o sistema verbal do português é repleto de irregularidades em todos os tempos verbais, enquanto que o inglês que apresenta irregularidades apenas no \textit{simple past} e \textit{past participle} (\cite{wuerges:2014}).
+
+Um aprendiz da linguagem no sistema do português brasileiro é desafiado a superar uma série de obstáculos.  Uma parte do processo é justamente perceber a relação entre a vogal temática e as possíveis conjugações verbais regulares. Nesse processo não é incomum observarmos o surgimento de trocas de conjugação. \cite{wuerges:2014} apresenta dados linguísticos produzidos por crianças com diversas destas trocas: "eu \textit{boti}" (como tentativa de produzir \textit{botei}; troca de primeira conjugação para terceira), "eu \textit{comei}" (como tentativa de produzir \textit{comi}; troca de segunda conjugação para primeira), "eu \textit{janti}" (como tentativa de produzir \textit{jantei}; troca de primeira conjugação para terceira). Além destas ainda ocorre uma grande confusão com relação aos verbos da família do verbo \textit{pôr}, \cite{wuerges:2014} comenta as produções de "eu \textit{puso}" e "eu \textit{ponhei}" como tentativa de produzir a forma correspondente no tempo passado.  As formas verbais irregulares apresentam-se como uma dificuldade adicional nesse processo para as crianças falantes da língua portuguesa. \cite{wuerges:2014} também aponta exemplos observados de tentativas de regularização de verbos irregulares no tempo presente: "eu \textit{consego}" (regularização do verbo conseguir) e "eu \textit{podo}" (regularização do verbo poder). 
+
+%Outra dificuldade é ter de lidar com o fato de que os verbos irregulares no português apresentam, em pelo menos uma forma verbal de seu paradigma, alterações no radical e/ou na sua desinência. Isto fica evidente quando observamos a enunciação de formas como: “eu consego*” ou “eu podo*” (poder). É interessante também notar enunciações criativas para verbos de natureza um pouco mais complicada, como o verbo por:  puso* (eu), ponhei* (eu) (\cite{wuerges:2014}).
+
+Uma análise sobre a disposição das irregularidades presentes no português brasileiro (levando em consideração apenas a 1\aup{a} pessoa do singular (tempo presente - modo indicativo) nos permite observar algumas regularidades (padrões) dentre os verbos irregulares:\\
+
+\begin{center}
+
+Bobear – Bobeio, Bloquear – Bloqueio, Chatear – Chateio, Clarear – Clareio, Golpear – Golpeio;\\
+
+Agredir – Agrido, Conseguir – Consigo, Inserir – Insiro, Perseguir – Persigo, Preferir – Prefiro, Proferir – Profiro, Repetir – Repito, Servir –  Sirvo, Vestir – Visto;\\
+
+Cobrir – Cubro, Dormir – Durmo, Engolir – Engulo;\\
+
+ Al[e]gar – Al[ε]go, C[e]gar – C[ε]go, Compl[e]tar – Compl[ε]to,  Col[e]tar – Col[ε]to, Entr[e]gar – Entr[ε]go, Pr[e]gar – Pr[ε]go;\\
+
+Ad[o]rar – Ad[\textopeno]ro, Ad[o]tar – Ad[\textopeno]to, B[o]tar – B[\textopeno]to, C[o]lar – C[\textopeno]lo, F[o]car – F[\textopeno]co, M[o]rar – M[\textopeno]ro, S[o]ltar – S[\textopeno]lto, S[o]lar – S[\textopeno]lo, T[o]car – T[\textopeno]co, M[o]strar – M[\textopeno]stro;\\
+
+Mentir - Minto, Sentir - Sintu;
+
+\end{center}
+
+Os padrões observados a partir da exposição de algumas classes irregulares, permitem, assim como no inglês, a proposição de fórmulas, ou regras fonológicas, que explicam as flexões realizadas em cada classe. É possível notar, por exemplo, que um verbo da mesma família de \textit{conseguir} segue a regra:
+
+% Inserir regrinha formal
+\begin{center}
+e $\rightarrow$ i/\_C*]ir \footnote{C* indica uma sequência de uma ou mais consoantes}
+\end{center}
+
+
+As previsibilidades encontradas sugerem não somente a possibilidade de elaboração das regras fonológicas, como também a possibilidade do desenvolvimento de redes capazes de capturar tais dependências. Apesar disso, deve-se destacar que a língua portuguesa apresenta um comportamento diferente da língua inglesa. Uma análise foi realizada a partir de uma base de verbos irregulares do inglês em notação fonética (retirados de \url{https://www.apronus.com/learn_english/irregularverbs.htm}) e concluiu-se que a média de número de fonemas por verbo é de 4.16 fonemas. Em contrapartida, construiu-se uma base de verbos da línguas portuguesa e concluiu-se que a média de número de fonemas por verbo é de 6.39 fonemas.
+
+\begin{itemize}
+    \item \hl{incluir como motivacao a experimentacao com modelos mais recentes (introduzir o encoder-decoder)}
+\end{itemize}
+
+%Os verbos do português, em contrapartida, apresentam um comprimento médio de seis caracteres. Esse fato pode representar um problema uma vez que a boa performance da rede é profundamente dependente de representações fonológicas breves. 
+%No inglês observam-se múltiplos exemplos de verbos cuja escrita ortográfica é muito maior do que a produção efetiva dos sons dos mesmos. Portanto, verbos irregulares como \textit{bought, thought, knew, took, came}, podem ser representados fonéticamente por apenas três símbolos. No português, o comprimento médio fonético para os 400 verbos mais comuns da língua fica em torno de 6 caracteres. Esse fato pode 
+%A dificuldade, no entanto, se apresenta quando observam-se os comprimentos médios dos verbos em cada língua. No inglês, o comprimento médio dos 1000 verbos mais comuns da língua é de 5.907 caracteres ortográficos. Quando se leva em consideração a transcrição fonética dos mesmos, é ainda menor. %Verbos como 
+%\textit{bought, thought, knew, might, took} são reduzidos a sequências curtas de sons: \textit{bot, tot, niu, mai, tuk}. %arrumar essas transcricoes
+%No português, o comprimento médio dos 1000 verbos mais comuns é de 7.290 caracteres ortográficos. E levando em consideração a transcrição fonética dos mesmos, cai para --. %( ou nao muda, sei la)
+%Tal diferença apresenta-se como um desafio, pois torna mais complexa a tarefa de assimilação de dependências de longa distância.
+
+% ------------------------------------------------------------------------
+\section{Objetivo}
+\label{sec:objectives}
+
+\begin{itemize}
+
+\item Explicar que o objetivo desse trabalho é experimental. 
+
+\item Esclarecer na introdução que o texto não se propõe a defender uma corrente teórica mas a disponibilizar mais resultados e experimentos
+
+\end{itemize}
+
+% ------------------------------------------------------------------------
+\section{Organização}
+\label{sec:organization}
+
+O Capítulo \ref{ch:02} explora a base teórica em redes neurais que foi utilizada para o desenvolvimento desta pesquisa. O Capítulo \ref{ch:03} apresenta os resultados preliminares encontrados a partir das construções das redes já desenvolvidas. O Capítulo \ref{ch04} discute os próximos passos da pesquisa e o cronograma de atividades. %faltam os outros capitulos

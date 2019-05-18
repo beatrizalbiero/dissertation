@@ -1,0 +1,83 @@
+\chapter{Modelos de Linguagem}
+\label{ch:04}
+
+Explicar que o meu modelo requer conhecimentos sobre o conceito de modelo de linguagem para ser compreendido
+
+
+
+
+\section{Definição}
+
+Um modelo de linguagem é um modelo que propõe uma distribuição probabilística para uma sequência de termos em uma linguagem natural. %Esses termos podem ser palavras ou caracteres e podem incluir contrações ("I'm, she's"), ênclises ("vende-se, aluga-se") 
+Utilizando 
+\[
+P(x_1,x_2,x_3,x_4) = p
+\]
+
+% The classical approach to a language model was to use the chain rule of probability and a Markovian assumption, i.e., for a specific $n$ we assume that:
+
+% \begin{equation}
+% P(x_1, \dots, x_T) = \prod_{t=1}^{T} P(x_t \vert x_1, \dots, x_{t-1}) = \prod_{t=1}^{T} P(x_{t} \vert x_{t - (n+1)}, \dots, x_{t-1})
+% \end{equation} 
+
+
+% This gave raise to models based on $n$-gram statistics. The choice of $n$ yields different models; for example, the 
+% \textit{unigram} language model ($n=1$) is defined as: 
+% \begin{equation}
+% P_{uni}(x_1, x_2, x_3, x_4) = P(x_1)P(x_2)P(x_3)P(x_4)
+% \end{equation}
+
+% where $P(x_i) = count(x_i)$ and $count$ is a function that counts tokens occurrence in a corpus.\\
+
+% Similarly the \textit{bigram} language model ($n=2$) is defined as: 
+% \begin{equation}
+% P_{bi}(x_1,x_2,x_3,x_4) = P(x_1)P(x_2\vert x_1)P(x_3\vert x_2)P(x_4\vert x_3)
+% \end{equation} 
+% where
+% \begin{equation}
+% P(x_i\vert x_j) = \frac{count(x_i, x_j)}{count(x_j)}
+
+\subsection{N-Gramas}
+usar como exemplo n-gramas
+
+\section{Redes Neurais Recorrentes}
+\label{sec:RNN}
+
+Na arquitetura de rumelhart e mccleland foi necessário acrescentar os indicadores de fronteira, e ainda, efetuar uma análise dos verbos em trigramas, ambos artifícios para tentar preservar a lógica sequencial.
+
+Explicar redes neurais recorrentes melhor antes de introduzir a ideia de estados.
+
+%a dificuldade desta estratégia motivou a implementação de um arquitetura melhor preparada para a realização da tarefa, as Redes Neurais Recorrentes (RNR). ?
+
+A ideia central desse modelo consiste na retroalimentação dos elementos sequenciais, de modo que o \textit{input} de cada um deles serve, não somente para a previsão do próximo item da sequência, mas também para a formação de um componente intermediário, um \textit{estado}. Esses estados, representados na Figura \ref{fig:unfoldedrnn} como $\vect{h}$'s são matrizes que funcionam como uma espécie de memória condensada dos elementos precedentes e servem como input para os estados posteriores. Essa é uma maneira de retransmitir a cada momento os efeitos dos \textit{inputs} anteriores para o restante da sequência (\cite{Goodfellow-et-al-2016}). 
+
+%\input{tikz/rnn-cell.tex}
+\input{tikz/rnn-unrolled.tex}
+
+Os estados indicados na Fig. \ref{fig:unfoldedrnn} são calculados a partir da equação recorrente\footnote{O estado $\vect{h(0)}$ é normalmente inicializado de maneira aleatória.}:
+
+\begin{equation}
+\vect{h}^{(t)} = g(\vect{h}^{(t-1)}, \vect{x}^{(t)}; \vect{\theta})
+\label{eq:rnn}
+\end{equation}
+
+Na prática, essa arquitetura simplificaria algumas das etapas do processo de predição de irregularidades verbais. A primeira delas seria o processo de codificação dos verbos, por exemplo, ao se utilizar uma rede recorrente, indicadores de fronteira e a ativação de unidades em trigramas não se fazem mais necessários. No treinamento desse tipo de rede, os inputs são gerados a partir de cada item da série, e os alvos, por sua vez, são os itens subsequentes respectivos. Isto significa, essencialmente, que a rede será treinada para prever item a item de uma sequência. O alvo mais simples para este tipo de processamento são fonemas, uma vez que traços fonológicos ou Wickelfeatures, por serem intrinsecamente mais complexos, exigiriam uma arquitetura de rede muito mais sofisticada. Por fim, o processo de decodificação dos verbos também torna-se desnecessário uma vez que o output é computado item após item. A Fig. \ref{fig:rnnpractice} ilustra o problema da predição de fonemas dada uma base de verbos flexionados. No exemplo, considera-se o treinamento do verbo \textit{"paru"} (já utilizando a notação escolhida). % trocar por u mas lembrar de explicar q na minha rede nao tem distinção entre esses u's
+
+% Apesar da praticidade desse tipo de rede, ela infelizmente apresenta alguns problemas para tarefas que envolvem dependências de longa distância, o que normalmente é o caso quando se trata de tarefas linguísticas. O problema ocorre porque, a cada \textit{input}, as matrizes de pesos são atualizadas fazendo com que as últimas informações recebidas sejam mais relevantes do que as anteriores, impedindo o progresso do treinamento. Dessa forma, apresentam-se na literatura algumas soluções. Entre elas, uma arquitetura conhecida como \textit{Long Short-Term Memory - LSTM}.
+
+\input{tikz/rnn-practice.tex}
+
+tentar colocar setinhas de sentido ou explicar que começa no x1 e vai pro y1 etc
+
+% \subsection{Long Short-Term Memory}
+% \label{sec:LSTM}
+
+% Uma LSTM continua sendo uma RNN, porém existem algumas especificidades em sua arquitetura que a tornam mais elaborada e mais adequada para atender aos treinamentos que envolvem longa dependência. A chave para entender como as LSTM's lidam com esse problema está no entendimento de um componente chamado de \textit{cell state}. Esse componente funciona como uma corrente transportadora de informação e é regulado por estruturas que funcionam como válvulas (os \textit{gates}). Os \textit{gates} são uma forma de filtragem de informação. Eles são basicamente responsáveis por selecionar informações antigas que podem ser esquecidas e novas que sejam relevantes. 
+
+% %imagem de LSTM
+% \input{tikz/lstm.tex}
+
+% A Fig. \ref{fig:lstm} deve ser interpretada da seguinte forma: A cada novo input ($x(t)$), uma camada LSTM recebe o estado $h(t-1)$ gerado pelo input anterior assim como uma RNN comum receberia, mas recebe também o Cell State de (t-1). O Cell State traz consigo uma lista de todas as informações que ele considera que devem ser carregadas e mantidas durante todo o treinamento. Após a intervenção dos gates, o modelo pode decidir por agregar novas informações e esquecer outras nessa lista, gerando assim um novo Cell State (t). Além disso, a passagem desse input por essa camada também gera um novo estado ($h(t)$) que, além de servir como referência para o cálculo do output de (t), servirá também como referência para o próximo processamento ($x(t+1)$). (\cite{Goodfellow-et-al-2016})
+
+% \section{Encoder-Decoder}
+% \label{sec:enc-dec}

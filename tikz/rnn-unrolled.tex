@@ -1,0 +1,49 @@
+\input{definitions/colors}
+\input{definitions/styles}
+
+% RNN STATE CELL ====================================
+
+\newcommand{\rnnSimple}[4]{
+
+% operations
+\node[normal, minimum size=40pt,#4] (h#3) {$\vect{h}^{#1}$};
+\node[normal, minimum size=40pt,below=30pt of h#3] (x#3) {$\vect{x}^{#1}$};
+\node[normal, minimum size=40pt, above=30pt of h#3] (yhat#3) {$\hat{\vect{y}}^{#1}$};
+
+% edges
+\path[tedge] (x#3) edge node[below right= -4pt] {} (h#3);
+\path[tedge] (h#3) edge node[below right = -4pt] {} (yhat#3);
+}
+
+\begin{figure}[ht!]
+\centering
+\hspace*{-1.0cm}
+\scalebox{0.9}{
+\begin{tikzpicture}[auto]
+
+% timestep 1
+\rnnSimple{(1)}{(0)}{t1}{}
+
+% % timestep 0
+\node[normal, minimum size=40pt,left=50pt of ht1] (ht0) {$\vect{h}^{(0)}$};
+
+% % timestep 2
+\rnnSimple{(2)}{(1)}{t2}{right=50pt of ht1};
+
+
+% % timestep 2
+\rnnSimple{(3)}{(1)}{t3}{right=50pt of ht2};
+
+
+% % state transfers
+\path[tedge] (ht0) edge node[above right = 2pt] {} (ht1);
+\path[tedge] (ht1) edge node[above right = 2pt] {} (ht2);
+\path[tedge] (ht2) edge node[above right = 2pt] {} (ht3);
+
+\end{tikzpicture}
+}%\scalebox
+\caption{Arquitetura RNR}
+\label{fig:unfoldedrnn}
+\end{figure}
+
+

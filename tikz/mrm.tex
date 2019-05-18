@@ -1,0 +1,41 @@
+\begin{tikzpicture}
+\node[input] (s0) {$\mathbf{s}_{0}$};
+\node[input, below=50pt of s0] (theta) {$\theta$};
+
+\node[deterministic, above right=10pt and 30pt of s0] (r0)  {$r_{0}$};
+\node[deterministic, below right=10pt and 30pt of s0] (pi0) {$\pi$};
+
+\node[stochastic, right=70pt of s0] (s1) {$\mathbf{s}_{1}$};
+
+\node[deterministic, above right=10pt and 30pt of s1] (r1)  {$r_{1}$};
+\node[deterministic, below right=10pt and 30pt of s1] (pi1) {$\pi$};
+
+\node[stochastic, right=70pt of s1] (s2) {$\mathbf{s}_{2}$};
+
+\node[deterministic, above right=10pt and 30pt of s2] (r2)  {$r_{2}$};
+\node[deterministic, below right=10pt and 30pt of s2] (pi2) {$\pi$};
+
+\node[stochastic, right=70pt of s2] (s3) {$\mathbf{s}_{3}$};
+
+\path[pedge] (theta)  -- (pi0);
+\path[pedge] (s0) -- (pi0);
+\path[pedge] (pi0) -- (s1);
+\path[pedge] (s0) -- (s1);
+\path[pedge] (pi0) -- (r0);
+\path[pedge] (s0) -- (r0);
+
+\path[pedge] (theta)  -- (pi1);
+\path[pedge] (s1) -- (pi1);
+\path[pedge] (pi1) -- (s2);
+\path[pedge] (s1) -- (s2);
+\path[pedge] (pi1) -- (r1);
+\path[pedge] (s1) -- (r1);
+
+\path[pedge] (theta)  -- (pi2);
+\path[pedge] (s2) -- (pi2);
+\path[pedge] (pi2) -- (s3);
+\path[pedge] (s2) -- (s3);
+\path[pedge] (pi2) -- (r2);
+\path[pedge] (s2) -- (r2);
+
+\end{tikzpicture}

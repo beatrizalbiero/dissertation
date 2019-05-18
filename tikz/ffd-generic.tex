@@ -1,0 +1,86 @@
+\input{definitions/colors}
+\input{definitions/styles}
+\begin{figure}[ht!]
+\centering
+
+\scalebox{1.0}{
+\begin{tikzpicture}[auto]
+
+% operations =========
+
+% FNN input
+\node[normal] (x1) {};
+\node[textonly, above=10pt of x1] (input) {Camada de \textit{inputs}};
+\node[normal, below=10pt of x1] (x2) {};
+\node[normal, below=10pt of x2] (x3) {};
+\node[normal, below=10pt of x3] (x4) {};
+\node[normal, below=10pt of x4] (x5) {};
+\node[normal, below=10pt of x5] (x6) {};
+
+% FNN output
+\node[textonly, right=50pt of x1] (center) {Camada Escondida};
+\node[normal, below=25pt of center] (y1) {};
+\node[normal, below=10pt of y1] (y2) {};
+\node[normal, below=10pt of y2] (y3) {};
+
+% FNN output
+\node[textonly, right=110pt of input] (output) {Camada de \textit{outputs}};
+\node[normal, below=15pt of output] (z1) {};
+
+\node[normal, below=10pt of z1] (z2) {};
+\node[normal, below=10pt of z2] (z3) {};
+\node[normal, below=10pt of z3] (z4) {};
+\node[normal, below=10pt of z4] (z5) {};
+\node[normal, below=10pt of z5] (z6) {};
+
+% phon features 2
+
+% edges FNN
+\path[nedge] (x1) -- (y1);
+\path[nedge] (x1) -- (y2);
+\path[nedge] (x1) -- (y3);
+
+\path[nedge] (x2) -- (y1);
+\path[nedge] (x2) -- (y2);
+\path[nedge] (x2) -- (y3);
+
+\path[nedge] (x3) -- (y1);
+\path[nedge] (x3) -- (y2);
+\path[nedge] (x3) -- (y3);
+
+\path[nedge] (x4) -- (y1);
+\path[nedge] (x4) -- (y2);
+\path[nedge] (x4) -- (y3);
+
+\path[nedge] (x5) -- (y1);
+\path[nedge] (x5) -- (y2);
+\path[nedge] (x5) -- (y3);
+
+\path[nedge] (x6) -- (y1);
+\path[nedge] (x6) -- (y2);
+\path[nedge] (x6) -- (y3);
+
+% edges FNN
+\path[nedge] (y1) -- (z1);
+\path[nedge] (y1) -- (z2);
+\path[nedge] (y1) -- (z3);
+\path[nedge] (y1) -- (z4);
+\path[nedge] (y1) -- (z5);
+\path[nedge] (y1) -- (z6);
+\path[nedge] (y2) -- (z1);
+\path[nedge] (y2) -- (z2);
+\path[nedge] (y2) -- (z3);
+\path[nedge] (y2) -- (z4);
+\path[nedge] (y2) -- (z5);
+\path[nedge] (y2) -- (z6);
+\path[nedge] (y3) -- (z1);
+\path[nedge] (y3) -- (z2);
+\path[nedge] (y3) -- (z3);
+\path[nedge] (y3) -- (z4);
+\path[nedge] (y3) -- (z5);
+\path[nedge] (y3) -- (z6);
+
+\end{tikzpicture}
+}\caption{Esquema de uma rede neural do tipo Feedforward} 
+\label{fig:ffd}
+\end{figure}

@@ -1,0 +1,18 @@
+\begin{tikzpicture}
+\node[input] (st) {$\mathbf{s}_{t}$};
+\node[input, below=35pt of st] (theta) {$\theta$};
+
+\node[deterministic, above right=10pt and 40pt of st] (rt)  {$r_{t}$};
+\node[deterministic, below right=10pt and 40pt of st] (pit) {$\pi$};
+
+\node[stochastic, right=90pt of st] (s_next) {$\mathbf{s}_{t+1}$};
+
+\node[textonly, above right=10pt of rt, minimum size = 20pt] () {};
+
+\path[pedge] (theta)  -- (pit);
+\path[pedge] (st) -- (pit);
+\path[pedge] (pit) -- node [below] {$\mathbf{a}_t$} (s_next);
+\path[pedge] (st) -- (s_next);
+\path[pedge] (pit) -- node [right, near start] {$\mathbf{a}_t$} (rt);
+\path[pedge] (st) -- (rt);
+\end{tikzpicture}

@@ -1,0 +1,27 @@
+\input{definitions/colors}
+\input{definitions/styles}
+\begin{figure}[ht!]
+\centering
+
+\scalebox{1.40}{
+\begin{tikzpicture}[auto]
+
+% RNN state cell =============================
+\node[normal] (h) {$\vect{h}$};
+\node[normal, below=30pt of h] (x) {$\vect{x}$};
+\node[normal, above=30pt of h] (yhat) {$\hat{\vect{y}}$};
+
+
+
+% edges
+\path[tedge] (x) edge node[below right= -4pt] {}  (h) ;
+\path[tedge] (h) edge [out=-400,in=-320,looseness=8, distance=125pt] node[above right] {} (h);
+\path[tedge] (h) edge node[below right = -4pt] {} (yhat);
+
+
+\end{tikzpicture}
+
+} % scalebox
+\caption{Representação Simplificada de uma RNN}
+\label{fig:RNN1}
+\end{figure}

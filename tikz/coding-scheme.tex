@@ -1,0 +1,54 @@
+\input{definitions/colors}
+\input{definitions/styles}
+\begin{figure}[ht!]
+\centering
+
+\scalebox{1.0}{
+\begin{tikzpicture}[H]
+
+%vetor
+\node[box2] (box1) {};
+\node[box2, below=0pt of box1] (box2) {};
+\node[box3, below=0pt of box2] (box3) {};
+\node[box3, below=0pt of box3] (box4) {};
+\node[textonly, below=0pt of box4] (box5) {\reflectbox{$\vdots$}};
+\node[box3, below=0pt of box5] (box6) {};
+\node[box3, below=0pt of box6] (box7) {};
+\node[box2, below=0pt of box7] (box8) {};
+\node[box3, below=0pt of box8] (box9) {};
+\node[box2, below=0pt of box9] (box10) {};
+\node[textonly, below=0pt of box10] (dim) {460x1};
+\node[textonly, below=0pt of dim] (space) {};
+%wickelfeatures
+\node[textonly, right=20pt of box1] (wi1) {\#, oclusiva, média};
+\node[textonly, right=20pt of box2] (wi2) {\#, anterior, fricativa};
+\node[textonly, right=20pt of box3] (wi3) {\#, fricativa, vogal};
+\node[textonly, right=20pt of box4] (wi4) {\#, contínua, anterior};
+\node[textonly, right=20pt of box5] (wi5) {\reflectbox{$\vdots$}};
+\node[textonly, right=20pt of box6] (wi6) {\#, não vozeada, aberta};
+\node[textonly, right=20pt of box7] (wi7) {\#, contínua, posterior};
+\node[textonly, right=20pt of box8] (wi8) {contínua, vogal, vogal };
+\node[textonly, right=20pt of box9] (wi9) {contínua, vogal, líquida};
+\node[textonly, right=20pt of box10] (wi10) {fricativa, posterior, \#};
+
+%pré processamento
+\node[textonly, left=230pt of box4] (verb1) {falar};
+\node[textonly, below=10pt of verb1] (verb2) {fala};
+\node[textonly, below=10pt of verb2] (verb3) {\#fala\#};
+
+%trigramas
+\node[textonly, right=20pt of verb1] (tri1) {\#,f,a};
+\node[textonly, below=10pt of tri1] (tri2) {f,a,l};
+\node[textonly, below=10pt of tri2] (tri3) {a,l,a};
+\node[textonly, below=10pt of tri3] (tri4) {l,a,\#};
+
+%features
+\node[textonly, left=50pt of box2] (f1) {\#,cont,vogal};
+\node[textonly, below=0pt of f1] (f2) {\#,cont,aberta};
+\node[textonly, below=0pt of f2] (f3) {\#,cont,anterior};
+\node[textonly, below=0pt of f3] (f4) {\#,cont,baixa};
+\node[textonly, below=0pt of f4] (f5) {\reflectbox{$\vdots$}};
+\end{tikzpicture}
+}\caption{Esquema de Codificação de Wickelfeatures} 
+\label{fig:wick}
+\end{figure}
