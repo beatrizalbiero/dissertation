@@ -11,10 +11,10 @@
     fill=#2!20,
     outer sep=1mm}]
   % draw input nodes
-  \foreach \i [count=\step from 1] in {the,small,boy,{{$<$eos$>$}}}
+  \foreach \i [count=\step from 1] in {l,e,r,{{$<$eos$>$}}}
     \node (i\step) at (2*\step, -2) {\i};
   % draw output nodes
-  \foreach \t [count=\step from 4] in {o,menino,pequeno,{{$<$eos$>$}}} {
+  \foreach \t [count=\step from 4] in {l,e,i,{{o}}} {
     \node[align=center] (o\step) at (2*\step, +2.75) {\t};
   }
   % draw embedding and hidden layers for text input
@@ -46,6 +46,6 @@
     \path (o\step.north) edge[->,out=45,in=225] (e\next.south);
   }
 \end{tikzpicture}
-}\caption{Esquema de Encoder-Decoder para Tradução Automática} 
+}\caption{Esquema de Encoder-Decoder Utilizado} 
 \label{fig:seq2seq}
 \end{figure}

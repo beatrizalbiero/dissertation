@@ -1,7 +1,11 @@
-\chapter{Resultados}
+\chapter{Experimentos e Resultados}
 \label{ch:07}
 
-O enfoque deste capítulo será em analisar os resultados obtidos pelos experimentos com o modelo encoder-decoder.   
+O enfoque deste capítulo será em analisar os resultados obtidos pelos experimentos com o modelo encoder-decoder.
+
+falar de type e token
+
+falar que eu tirei o r dos infinitivos pq era redundante
 
 \begin{itemize}
     \item explicar que nessa seção vou analisar os resultados obtidos
@@ -47,31 +51,47 @@ Mostrar aonde começa o overfit e discutir que 300 epocas era o suficiente
 
 \section{Análise K-Fold}
 
-Como o tamanho do corpus disponível é restrito, não é interessante realizar um único experimento com uma única segmentação entre treino e teste, pois haveriam verbos em que o modelo nunca seria testado e outros que nunca seriam utilizados no treinamento. Dessa forma a acurácia do modelo poderia variar bastante dependendo dos verbos sorteados para cada um desses grupos. Assim, uma técnina de validação cruzada chamada \textit{K-Fold} foi escolhida para o estudo dos resultados. A análise K-Fold permite que o modelo seja avaliado em todos os verbos do corpus. A técnica consiste, primeiramente, na formação de K subconjuntos de verbos mutuamente exclusivos de mesmo tamanho. Em seguida, um desses subconjuntos é escolhido como o conjunto de teste enquanto que os K-1 restantes são utilizados como treino. O tamanho de K é definido a partir da escolha de proporção em que se deseja realizar a segmentação entre treino e teste, ou seja, para sempre manter a proporção de testes em 20\% de modo que estes verbos sejam sempre diferentes, o corpus precisa ser segmentado em 5 subconjuntos distintos. O desenho ref{desenho} ilustra o algoritmo. 
+Como o tamanho do corpus disponível é restrito, não é interessante realizar um único experimento com uma única segmentação entre treino e teste, pois haveriam verbos em que o modelo nunca seria testado e outros que nunca seriam utilizados no treinamento. Dessa forma a acurácia do modelo poderia variar bastante dependendo dos verbos sorteados para cada um desses grupos. Assim, uma técnina de validação cruzada chamada \textit{K-Fold} foi escolhida para o estudo dos resultados. A análise K-Fold permite que o modelo seja avaliado em todos os verbos do corpus. A técnica consiste, primeiramente, na formação de K subconjuntos de verbos mutuamente exclusivos de tamanhos similares (idênticos caso a divisão por K seja exata). Em seguida, um desses subconjuntos é escolhido como o conjunto de teste enquanto que os K-1 restantes são utilizados como treino. O tamanho de K é definido a partir da escolha de proporção em que se deseja realizar a segmentação entre treino e teste, ou seja, para sempre manter a proporção de testes em 20\% de modo que estes verbos sejam sempre diferentes, o corpus precisa ser segmentado em 5 subconjuntos distintos. O desenho \ref{fig:kfold} ilustra o algoritmo. 
 
-desenho
+\input{tikz/K-fold.tex}
 
-Além disso, há ainda uma outra restrição que essa análise contempla. Ela permite que em cada um desses treinamentos, as proporções das classes de verbos se mantenham no treinamento. Isso significa que, por exemplo, a classe de irregularidades 12 (testar -> tEstu) que possui 20 verbos, terá sempre 16 verbos verbos no treinamento e 4 no teste. Assim, após os 5 treinamentos difernetes, todos os verbos da classe foram testados e há a certeza de que haviam verbos dessa classe no treinamento.
+Além disso, há ainda a vantagem do elemento de estratificação, ou seja, a possibilidade de que em cada um doss treinamentos, as proporções das classes de verbos se mantenham no treinamento. Isso significa que, por exemplo, a classe de irregularidades 12 (testar -> tEstu) que possui 20 verbos, terá sempre 16 verbos verbos no treinamento e 4 no teste. Assim, após os 5 treinamentos diferentes, todos os verbos da classe foram testados e há a certeza de que haviam verbos dessa classe no treinamento. 
 
+Ainda, como há um fator de aleatoriedade devido às inicializações dos pesos e também como os itens de treino e teste são sorteados pelo algoritmo no momento da segmentação do K-Fold, os resultados da rede podem variar. Para uma melhor compreensão de como ocorre essa variação para cada classe, foram realizadas 30 análises K-Fold. Dentre esses experimentos, a acurácia mais alta obtida foi de 17\% (73 verbos). As análises a seguir foram feitas no intuito de se entender melhor as situações de maior dificuldade do modelo.
 
-
-
-
-
-
+\subsection{A relação entre acurácia e a proporção da classe no corpus}
+Um fator que pode influenciar no resultado é o tamanho do corpus e o desbalanceamento das classes. O modelo encoder-decoder é normalmente executado com uma variedade de dezenas de milhares de exemplos. Portanto, cabe verificar se há alguma relação entre a proporção da classe no corpus e a acurácia. Na Fig.\ref{fig:kfoldprop} é possível observar que as acurácias de algumas das classes de verbos seguem uma certa tendência linear de acordo com as suas respectivas proporções no corpus, enquanto que há um outro grupo de classes que apresenta acurácia mais baixa independentemente da proporção.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1.0\linewidth]{img/accuracy_kfold_1.png}
-  \caption{Acuracia kfold com desvio padrao ordenada por proporcao da classe}
+  \includegraphics[width=0.8\linewidth]{img/accuracy_kfold_1.png}
+  \caption{Acurácia Ordenada pela Proporção das Classes}
   \label{fig:kfoldprop}
 \end{figure}
+
+O experimento com acurácia mais alta será utilizado como referência para a análise de erros.
+
+Ao analisar os erros ocorridos na classe do verbo "Pôr" (vide apêndice), verifica-se que praticamente um terço (8/26) dos erros foram erros de "regularização", ou seja, o modelo se confundiu com a classe mais presente (de verbos regulares). 
+
+Em seguida, a próxima classe com acurácia baixa fora da tendência é a classe de verbos sem agrupamento. Esse resultado era totalmente esperado pois não havia outros verbos no corpus para que o modelo conseguisse detectar possíveis padrões para fazer predições corretas. 
+
+A classe do verbo "testar" apresentou muitas predições incoerentes, porém também houve erros de regularização (4/19). Ainda sobre essa classe, chama a atenção que para o verbo "pegar", o modelo acertou a flexão irregular transformando a vogal anterior meio-fechada em meio-aberta, porém por algum motivo ficou faltando o traço de vozeamento para caracterizar o fone "g" ao invés de "k", o que resultou na flexão equivocada de pegar $\rightarrow$ pEku.
+
+Por sua vez, a classe do verbo "vir" apresentou 5/11 de erros por regularização, os demais parecem erros bastante incoerentes.
+
+A classe do verbo "ansiar" também parece estar fora da tendência, apresentou 7 erros incoerentes, porém quase acertou a flexão do verbo "passear", porém substituiu a consoante "s" por "r", ambas alveolares.
+
+Por fim, a classe do verbo "dizer" apresentou apenas erros incoerentes e a classe do verbo "pedir" acertou a flexão irregular no verbo "pedir" porém não transformou o fone "d" em "s" (alveolar - surda - fricativa). Ao invés disso, optou por "t" (alveolar - surda - oclusiva). Novamente, errou por causa de apenas de um traço fonético.
+
+
+
+\subsection{A relação entre Acurácia e a perplexidade de cada classe}
 
 Falar sobre o grafico e tentar entender porque a familia do verbo "botar" obteve mais sucesso que as outras. Há relacao de proporção da familia com perplexidade ou tamanho medio dos verbos?
 
 Falar sobre a perplexidade das familias de verbos.
 
-\begin{table}[]
+\begin{table}[H]
 \centering
 \begin{tabular}{ll}
 Classe  & Perplexidade \\
@@ -116,7 +136,7 @@ Ler     & 1.172332    \\
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1.0\linewidth]{img/accuracyperplexity.png}
+  \includegraphics[width=0.8\linewidth]{img/accuracyperplexity.png}
   \caption{Acuracia por Perplexidade Ascendente}
   \label{fig:kfoldprop}
 \end{figure}
@@ -125,7 +145,7 @@ Falar sobre o tamanho médio dos verbos alvo.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1.0\linewidth]{img/downloadaccuracy_kfold_3.png}
+  \includegraphics[width=1.0\linewidth]{img/accuracy_by_len.png}
   \caption{Acuracia por Cumprimento Medio Ascendente}
   \label{fig:kfoldprop}
 \end{figure}
