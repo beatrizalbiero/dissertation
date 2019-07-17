@@ -28,6 +28,7 @@
 
 \usepackage{tipa}
 \let\ipa\textipa
+\usepackage[utf8]{inputenc}
 \usepackage{vowel}
 \newcommand{\BlankCell}{}
 \usepackage{lmodern}
@@ -221,6 +222,7 @@ framexrightmargin=10pt
 % Agradecimentos
 \chapter*{Agradecimentos}
 
+
 % ---------------------------------------------------------------------------- %
 % Abstract
 \chapter*{Resumo}
@@ -266,12 +268,12 @@ framexrightmargin=10pt
 % \singlespacing              % espaçamento simples
 \onehalfspacing            % espaçamento um e meio
 
-\input{ch01-introduction}
+\input{ch01-introduction.tex}
 \input{ch02-fonologia.tex}
 \input{ch03-redesneurais.tex}
-\input{ch04-modelolinguagem.tex}
+%\input{ch04-modelolinguagem.tex}
 \input{ch05-seq2seq.tex}
-\input{ch06-corpus.tex}
+%\input{ch06-corpus.tex}
 \input{ch07-resultados-novo.tex}
 \input{ch08-conclusao.tex}
 \input{Appendice.tex}
@@ -290,6 +292,7 @@ framexrightmargin=10pt
 
 % ---------------------------------------------------------------------------- %
 % Bibliografia
+\setcitestyle{square}
 \backmatter \singlespacing   % espaçamento simples
 \bibliographystyle{references-style-plainnat-ime} % citação bibliográfica textual
 \bibliography{references}  % associado ao arquivo: 'bibliografia.bib'

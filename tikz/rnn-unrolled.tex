@@ -29,11 +29,28 @@
 
 % % timestep 2
 \rnnSimple{(2)}{(1)}{t2}{right=50pt of ht1};
+\node[textonly, below= 80pt of ht1] (ontem) {Ontem};
+\node[textonly, above= 80pt of ht1] (eu) {João};
+\path [pil, bend left=40] (ontem) edge node {} (eu);
 
-
-% % timestep 2
+% % timestep 3
 \rnnSimple{(3)}{(1)}{t3}{right=50pt of ht2};
+\node[textonly, below= 80pt of ht2] (eu2) {João};
+\path [pil, bend left=3] (eu) edge node {} (eu2);
+\node[textonly, above= 80pt of ht2] (fui) {foi};
+\path [pil, bend left=40] (eu2) edge node {} (fui);
 
+% timestep future
+\node[textonly, below= 80pt of ht3] (fui2) {foi};
+\path [pil, bend left=3] (fui) edge node {} (fui2);
+\node[textonly, above= 80pt of ht3] (na) {na};
+\path [pil, bend left=40] (fui2) edge node {} (na);
+\node[textonly, right= 15pt of ht3] (future) {...};
+
+%  \node[left=of dummy] (g) {Ultimate lender}
+%   edge[pil, bend right=45] (market.west)
+%   edge[pil, bend right=45] (formidler.west)
+%   edge[pil,<->, bend left=45] node[auto] {Direct (a)} (t);
 
 % % state transfers
 \path[tedge] (ht0) edge node[above right = 2pt] {} (ht1);
@@ -42,7 +59,7 @@
 
 \end{tikzpicture}
 }%\scalebox
-\caption{Arquitetura RNR}
+\caption{Modelo de Linguagem com Rede Neural Recorrente}
 \label{fig:unfoldedrnn}
 \end{figure}
 

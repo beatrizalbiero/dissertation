@@ -1,0 +1,20 @@
+\begin{figure}[ht!]
+\centering
+\begin{tikzpicture}
+\node[punkt] (seq1) {Sequência 1};
+\node[punkt, right=40pt of seq1] (seq2) {Sequência 2};
+
+\path[tedge] (seq1) -- (seq2);
+
+\node[punkt, below=40pt of seq2] (seq21) {O menino pequeno gosta do seu cachorro.};
+
+\node[punkt, left=40 pt of seq21] (seq12) {The small boy likes his dog.};
+
+\path[tedge] (seq12) -- (seq21);
+
+\node[text, below=10 pt of seq21] (nada) {};
+
+\end{tikzpicture}
+\caption{Objetivo do Modelo Encoder-Decoder: Mapeamento de uma Sequência a Outra} 
+\label{fig:seq2seq_simple}
+\end{figure}

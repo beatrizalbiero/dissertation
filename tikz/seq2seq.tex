@@ -1,7 +1,7 @@
 \begin{figure}[ht!]
 \centering
 
-\scalebox{1.0}{
+\scalebox{0.9}{
 \begin{tikzpicture}[
   hid/.style 2 args={
     rectangle split,
@@ -11,8 +11,12 @@
     fill=#2!20,
     outer sep=1mm}]
   % draw input nodes
-  \foreach \i [count=\step from 1] in {the,small,boy,{{$<$eos$>$}}}
+  \foreach \i [count=\step from 1] in {the,small,boy,{{$<$beg$>$}}}
     \node (i\step) at (2*\step, -2) {\i};
+
+%write states    
+\node[text, left = 2pt of i#1] (ht) {$\vect{h}^{(t)}$};
+
   % draw output nodes
   \foreach \t [count=\step from 4] in {o,menino,pequeno,{{$<$eos$>$}}} {
     \node[align=center] (o\step) at (2*\step, +2.75) {\t};
@@ -24,6 +28,11 @@
     \draw[->] (i\step.north) -> (e\step.south);
     \draw[->] (e\step.north) -> (h\step.south);
   }
+  
+  %write inputs and outpus
+\node[text, below = 15pt of ht] {$x_{t}$};
+\node[text, above = 20pt of ht] {$y_{t}$};
+  
   % draw embedding and hidden layers for label input
   \foreach \step in {4,...,7} {
     \node[hid={3}{yellow}] (s\step) at (2*\step, 1.25) {};

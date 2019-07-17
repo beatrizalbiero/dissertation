@@ -1,197 +1,140 @@
 \chapter{Experimentos e Resultados}
 \label{ch:07}
 
-O enfoque deste capítulo será em analisar os resultados obtidos pelos experimentos com o modelo encoder-decoder.
-
-falar de type e token
-
-falar que eu tirei o r dos infinitivos pq era redundante
-
-\begin{itemize}
-    \item explicar que nessa seção vou analisar os resultados obtidos
-    \item introduzir que a acurácia nao foi muito boa e que apesar disso tento entender os resultados dos modelos
-    \item falar sobre a dificuldade de interpretação dos resultados de modelos de redes neurais
-    \item falar sobre os poucos dados disponíveis%(https://medium.com/scribd-data-science-engineering/experiments-with-seq2seq-data-dependency-62184993f555)
-\end{itemize}
+Este capítulo será dedicado a explanações sobre o modelo construído e às predições resultantes. A Seção \ref{sec:treinamento} de treinamento do modelo trata especificamente dos hiperparâmetros\footnote{colocar alguma coisa aqui} utilizados e dos resultados das métricas utilizadas. Após o treinamento do modelo, segue a etapa de decodificação dos outputs (citada no Capítulo \ref{ch:05}). Somente nesta etapa pode-se analisar os verbos preditos pela rede e avaliar a acurácia obtida pelo modelo. A Seção \ref{sec:results} introduz a metodologia utilizada para a avaliação dos resultados das decodificações e apresenta uma visão geral do desempenho do modelo para cada classe de verbo. Em seguida, a Seção \ref{sec:interesting} analisa com mais detalhes resultados interessantes obtidos pelo modelo. 
 
 \section{Treinamento}
+\label{sec:treinamento}
 
-\begin{itemize}
-    \item Explicar o que são épocas
-    \item explicar o que é batch size
-    \item explicar hiperparâmetros
-\end{itemize}
-\subsection{300 epochs}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=1.0\linewidth]{img/300_fbeta.png}
-  \caption{Resultados 300 epocas}
-  \label{fig:training}
-\end{figure}
+Como foi introduzido no Capítulo \ref{ch:03}, o treinamento do modelo de redes neurais consiste sempre na introdução de um input em paralelo com seu alvo correspondente. Ficou faltando, porém, uma discussão de cunho prático a respeito da frequência em que esses dados são apresentados ao modelo. Essa discussão é importante pois a frequência é um dos fatores mais relevantes para o ajuste dos pesos das redes. Uma frequência muito baixa não é o suficiente para causar grandes modificações nos pesos, fenômeno conhecido como \textit{underfit}. Em contrapartida, uma frequência muito alta faz com que o modelo se torne especialista nos dados de treinamento, porém se torna incapaz de lidar com dados nunca antes vistos, fenômeno conhecido como \textit{overfit}. Para encontrar a frequência ideal, utiliza-se como auxílio um gráfico conhecido como curva de aprendizado, como o apresentado na Figura \ref{fig:training2000}. No ramo da modelagem em redes neurais, cada vez que o grupo de dados de treino é introduzido completamente no modelo, configura-se o que é chamado de uma \textit{época}. Ainda, no caso do corpus em questão, optou-se pela realização do treinamento sem repetições de verbos por época.  
 
-Explicar as metricas em analise:
-\begin{itemize}
-    \item o que representa o f score
-    \item o que representa a precision
-    \item recall
-    \item erro
-    \item explicar pq as metricas parecem muito boas
-\end{itemize}
-\subsection{2000 epochs}
-
+Nos três primeiros gráficos da figura, exibem-se três diferentes métricas de avaliação em relação ao número de épocas realizadas. 
+Como se pode observar, a partir de aproximadamente 300 épocas, a curva de aprendizado começa a se estabilizar em torno de um valor. Também é possível ver a diferença entre os scores de treino (curva azul) e teste (curva laranja). Essa diferença mostra que os dados de treino não estão sendo suficientes para aumentar o score nos dados de teste. Desse modo, concluiu-se que 300 épocas seria o momento de conclusão do treinamento do modelo. Os resultados nessa nova escala podem ser observados na Figura \ref{fig:training}.  
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=1.0\linewidth]{img/2000_precision.png}
-  \caption{Resultados 2000 Epocas}
-  \label{fig:encdec}
+  \caption{Curva de Aprendizado para 2000 épocas}
+  \label{fig:training2000}
 \end{figure}
-
-Mostrar aonde começa o overfit e discutir que 300 epocas era o suficiente
-
-\section{Análise K-Fold}
-
-Como o tamanho do corpus disponível é restrito, não é interessante realizar um único experimento com uma única segmentação entre treino e teste, pois haveriam verbos em que o modelo nunca seria testado e outros que nunca seriam utilizados no treinamento. Dessa forma a acurácia do modelo poderia variar bastante dependendo dos verbos sorteados para cada um desses grupos. Assim, uma técnina de validação cruzada chamada \textit{K-Fold} foi escolhida para o estudo dos resultados. A análise K-Fold permite que o modelo seja avaliado em todos os verbos do corpus. A técnica consiste, primeiramente, na formação de K subconjuntos de verbos mutuamente exclusivos de tamanhos similares (idênticos caso a divisão por K seja exata). Em seguida, um desses subconjuntos é escolhido como o conjunto de teste enquanto que os K-1 restantes são utilizados como treino. O tamanho de K é definido a partir da escolha de proporção em que se deseja realizar a segmentação entre treino e teste, ou seja, para sempre manter a proporção de testes em 20\% de modo que estes verbos sejam sempre diferentes, o corpus precisa ser segmentado em 5 subconjuntos distintos. O desenho \ref{fig:kfold} ilustra o algoritmo. 
-
-\input{tikz/K-fold.tex}
-
-Além disso, há ainda a vantagem do elemento de estratificação, ou seja, a possibilidade de que em cada um doss treinamentos, as proporções das classes de verbos se mantenham no treinamento. Isso significa que, por exemplo, a classe de irregularidades 12 (testar -> tEstu) que possui 20 verbos, terá sempre 16 verbos verbos no treinamento e 4 no teste. Assim, após os 5 treinamentos diferentes, todos os verbos da classe foram testados e há a certeza de que haviam verbos dessa classe no treinamento. 
-
-Ainda, como há um fator de aleatoriedade devido às inicializações dos pesos e também como os itens de treino e teste são sorteados pelo algoritmo no momento da segmentação do K-Fold, os resultados da rede podem variar. Para uma melhor compreensão de como ocorre essa variação para cada classe, foram realizadas 30 análises K-Fold. Dentre esses experimentos, a acurácia mais alta obtida foi de 17\% (73 verbos). As análises a seguir foram feitas no intuito de se entender melhor as situações de maior dificuldade do modelo.
-
-\subsection{A relação entre acurácia e a proporção da classe no corpus}
-Um fator que pode influenciar no resultado é o tamanho do corpus e o desbalanceamento das classes. O modelo encoder-decoder é normalmente executado com uma variedade de dezenas de milhares de exemplos. Portanto, cabe verificar se há alguma relação entre a proporção da classe no corpus e a acurácia. Na Fig.\ref{fig:kfoldprop} é possível observar que as acurácias de algumas das classes de verbos seguem uma certa tendência linear de acordo com as suas respectivas proporções no corpus, enquanto que há um outro grupo de classes que apresenta acurácia mais baixa independentemente da proporção.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\linewidth]{img/accuracy_kfold_1.png}
+  \includegraphics[width=1.0\linewidth]{img/300_fbeta.png}
+  \caption{Curva de apredizado para 300 épocas}
+  \label{fig:training}
+\end{figure}
+
+Para o entendimento das métricas utilizadas, faz-se necessária uma recapitulação a respeito do que se espera como output do modelo. Para cada verbo, o modelo prediz uma sequência de $n$ vetores de tamanho 21 (o número total de traços fonéticos somado ao tokens de início e final), aonde $n$ é o número de fones do verbo alvo e cada vetor corresponde a um fone. Esses 21 valores são arredondados para 0 ou 1 dependendo de um determinado limiar, que neste caso é 0.5. As métricas são calculadas comparando-se esses $n$ vetores de output com seus respectivos alvos.
+
+A precisão é uma métrica calculada de acordo com a Equação \ref{eq:precision}. Nesta métrica, avalia-se a proporção de verdadeiros positivos ($vp$) em relação ao número total de positivos que o modelo previu, ou seja, dentre os traços fonéticos preditos pelo modelo, quantos estavam de acordo com os presentes no alvo.
+
+
+\begin{align}\label{eq:precision}
+\text{Precisão = } \frac{vp}{vp + fp}
+\end{align}
+
+O \textit{Recall}, também conhecido como revocação, foi calculado a partir da Equação \ref{eq:recall}. Nesta métrica busca-se entender a proporção de traços fonéticos que o modelo previu (verdadeiros positivos) em relação a todos que ele deveria ter previsto (verdadeiros positivos + falsos negativos). 
+
+\begin{align}\label{eq:recall}
+\text{Recall = } \frac{vp}{vp + fn}
+\end{align}
+
+Por fim, o F1 Score (Eq. \ref{eq:f1}) é a média harmônica das duas métricas já explanadas.
+
+\begin{center}
+\begin{align}\label{eq:f1}
+  \text{F1 Score} = 2 \times \frac{precision \times recall}{precision + recall}
+  \end{align}
+\end{center}
+
+Todas as métricas variam no intervalo [0,1] sendo que valores próximos a 1 indicam alto desempenho do modelo.
+Os resultados exibidos na Figura \ref{fig:training} mostram que a métrica Recall atinge scores mais baixos que a precisão. Isso significa que o modelo tem uma certa tendência a gerar outputs com mais valores nulos do que deveria. A Precisão atingiu valores próximos a 0.8. Isso indica que o modelo prevê aproximadamente 20\% dos traços de forma equivocada.
+
+O último gráfico da figura é o gráfico do Erro, já explanado no Capítulo \ref{ch:03}. Em uma situação ideal a curva de erro do teste deve tender a zero, porém vê-se que o erro apresenta um comportamento de queda até em torno de 100 épocas e depois começa a subir gradualmente. 
+
+
+
+\section{Resultados da Decodificação}
+\label{sec:results}
+Como o tamanho do corpus disponível é limitado, não é interessante realizar um único experimento com uma única segmentação entre treino e teste, pois haveriam verbos em que o modelo nunca seria testado e outros que nunca seriam utilizados no treinamento. Dessa forma a acurácia do modelo poderia variar bastante dependendo dos verbos sorteados para cada um desses grupos. Assim, uma técnica de validação cruzada chamada \textit{K-Fold} (indicar referencia) foi escolhida para o estudo dos resultados. A análise K-Fold permite que o modelo seja avaliado em todos os verbos do corpus. A técnica consiste, primeiramente, na formação de K subconjuntos de verbos mutuamente exclusivos de tamanhos próximos (idênticos caso a divisão por K seja exata). Em seguida, um desses subconjuntos é escolhido como o conjunto de teste enquanto que os K-1 restantes são utilizados como treino. O tamanho de K é definido a partir da escolha de proporção em que se deseja realizar a segmentação entre treino e teste, ou seja, para sempre manter a proporção de testes em 20\% de modo que estes verbos sejam sempre diferentes, o corpus precisa ser segmentado em 5 subconjuntos distintos. O desenho \ref{fig:kfold} ilustra o algoritmo. 
+
+\input{tikz/K-fold.tex}
+
+Além disso, há ainda a vantagem do algoritmo de estratificação, ou seja, a possibilidade de que, em cada um dos treinamentos, as proporções das classes de verbos se mantenham no treinamento. Isso significa que, por exemplo, a classe de irregularidades 12 (testar -> tEstu) que possui 20 verbos, terá sempre 16 verbos verbos no treinamento e 4 no teste. Assim, após os 5 treinamentos diferentes, todos os verbos da classe foram testados e há a certeza de que haviam verbos dessa classe no treinamento. 
+
+Ainda, como há um fator de aleatoriedade devido às inicializações dos pesos e também como os itens de treino e teste são sorteados pelo algoritmo no momento da segmentação do K-Fold, os resultados da rede podem variar. Para uma melhor compreensão de como ocorre essa variação para cada classe, foram realizadas 30 análises K-Fold. As acurácias e seus respectivos desvios são exibidos nas subseções a seguir. Nestas, também busca-se encontrar possíveis fatores que tenham influenciado nos resultados obtidos.
+%Dentre esses experimentos, a acurácia mais alta obtida foi de 17\% (73 verbos). As análises a seguir foram feitas no intuito de se entender melhor as situações de maior dificuldade do modelo.
+
+\subsection{A relação entre acurácia e a proporção da classe no corpus}
+\label{sec:prop}
+Um fator que pode influenciar no resultado é o tamanho do corpus e o desbalanceamento das classes. Portanto, cabe verificar se há alguma relação entre a proporção da classe no corpus e a acurácia. Na Fig.\ref{fig:kfoldprop} é possível observar que as acurácias de algumas das classes de verbos seguem uma certa tendência linear de acordo com as suas respectivas proporções no corpus, enquanto que há um outro grupo de classes que apresenta acurácia mais baixa independentemente da proporção. O coeficiente de correlação de Pearson encontrado entre essas variáveis foi de 0.42.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{img/proporxacc.png}
   \caption{Acurácia Ordenada pela Proporção das Classes}
   \label{fig:kfoldprop}
 \end{figure}
 
-O experimento com acurácia mais alta será utilizado como referência para a análise de erros.
+Para entender os resultados obtidos, o experimento com a acurácia mais alta (vide apêndice) será utilizado como referência para a análise de erros.
 
-Ao analisar os erros ocorridos na classe do verbo "Pôr" (vide apêndice), verifica-se que praticamente um terço (8/26) dos erros foram erros de "regularização", ou seja, o modelo se confundiu com a classe mais presente (de verbos regulares). 
+Ao analisar os erros ocorridos na classe do verbo “Pôr“, verifica-se que praticamente um terço (8/26) dos erros cometidos foram erros de \textit{regularização}, ou seja, o modelo se confundiu com a classe mais presente (a classe dos verbos regulares) e manteve o padrão de flexão regular. Em seguida, a próxima classe com acurácia baixa fora da tendência é a classe de verbos sem classe. Esse resultado era totalmente esperado pois não havia outros verbos no corpus para que o modelo conseguisse detectar possíveis padrões para fazer predições corretas. A classe do verbo “testar” apresentou muitas predições incoerentes, porém também houve erros de regularização (4/19). Ainda sobre essa classe, chama a atenção que para o verbo “pegar“, o modelo acertou a flexão irregular transformando a vogal anterior meio-fechada em meio-aberta, porém por algum motivo ficou faltando o traço de vozeamento para caracterizar o fone “g” ao invés de “k”, o que resultou na flexão equivocada de pegar $\rightarrow$ pEku. A classe do verbo “vir”, por sua vez, apresentou 5/11 de erros por regularização, os demais parecem erros bastante incoerentes. A classe do verbo “ansiar” também parece estar fora da tendência, apresentou 7 erros incoerentes e quase acertou a flexão do verbo “passear“, porém substituiu a consoante “s” por “r“, ambas alveolares. Por fim, a classe do verbo “dizer” apresentou apenas erros incoerentes e a classe do verbo “pedir” acertou a flexão irregular no verbo “pedir” porém não transformou o fone “d” em “s” (alveolar - surda - fricativa). Ao invés disso, previu “t” (alveolar - surda - oclusiva). Novamente, errou por causa de apenas de um traço fonético.
 
-Em seguida, a próxima classe com acurácia baixa fora da tendência é a classe de verbos sem agrupamento. Esse resultado era totalmente esperado pois não havia outros verbos no corpus para que o modelo conseguisse detectar possíveis padrões para fazer predições corretas. 
-
-A classe do verbo "testar" apresentou muitas predições incoerentes, porém também houve erros de regularização (4/19). Ainda sobre essa classe, chama a atenção que para o verbo "pegar", o modelo acertou a flexão irregular transformando a vogal anterior meio-fechada em meio-aberta, porém por algum motivo ficou faltando o traço de vozeamento para caracterizar o fone "g" ao invés de "k", o que resultou na flexão equivocada de pegar $\rightarrow$ pEku.
-
-Por sua vez, a classe do verbo "vir" apresentou 5/11 de erros por regularização, os demais parecem erros bastante incoerentes.
-
-A classe do verbo "ansiar" também parece estar fora da tendência, apresentou 7 erros incoerentes, porém quase acertou a flexão do verbo "passear", porém substituiu a consoante "s" por "r", ambas alveolares.
-
-Por fim, a classe do verbo "dizer" apresentou apenas erros incoerentes e a classe do verbo "pedir" acertou a flexão irregular no verbo "pedir" porém não transformou o fone "d" em "s" (alveolar - surda - fricativa). Ao invés disso, optou por "t" (alveolar - surda - oclusiva). Novamente, errou por causa de apenas de um traço fonético.
+Os erros observados motivaram o estudo de outras variáveis em relação a acurácia. Não obstante, a métrica de acurácia parece inadequada visto que em muitos casos o modelo foi capaz de identificar a flexão apropriada, porém se confundiu em um único traço distintivo, como no caso do verbo “pega”.
 
 
 
-\subsection{A relação entre Acurácia e a perplexidade de cada classe}
+\subsection{A relação entre acurácia e a perplexidade de cada classe}
 
-Falar sobre o grafico e tentar entender porque a familia do verbo "botar" obteve mais sucesso que as outras. Há relacao de proporção da familia com perplexidade ou tamanho medio dos verbos?
+Outra variável que poderia influenciar nos resultados seria uma maior variabilidade, ou imprevisibilidade, de algumas classes em relação a outras. Suponha que exista uma classe na qual todos os verbos compartilhem do mesmo comprimento e variações mínimas, por exemplo:
 
-Falar sobre a perplexidade das familias de verbos.
+\begin{center}
+    akabar - abalar - akalar - asolar
+\end{center}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{ll}
-Classe  & Perplexidade \\
-\toprule
-Regular & 1.00366      \\
-\hline
-Por     & 1.02165      \\
-\hline
-Seguir  & 1.02730      \\
-\hline
-Botar   & 1.03139      \\
-\hline
-Testar  & 1.03663      \\
-\hline
-Fazer   & 1.04015      \\
-\hline
-None    & 1.04198      \\
-\hline
-Vir     & 1.060829     \\
-\hline
-Ansiar  & 1.073437     \\
-\hline
-Ter     & 1.073437     \\
-\hline
-Mentir  & 1.089055     \\
-\hline
-Dizer   & 1.094539     \\
-\hline
-Pedir   & 1.115955     \\
-\hline
-Ver     & 1.115955     \\
-\hline
-Cobrir  & 1.118949     \\
-\hline
-Ler     & 1.172332    \\
-\bottomrule
-\end{tabular}
-\caption{Classes de Irregularidades Ordenadas por Perplexidade}
-\label{tab:perplexity}
-\end{table}
+Essa classe, por conter pouca variabilidade de fones, poderia ter vantagem em relação a uma outra em que há maior variabilidade, como por exemplo:
+
+\begin{center}
+    dezenkontrar - estourar - akal3ntar - sust3ntar - axar
+\end{center}
+
+Para quantificar as previsibilidades das classes, foi utilizada a medida de perplexidade. Em teoria da informação (ref), a perplexidade é uma medida do quão bem um modelo de probabilidade prevê uma amostra. Por esse motivo ela é bastante utilizada como referência para a comparação entre diferentes modelos de linguagem. Uma baixa perplexidade indica que o modelo proposto é bom em prever a amostra. O gráfico na Figura \ref{fig:kfoldperp} mostra a relação entre a acurácia do modelo e a perplexidade das classes, obtida a partir de um modelo de trigramas.  %A equação (tal) exibe a fórmula para o cálculo da métrica.
 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\linewidth]{img/accuracyperplexity.png}
-  \caption{Acuracia por Perplexidade Ascendente}
-  \label{fig:kfoldprop}
+  \includegraphics[width=0.8\linewidth]{img/perplexidade.png}
+  \caption{Acurácia por Perplexidade}
+  \label{fig:kfoldperp}
 \end{figure}
 
-Falar sobre o tamanho médio dos verbos alvo.
+Nota-se que a relação entre as duas variáveis é menos clara, com um coeficiente de correlação de Pearson = 0.38. 
+
+\subsection{A relação entre acurácia e o comprimento médio dos verbos de cada classe}
+
+Outra questão que poderia influenciar na performance do modelo é o número médio de fones dos verbos na classe.  O verbo “3ntret3Nu” (entretenho), por exemplo, contém 9 fones para serem preditos. Como cada fone contém 21 traços, no total o modelo tem que conseguir prever 189 números. O verbo “falu” (falo), em contrapartida, possui 4 fones, ou seja, 84 números a serem preditos. Dessa forma, é natural pensar que quanto maior o número de predições necessárias, maior a possibilidade do modelo cometer algum erro. Apesar disso, a Figura \ref{fig:kfoldprop} não mostra uma relação nítida entre a acurácia e o comprimento médio com uma correlação de Pearson = 0.39.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1.0\linewidth]{img/accuracy_by_len.png}
-  \caption{Acuracia por Cumprimento Medio Ascendente}
+  \includegraphics[width=0.8\linewidth]{img/comp_acc.png}
+  \caption{Acurácia por Comprimento Médio}
   \label{fig:kfoldprop}
 \end{figure}
 
 
-\section{Análise dos Erros}
+% colocar no apendice os resultados
+\section{Resultados e Erros Relevantes}
+\label{sec:interesting}
 
-Falar que eu escolhi o arquivo com a maior acuracia para analisar. Esse arquivo teve um total de 73 acertos, 17\% de acuracia.
+Alguns erros interessantes como troca de classes e regularizações já foram apresentados na Seção \ref{sec:prop}, mas ainda há outros erros que merecem destaque. (Ver Apêndice para tabela completa com Classe, Input, Output e Alvo)
 
+Na classe dos verbos sem agrupamento, um erro notável foi a flexão realizada para o verbo trazer (“trasu”), o que mostra que o modelo identificou o padrão de flexão da classe do verbo “fazer”. 
 
-\section{Arquivo com melhores resultados}
+Na classe do verbo “pedir”, apresentou a flexão “espidu” para o verbo “espedir”, o que denota uma possível confusão com a classe do verbo “conseguir”.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.7\linewidth]{img/best_file_accuracy.png}
-  \caption{Acuracia proporcao corpus}
-  \label{fig:acuraciaprop}
-\end{figure}
+Nos verbos regulares nota-se a presença de vários erros devido a troca de apenas um traço fonético. Como por exemplo para o verbo “convidar”, o output resultante foi “konviru”. Para o verbo “convencer”, “konfensu”.
 
+Para os verbos da classe do verbo “seguir“, três verbos foram flexionados de acordo com a família do verbo “testar“. São eles: “ferir” (fEru), “vestir” (vEstu) e “repetir” (hepEtu).
 
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.7\linewidth]{img/best_file_correct_p.png}
-  \caption{Predicoes corretas x proporcao}
-  \label{fig:predicxprop}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.7\linewidth]{img/best_file_acuracy_perplexity.png}
-  \caption{acuracia perplexidade}
-  \label{fig:acuper}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.7\linewidth]{img/best_file_accuracy_perplexity.png}
-  \caption{prediçoes corretas x perplexidade}
-  \label{fig:prexper}
-\end{figure}
-
-
-mostrar uma tabela com esse arquivo e analisar os erros encontrados
-
-discussao dos resultados
-cada classe
-comentar sobre erros interessantes, por exemplo trocas de classes
-experimentos com verbos inventados
+A classe do verbo “ver” também apresentou erros interessantes: a confusão com a classe do verbo “vir” nos verbos “prever” (“preveNu”) e “entrever” (“entreveNu”). Também por pouco não acertou o alvo no verbo “rever” (hefexu), ficou faltando o traço de vozeamento nas duas últimas consoantes.

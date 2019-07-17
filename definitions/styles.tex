@@ -37,3 +37,23 @@
 
 % namedscope
 \tikzstyle{namedscope} = [circle, draw=orange, line width=1.5pt, fill=orange!60, align=center, inner sep=0pt]
+
+%round
+\tikzset{
+    %Define standard arrow tip
+    >=stealth',
+        punkt/.style={
+           rectangle,
+           rounded corners,
+           draw=black, very thick,
+           text width=6.5em,
+           minimum height=2em,
+           text centered},
+    % Define arrow style
+    pil/.style={
+           ->,
+           thick,
+           draw=red,
+           shorten <=10pt,
+           shorten >=10pt,}
+}

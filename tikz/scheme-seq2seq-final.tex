@@ -1,0 +1,29 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\node[punkt] (pred) {Predição};
+\node[punkt, right=40pt of pred] (arr) {Aproximação};
+\node[punkt, right=40pt of arr] (dist) {Distância Euclidiana com Fones Candidatos};
+\node[punkt, right=40pt of dist] (subs) {Substituição pelo Vetor Candidato mais Próximo};
+
+\path[tedge] (pred) -- (arr);
+\path[tedge] (arr) -- (dist);
+\path[tedge] (dist) -- (subs);
+
+
+\node[punkt, below=40 pt of pred] (pred1) {[0.8734, 0.235, 0.003, ...]};
+\node[punkt, below=40pt of arr] (arr1) {[1.0, 0.0, 0.0, ...]};
+\node[punkt, right=160pt of arr1] (subs1) {[1.0, 0.0, 0.0, ...]};
+
+
+\path[tedge] (pred1) -- (arr1);
+\path[tedge] (arr1) -- (subs1);
+
+\node[text, below=10 pt of arr1] (nada) {};
+
+
+
+\end{tikzpicture}
+\caption{Decodificação dos Outputs do Modelo} 
+\label{fig:outputs}
+\end{figure}

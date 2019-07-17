@@ -25,14 +25,16 @@
 \node[textonly, below= 80pt of ht2] (a) {a};
 \node[textonly, above= 80pt of ht2] (r_o) {r};
 
+% timestep3
+\node[textonly, below= 80pt of ht3] (r) {r};
+\node[textonly, above= 80pt of ht3] (end) {\textupsilon};
+
 % % state transfers
 \path[tedge] (ht0) edge node[above right = 2pt] {} (ht1);
 \path[tedge] (ht1) edge node[above right = 2pt] {} (ht2);
 \path[tedge] (ht2) edge node[above right = 2pt] {} (ht3);
 
-% timestep3
-\node[textonly, below= 80pt of ht3] (r) {r};
-\node[textonly, above= 80pt of ht3] (end) {\textupsilon};
+
 
 \end{tikzpicture}
 }%\scalebox

@@ -1,29 +1,176 @@
 \chapter{Encoder-Decoder}
 \label{ch:05}
 
-Agora que já temos o conhecimento de RNR e modelo de linguagem...
+
+\section{Introdução ao Modelo Enconder-Decoder}
+\label{sec:intro-sec-sec}
+Um modelo de mapeamento Encoder-Decoder é um sistema composto por duas Redes Neurais Recorrentes cuja principal função é mapear uma relação entre duas sequências distintas que possuem uma relação paradigmática. Modelos do tipo Encoder-Decoder (também conhecidos como \textit{Seq2Seq} (ref)) têm sido bastante utilizados em tarefas linguísticas, especialmente no desenvolvimento de sistemas de diálogo e em tradução automática.
+
+Em um contexto de tradução, por exemplo, o modelo recebe como input uma sequência de uma língua de origem e produz como output uma sequência em uma língua alvo. A sequência gerada precisa, além de preservar o conteúdo semântico da sequência de origem, apresentar uma sintaxe aceita pelos falantes da língua alvo. %No contexto de sistemas de diálogo, estabelece-se uma relação entre usuário e máquina, de modo que uma sentença articulada por um usuário serve como entrada e tem como alvo uma resposta coerente da máquina.\\
+
+\input{tikz/seq2seq-simple.tex}
+Observa-se que no caso da tradução, não há uma correspondência exata entre os termos de cada uma das línguas. A sentença na língua inglesa possui um termo a menos, sendo que o pronome "his" corresponde aos termos "do seu" no português. Além disso, observa-se que cada uma das línguas possui uma lógica sintática diferente. No primeiro caso, o adjetivo \textit{small} se posiciona antes do substantivo \textit{boy}. No segundo, essa ordem é invertida (\textit{menino pequeno}). 
+
+As duas redes recorrentes funcionam da seguinte maneira (ver Fig. \ref{fig:seq2seq}): uma primeira rede, a denominada \textit{Encoder} é alimentada com uma sentença da língua de origem (em inglês, por exemplo). Os termos dessa sentença entram um após o outro na rede e alimentam os \textit{estados} ($\vect{h}^{(t)}$), porém nesse caso não é necessário relacionar cada termo a um correspondente ($y_t$) como no caso do modelo de linguagem. A rede Encoder, portanto, não possui \textit{alvos}. O resultado do último estado, gerado após a inserção de todos os termos da sequência de origem, serve como estado inicial ($\vect{h}^{(0)}$) para uma segunda rede recorrente, denominada de \textit{Decoder}. A rede Decoder, por sua vez, recebe como seu primeiro \textit{input}, um \textit{token} que representa o início da sequência alvo (\textbf{<beg>}), inicializando o modelo de linguagem dessa língua, como no modelo de rede neural recorrente apresentado na Seção \ref{sec:RNN}.  
+
+ \input{tikz/seq2seq.tex}
+ 
+ Por fim, o aprendizado do modelo ocorre como já explanado no Capítulo \ref{ch:03}: os \textit{outputs} do modelo são comparados com os \textit{alvos}, o erro é propagado de volta através do algoritmo de \textit{backpropagation}, os pesos da rede são atualizados de modo a diminuir esse erro e o processo se repete até a conclusão de todas as \textit{épocas}.
+ 
+\section{A Questão do Aprendizado da Flexão dos Verbos}
+
+Assim como no problema da tradução automática, pode-se retratar a questão do aprendizado de flexão dos verbos através de uma relação entre duas sequências que compartilham de um mesmo sentido.
+
+\input{tikz/seq2seq_verbs.tex}
+
+Diferentemente do caso de tradução, em que se busca o aprendizado das relações entre uma palavra e outra das línguas de origem e de alvo, no caso do aprendizado de flexão de verbos busca-se aprender as relações existentes entre um verbo e outro a nível fonético. Desse modo, resta explicar como se deu a transformação dos verbos em vetores adequados para que o modelo fosse capaz de aprender tais relações.
+
+\subsection{Corpus}
+
+Para a execução dos experimentos, o escopo dessa pesquisa foi restringido a um único tempo, modo, pessoa e número, já que o português apresenta formas irregulares em múltiplas combinações destes elementos e seria necessário construir uma rede diferente para cada uma destas combinações. Optou-se por estudar as irregularidades presentes nas flexões de primeira pessoa do singular no tempo presente, modo indicativo.  
+O corpus utilizado para o treinamento dessa rede foi construído a partir da listagem de verbos contida no enderenço \textit{conjugação.com.br} \cite{conjugacao.com.br}.
+
+Primeiramente, foi realizada uma etapa de extração dos verbos e suas respectivas conjugações para um arquivo \textit{.csv} via técnica de \textit{webscraping}, uma técnica que extrai informações contidas nas páginas da web [incluir ref]. Em seguida, os verbos irregulares foram selecionados manualmente para diferentes famílias de verbos, ou seja, grupos que continham o mesmo padrão de flexão. Alguns dos verbos irregulares listados na fonte de referência não eram irregulares no processo de flexão de interesse, e portanto foram realocados para o grupo de verbos regulares. Como um exemplo disto, o verbo \textit{acudir} é considerado irregular pois apresenta irregularidade na terceira pessoa do singular no tempo presente e modo indicativo ((ele/ela) \textit{acode}), porém, como na primeira pessoa do singular o padrão regular se mantém, esse verbo foi realocado para o grupo dos verbos regulares. 
+
+Após a coleta e organização do Corpus, foi necessário passar os verbos coletados para uma transcrição fonética, já que esta pesquisa visa a construção de um modelo que aprenda os padrões de flexões dos verbos. Para tal, um experimento foi realizado na tentativa de utilizar o transcritor fonético automático disponibilizado por (Guide, 2016)\cite{guide:2016}, porém o transcritor falhou na tentativa de transcrever verbos cuja escrita coincide com substantivos, como por exemplo "apoio", "peso", "toco", "posto", "jogo", entre outros. Sendo assim, os verbos coletados foram transcritos manualmente utilizando a chave de transcrição apresentada na Seção \ref{sec:transcr}. No total, foram obtidos 423 verbos, 83 verbos a menos que no experimento realizado por (Rumelhart \& McClelland, 1986)\cite{rumelhart:1986}.
+
+Dos 423 verbos extraídos, 20 foram considerados verbos sem possível agrupamento e foram alocados para uma classe nomeada de \textit{Singles} (verbos como "ir", "trazer" e "saber"), totalizando uma base de 214 verbos regulares e 209 irregulares (50.6\% e 49.4\% respectivamente). 
+
+A Tabela \ref{tab:classes} associa os nomes dados aos tipos de irregularidades encontradas e apresenta um exemplo de cada uma delas, além do número de exemplos de cada e a proporção desse número no total. 
+
+Por fim, optou-se por excluir o "r" presente no final dos verbos no infinitivo. Essa decisão foi tomada pois como todos os verbos compartilham dessa mesma característica, a presença desse fone não agrega mais informação no treinamento e se torna portanto dispensável.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|}
+\toprule
+& Classes & Exemplos & Contagem & Proporção\\
+\midrule
+1 & iar:eiu & ansiar, anseio & 9 & 2.13\%\\
+2 & o\_ar:O\_u & tocar, toco & 30 & 7.09\%\\
+3 & o\_ir:u\_o & cobrir, cubro & 7 & 1.65\%\\
+4 & izer:igu & dizer, digo & 7 & 1.65\%\\
+5 & fazer:fasu & fazer, faço & 15 & 3.55\%\\
+6 & crer:eiu & crer, creio & 5 & 1.18\%\\
+7 & entir:intu & sentir, sinto & 8 & 1.89\% \\
+8 & edir:Esu & pedir, peço & 7 & 1.65\%\\
+9 & or:oNu & pôr, ponho & 27 & 6.38\%\\
+10 & e\_ir:i\_u & seguir, sigo & 27 & 6.38\%\\
+11 & ter:teNu & ter, tenho & 10 & 2.36\%\\
+12 & e\_ar:E\_u & testar, testo & 20 & 4.73\%\\
+13 & ver:veju & ver, vejo & 6 & 1.42\%\\
+14 & vir:veniu & vir, venho & 10 & 2.60\%\\
+15 & Singles & saber, sei & 20 & 4.73\%\\
+16 & Regulares & falar, falo & 214 & 50.59\%\\
+\bottomrule
+\end{tabular}
+\end{center}
+\captionof{table}{Organização do corpus}
+\label{tab:classes}
+\end{table}
+
+\subsection{O modelo Encoder-Decoder Desenvolvido}
+
+\subsubsection{Encoder}
+\label{sec:inputs}
+
+Após a definição do Corpus, os verbos transcritos passaram por uma etapa de pré-processamento em que seus respectivos fonemas foram associados a um dicionário de traços fonéticos, os mesmos traços que originaram as Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. A Tabela \ref{tab:pOsu} apresenta um exemplo desse processo para o verbo "posso" - \textit{pOsu}. 
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{lll}
+Fonema & Traços Fonéticos &  \\ \cline{1-2}
+p & bilabial, oclusiva, surda &  \\
+O & meio-aberta, posterior &  \\
+s & fricativa, alveolar, surda &  \\
+u & fechada, posterior & 
+\end{tabular}
+\end{center}
+\caption{Traços Fonéticos para o Verbo "Posso"}
+\label{tab:pOsu}
+\end{table}
+
+Os traços fonéticos também fazem parte de um outro dicionário. No total são necessários 20 traços para representar um fone. São 18 para representar os traços das tabelas fonéticas: Oclusiva, Nasal, Tepe, Fricativa, Aproximante Lateral, Bilabial, Labio-Dental, Alveolar, Pós-Alveolar, Velar e Glotal; e 2 para representar início e fim do verbo ($<$beg$>$ e $<$end$>$).
+
+Os fones são por fim caracterizados pela presença (1) e ausência (0) dos traços mencionados.  A Tabela \ref{tab:coding_example} mostra como exemplo uma comparação entre dois fonemas similares (\textbf{p} e \textbf{b}) que distinguem-se apenas pelo traço fonético sonoro. O resultado é uma representação vetorial que também carrega essa noção de proximidade. O começo do verbo é representado por um vetor que marca 0 em todos os traços fonéticos e 1 no \textit{token} de começo (o traço de fim pode ser compreendido de maneira análoga). 
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{lll}
+ Traço & p & b \\
+ \toprule
+oclusiva & 1 & 1 \\
+nasal & 0 & 0 \\
+tepe & 0 & 0 \\
+fricativa & 0 & 0 \\
+l-aprox & 0 & 0 \\
+bilabial & 1 & 1 \\
+labiodental & 0 & 0 \\
+alveolar & 0 & 0 \\
+p-alveolar & 0 & 0 \\
+velar & 0 & 0 \\
+glotal & 0 & 0 \\
+sonora & 0 & 1 \\
+fechada & 0 & 0 \\
+m-fechada & 0 & 0 \\
+m-aberta & 0 & 0 \\
+aberta & 0 & 0 \\
+anterior & 0 & 0 \\
+posterior & 0 & 0 \\
+\<beg\> & 0 & 0 \\
+\<end\> & 0 & 0
+\end{tabular}
+\end{center}
+\caption{Exemplo de Codificação de Fonemas}
+\label{tab:coding_example}
+\end{table}
+
+Por fim, juntando todos os passos expostos, o processo completo de transformação dos inputs pode ser resumido a:
+
+\begin{enumerate}
+    \item Processo de \textit{tokenização} do verbo transcrito (divisão dos verbos em fones).
+    \item Cada fone passa a ser representado por um vetor originado a partir do dicionário de traços fonéticos.
+    \item Os vetores entram em ordem na primeira rede (o Encoder).
+\end{enumerate}
+
+Como mencionado na seção introdutória (Seção \ref{sec:intro-sec-sec}), a rede Encoder não precisa ter \textit{alvos}. Os \textit{inputs} entram, ou seja, multiplicam as matrizes de estados e o estado final resultante dessas operações serve como estado inicial para o Decoder. 
+
+\subsubsection{Decoder}
+
+A rede Decoder, por sua vez, tem como objetivo aprender um modelo de linguagem. Isso significa que o verbo flexionado entra como \textit{input} na rede (passando por um processo similar ao explanado na Seção \ref{sec:inputs}) e o seu respectivo \textit{alvo} é o mesmo verbo, porém com um desvio de um passo à frente para constituir o treinamento do modelo. Em conclusão, a preparação dos dados de input e \textit{alvo} da rede Decoder pode ser resumida por:  
+
+\begin{enumerate}
+    \item Adicionam-se \textit{tokens} de início e final a um verbo transcrito \textbf{flexionado}.
+    \item Os tokens e fones passam a ser representados por vetores numéricos originados a partir do dicionário de traços fonéticos.
+    \item Os vetores entram em ordem na segunda rede (o Decoder).
+    \item O primeiro vetor de \textit{input} para o Decoder representa o \textit{token} de começo.
+    \item O \textit{target} do Decoder é o mesmo verbo flexionado, porém com início no primeiro fone do verbo.
+\end{enumerate}
+
+Em conclusão, a Figura \ref{fig:seq2seq} apresenta o esquema da arquitetura final do modelo desenvolvido. 
+
+\input{tikz/phonetic_seq2seq.tex}
+
+ \subsection{O Output do Modelo}
+
+A predição do verbo flexionado é o resultado da concatenação das predições do modelo de linguagem aprendido durante o treinamento. O algoritmo para de prever os fonemas de um verbo assim que prevê um \textit{token} de final. Tais predições não constituem mais vetores binários, ao invés disso, o modelo solta vetores com valores decimais variando de 0 a 1. Por essa razão, para o processo de decodificação dos vetores de saída são feitas duas aproximações: (i) valores abaixo de 0.5 são substituídos por 0 e valores acima são substituídos por 1; (ii) o resultado dessa operação pode não resultar em um fonema válido, portanto é substituído (se necessário) pela representação vetorial cuja distância euclidiana seja a menor quando comparada a todos os candidatos de fones (ou \textit{tokens}) possíveis. 
+
+\input{tikz/scheme-seq2seq-final.tex}
+
+\subsection{Resumo}
+
+Em resumo, o projeto final apresentado foi composto por 8 etapas: 
+
+\begin{enumerate}
+    \item Composição do Corpus
+    \item Transcrição Fonética dos Verbos Coletados
+    \item Transformação dos Verbos Transcritos em Vetores Numéricos
+    \item Inserção dos Vetores Obtidos no modelo Encoder-Decoder
+    \item Treinamento do Modelo
+    \item Predições Vetoriais do Modelo Encoder-Decoder
+    \item Decodificação das Predições Vetoriais para Fones
+    \item Concatenação dos Fones para Formação de um Verbo
+\end{enumerate}
 
 
-
-\section{Definição}
-Um modelo de mapeamento Encoder-Decoder é um sistema composto por duas RNRs cuja principal função é mapear sequências. A primeira rede, chamada \textit{Encoder}, mapeia os dados de uma determinada sequência de origem e devolve uma representação condensada do treinamento (um estado), este alimenta então a segunda rede, \textit{Decoder}, que, por sua vez, tem como objetivo gerar uma nova sequência alvo.  %ref
-Modelos do tipo Encoder-Decoder (também conhecidos como \textit{Seq2Seq}) tem sido bastante utilizados em tarefas linguísticas, especialmente no desenvolvimento de sistemas de diálogo e em tradução automática. Em um contexto de tradução do inglês para o português, por exemplo, uma rede encoder seria treinada com um corpus em inglês, o qual apresenta determinadas probabilidades de arranjo sintático e valores semânticos, ou seja, uma gestalt sequencial armazenada em uma matriz. A rede decoder, ao ser treinada na língua alvo, isto é, português, implicitamente leva em consideração tanto as características sintático-semânticas desta quanto a gestalt da rede encoder, gerando desta forma uma nova sequência que contempla ambas as línguas e assemelha-se a uma tradução humana. Tecnicamente, a gestalt gerada pela rede encoder nada mais é do que o último estado consolidado alcançado a partir dos treinamentos dessa rede. Por fim, obtem-se um sistema capaz de predizer os resultados de uma sequência alvo a partir de uma sequência de origem.
-
-Em função de uma similaridade conceitual, este modelo foi escolhido, uma vez que possibilita uma interação mediada pela essência de duas qualidades de padrões sequencias e tem como objetivo a produção de um resultado orgânico, semelhante, por exemplo, a intuição de um falante nativo que produz a flexão de um verbo na primeira pessoa do presente a partir de um verbo no infinitivo. 
-
-incluir referencias
-
-\section{Modelo Desenvolvido}
-
-\subsection{Inputs e Outputs}
-\begin{itemize}
-    \item dar exemplos de codificação
-    \item são duas LSTMs, então falar sobre o que entra e sai de cada uma delas.
-    \item exemplo de input e output
-    \item acrescentar um desenho com o modelo verdadeiro utilizado
-\end{itemize}
-
-\input{tikz/seq2seq.tex} %reduzir esse desenho
-
-\input{tikz/phonetic_seq2seq.tex} %reduzir esse desenho
 

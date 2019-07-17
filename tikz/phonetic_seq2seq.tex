@@ -1,7 +1,7 @@
 \begin{figure}[ht!]
 \centering
 
-\scalebox{1.0}{
+\scalebox{0.9}{
 \begin{tikzpicture}[
   hid/.style 2 args={
     rectangle split,
@@ -11,10 +11,18 @@
     fill=#2!20,
     outer sep=1mm}]
   % draw input nodes
-  \foreach \i [count=\step from 1] in {l,e,r,{{$<$eos$>$}}}
+  \foreach \i [count=\step from 1] in {l,e,{{$<$beg$>$}}}
     \node (i\step) at (2*\step, -2) {\i};
+    
+    %write states    
+\node[text, left = 2pt of i#1] (ht) {$\vect{h}^{(t)}$};
+
+  %write inputs and outpus
+\node[text, below = 12pt of ht] {input};
+\node[text, above = 20pt of ht] {alvo};
+
   % draw output nodes
-  \foreach \t [count=\step from 4] in {l,e,i,{{o}}} {
+  \foreach \t [count=\step from 3] in {l,e,i,u,{{$<$end$>$}}} {
     \node[align=center] (o\step) at (2*\step, +2.75) {\t};
   }
   % draw embedding and hidden layers for text input
@@ -25,7 +33,7 @@
     \draw[->] (e\step.north) -> (h\step.south);
   }
   % draw embedding and hidden layers for label input
-  \foreach \step in {4,...,7} {
+  \foreach \step in {3,...,7} {
     \node[hid={3}{yellow}] (s\step) at (2*\step, 1.25) {};
     \node[hid={3}{blue}] (h\step) at (2*\step, 0) {};
     \node[hid={3}{blue}] (e\step) at (2*\step, -1) {};    
@@ -34,18 +42,18 @@
     \draw[->] (s\step.north) -> (o\step.south);
   }  
   % edge case: draw edge for special input token
-  \draw[->] (i4.north) -> (e4.south);
+ % \draw[->] (i4.north) -> (e4.south);
   % draw recurrent links
-  \foreach \step in {1,...,6} {
+  \foreach \step in {1,...,5} {
     \pgfmathtruncatemacro{\next}{add(\step,1)}
     \draw[->] (h\step.east) -> (h\next.west);
   }
   % draw predicted-labels-as-inputs links
-  \foreach \step in {4,...,6} {
+  \foreach \step in {3,...,6} {
     \pgfmathtruncatemacro{\next}{add(\step,1)}
     \path (o\step.north) edge[->,out=45,in=225] (e\next.south);
   }
 \end{tikzpicture}
-}\caption{Esquema de Encoder-Decoder Utilizado} 
+}\caption{Esquema do Encoder-Decoder Desenvolvido} 
 \label{fig:seq2seq}
 \end{figure}
