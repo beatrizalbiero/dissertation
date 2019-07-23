@@ -6,7 +6,10 @@ Este capítulo será dedicado a explanações sobre o modelo construído e às p
 \section{Treinamento}
 \label{sec:treinamento}
 
-Como foi introduzido no Capítulo \ref{ch:03}, o treinamento do modelo de redes neurais consiste sempre na introdução de um input em paralelo com seu alvo correspondente. Ficou faltando, porém, uma discussão de cunho prático a respeito da frequência em que esses dados são apresentados ao modelo. Essa discussão é importante pois a frequência é um dos fatores mais relevantes para o ajuste dos pesos das redes. Uma frequência muito baixa não é o suficiente para causar grandes modificações nos pesos, fenômeno conhecido como \textit{underfit}. Em contrapartida, uma frequência muito alta faz com que o modelo se torne especialista nos dados de treinamento, porém se torna incapaz de lidar com dados nunca antes vistos, fenômeno conhecido como \textit{overfit}. Para encontrar a frequência ideal, utiliza-se como auxílio um gráfico conhecido como curva de aprendizado, como o apresentado na Figura \ref{fig:training2000}. No ramo da modelagem em redes neurais, cada vez que o grupo de dados de treino é introduzido completamente no modelo, configura-se o que é chamado de uma \textit{época}. Ainda, no caso do corpus em questão, optou-se pela realização do treinamento sem repetições de verbos por época.  
+Como foi introduzido no Capítulo \ref{ch:03}, o treinamento do modelo de redes neurais consiste sempre na introdução de um input em paralelo com seu alvo correspondente. Contudo ficou faltando uma discussão a respeito da frequência em que esses dados são apresentados ao modelo. Essa questão é importante pois a frequência é um dos fatores mais relevantes para o ajuste dos pesos das redes. Uma frequência muito baixa não é o suficiente para causar grandes modificações nos pesos (\textit{underfit}). Em contrapartida, uma frequência muito alta faz com que o modelo se torne especialista nos dados de treinamento, porém se torna incapaz de lidar com dados nunca antes vistos (\textit{overfit}). Para encontrar a frequência ideal, utiliza-se como auxílio um gráfico conhecido como curva de aprendizado, como o apresentado na Figura \ref{fig:training2000}. No ramo da modelagem em redes neurais, cada vez que o grupo de dados de treino é introduzido completamente no modelo, configura-se o que é chamado de uma \textit{época}. 
+
+Outra questão importante a respeito da frequência dos dados concerne os conceitos \textit{type} e \textit{token}. (ref) %manning. 
+Em Processamento de Linguagem Natural, o termo \textit{type} refere-se ao conjunto de palavras únicas presentes em um Corpus. A frase "Essa frase é uma frase de exemplo.", portanto, possui 6 \textit{types}. O termo \textit{token}, em contrapartida, refere-se ao número total de termos presentes. Nesse caso, a mesma frase de exemplo possui 7 \textit{tokens}. Nessa pesquisa cada verbo é visto como um \textit{type}. Isso significa que a frequência de uso dos verbos não foi levada em consideração para a introdução dos mesmos no modelo. Ao invés disso, os verbos são tratados de forma igualitária e compartilham do mesmo número de \textit{épocas}.
 
 Nos três primeiros gráficos da figura, exibem-se três diferentes métricas de avaliação em relação ao número de épocas realizadas. 
 Como se pode observar, a partir de aproximadamente 300 épocas, a curva de aprendizado começa a se estabilizar em torno de um valor. Também é possível ver a diferença entre os scores de treino (curva azul) e teste (curva laranja). Essa diferença mostra que os dados de treino não estão sendo suficientes para aumentar o score nos dados de teste. Desse modo, concluiu-se que 300 épocas seria o momento de conclusão do treinamento do modelo. Os resultados nessa nova escala podem ser observados na Figura \ref{fig:training}.  
@@ -25,16 +28,18 @@ Como se pode observar, a partir de aproximadamente 300 épocas, a curva de apren
   \label{fig:training}
 \end{figure}
 
-Para o entendimento das métricas utilizadas, faz-se necessária uma recapitulação a respeito do que se espera como output do modelo. Para cada verbo, o modelo prediz uma sequência de $n$ vetores de tamanho 21 (o número total de traços fonéticos somado ao tokens de início e final), aonde $n$ é o número de fones do verbo alvo e cada vetor corresponde a um fone. Esses 21 valores são arredondados para 0 ou 1 dependendo de um determinado limiar, que neste caso é 0.5. As métricas são calculadas comparando-se esses $n$ vetores de output com seus respectivos alvos.
+Para o entendimento das métricas utilizadas, faz-se necessária uma recapitulação a respeito do que se espera como output do modelo. Para cada verbo, o modelo prediz uma sequência de $n$ vetores de tamanho 21 (o número total de traços fonéticos somado aos símbolos de início e final), aonde $n$ é o número de fones do verbo alvo e cada vetor corresponde a um fone. Esses 21 valores são arredondados para 0 ou 1 dependendo de um determinado limiar, que neste caso é 0.5. As métricas são calculadas comparando-se esses $n$ vetores de output com seus respectivos alvos.
 
-A precisão é uma métrica calculada de acordo com a Equação \ref{eq:precision}. Nesta métrica, avalia-se a proporção de verdadeiros positivos ($vp$) em relação ao número total de positivos que o modelo previu, ou seja, dentre os traços fonéticos preditos pelo modelo, quantos estavam de acordo com os presentes no alvo.
+\subsubsection{Métricas}
+
+A \textbf{Precisão} é uma métrica calculada de acordo com a Equação \ref{eq:precision}. Nesta métrica, avalia-se a proporção de verdadeiros positivos ($vp$) em relação ao número total de positivos que o modelo previu, ou seja, dentre os traços fonéticos preditos pelo modelo, quantos estavam de acordo com os presentes no alvo.
 
 
 \begin{align}\label{eq:precision}
 \text{Precisão = } \frac{vp}{vp + fp}
 \end{align}
 
-O \textit{Recall}, também conhecido como revocação, foi calculado a partir da Equação \ref{eq:recall}. Nesta métrica busca-se entender a proporção de traços fonéticos que o modelo previu (verdadeiros positivos) em relação a todos que ele deveria ter previsto (verdadeiros positivos + falsos negativos). 
+O \textbf{Recall}, também conhecido como revocação, foi calculado a partir da Equação \ref{eq:recall}. Nesta métrica busca-se entender a proporção de traços fonéticos que o modelo previu (verdadeiros positivos) em relação a todos que ele deveria ter previsto (verdadeiros positivos + falsos negativos). 
 
 \begin{align}\label{eq:recall}
 \text{Recall = } \frac{vp}{vp + fn}
@@ -138,3 +143,22 @@ Nos verbos regulares nota-se a presença de vários erros devido a troca de apen
 Para os verbos da classe do verbo “seguir“, três verbos foram flexionados de acordo com a família do verbo “testar“. São eles: “ferir” (fEru), “vestir” (vEstu) e “repetir” (hepEtu).
 
 A classe do verbo “ver” também apresentou erros interessantes: a confusão com a classe do verbo “vir” nos verbos “prever” (“preveNu”) e “entrever” (“entreveNu”). Também por pouco não acertou o alvo no verbo “rever” (hefexu), ficou faltando o traço de vozeamento nas duas últimas consoantes.
+
+\section{Performance}
+
+\begin{itemize}
+    \item Falar de overfit
+    \item falar de poucos dados
+    \item falar do modelo de atenção
+    \item falar de type e token
+    \item falar que eu fiz um oversampling e que nao mudou muito
+    \item grid search
+    \item embedding
+\end{itemize}
+
+\begin{itemize}
+   \item falar sobre a dificuldade de interpretação dos resultados de modelos de redes neurais
+    \item falar sobre os poucos dados disponíveis%(https://medium.com/scribd-data-science-engineering/experiments-with-seq2seq-data-dependency-62184993f555)
+    
+\end{itemize}
+

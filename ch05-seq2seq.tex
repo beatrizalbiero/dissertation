@@ -74,12 +74,12 @@ Por fim, optou-se por excluir o "r" presente no final dos verbos no infinitivo. 
 \subsubsection{Encoder}
 \label{sec:inputs}
 
-Após a definição do Corpus, os verbos transcritos passaram por uma etapa de pré-processamento em que seus respectivos fonemas foram associados a um dicionário de traços fonéticos, os mesmos traços que originaram as Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. A Tabela \ref{tab:pOsu} apresenta um exemplo desse processo para o verbo "posso" - \textit{pOsu}. 
+Após a definição do Corpus, os verbos transcritos passaram por uma etapa de pré-processamento em que seus respectivos fones foram associados a um dicionário de traços fonéticos, os mesmos traços que originaram as Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. A Tabela \ref{tab:pOsu} apresenta um exemplo desse processo para o verbo "posso" - \textit{pOsu}. 
 
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{lll}
-Fonema & Traços Fonéticos &  \\ \cline{1-2}
+Fone & Traços Fonéticos &  \\ \cline{1-2}
 p & bilabial, oclusiva, surda &  \\
 O & meio-aberta, posterior &  \\
 s & fricativa, alveolar, surda &  \\
@@ -92,7 +92,7 @@ u & fechada, posterior &
 
 Os traços fonéticos também fazem parte de um outro dicionário. No total são necessários 20 traços para representar um fone. São 18 para representar os traços das tabelas fonéticas: Oclusiva, Nasal, Tepe, Fricativa, Aproximante Lateral, Bilabial, Labio-Dental, Alveolar, Pós-Alveolar, Velar e Glotal; e 2 para representar início e fim do verbo ($<$beg$>$ e $<$end$>$).
 
-Os fones são por fim caracterizados pela presença (1) e ausência (0) dos traços mencionados.  A Tabela \ref{tab:coding_example} mostra como exemplo uma comparação entre dois fonemas similares (\textbf{p} e \textbf{b}) que distinguem-se apenas pelo traço fonético sonoro. O resultado é uma representação vetorial que também carrega essa noção de proximidade. O começo do verbo é representado por um vetor que marca 0 em todos os traços fonéticos e 1 no \textit{token} de começo (o traço de fim pode ser compreendido de maneira análoga). 
+Os fones são por fim caracterizados pela presença (1) e ausência (0) dos traços mencionados.  A Tabela \ref{tab:coding_example} mostra como exemplo uma comparação entre dois fones similares (\textbf{p} e \textbf{b}) que distinguem-se apenas pelo traço fonético sonoro. O resultado é uma representação vetorial que também carrega essa noção de proximidade. O começo do verbo é representado por um vetor que marca 0 em todos os traços fonéticos e 1 no \textit{token} de começo (o traço de fim pode ser compreendido de maneira análoga). 
 
 \begin{table}[H]
 \begin{center}
@@ -121,7 +121,7 @@ posterior & 0 & 0 \\
 \<end\> & 0 & 0
 \end{tabular}
 \end{center}
-\caption{Exemplo de Codificação de Fonemas}
+\caption{Exemplo de Codificação de fones}
 \label{tab:coding_example}
 \end{table}
 
@@ -153,7 +153,7 @@ Em conclusão, a Figura \ref{fig:seq2seq} apresenta o esquema da arquitetura fin
 
  \subsection{O Output do Modelo}
 
-A predição do verbo flexionado é o resultado da concatenação das predições do modelo de linguagem aprendido durante o treinamento. O algoritmo para de prever os fonemas de um verbo assim que prevê um \textit{token} de final. Tais predições não constituem mais vetores binários, ao invés disso, o modelo solta vetores com valores decimais variando de 0 a 1. Por essa razão, para o processo de decodificação dos vetores de saída são feitas duas aproximações: (i) valores abaixo de 0.5 são substituídos por 0 e valores acima são substituídos por 1; (ii) o resultado dessa operação pode não resultar em um fonema válido, portanto é substituído (se necessário) pela representação vetorial cuja distância euclidiana seja a menor quando comparada a todos os candidatos de fones (ou \textit{tokens}) possíveis. 
+A predição do verbo flexionado é o resultado da concatenação das predições do modelo de linguagem aprendido durante o treinamento. O algoritmo para de prever os fones de um verbo assim que prevê um \textit{token} de final. Tais predições não constituem mais vetores binários, ao invés disso, o modelo solta vetores com valores decimais variando de 0 a 1. Por essa razão, para o processo de decodificação dos vetores de saída são feitas duas aproximações: (i) valores abaixo de 0.5 são substituídos por 0 e valores acima são substituídos por 1; (ii) o resultado dessa operação pode não resultar em um fone válido, portanto é substituído (se necessário) pela representação vetorial cuja distância euclidiana seja a menor quando comparada a todos os candidatos de fones (ou \textit{tokens}) possíveis. 
 
 \input{tikz/scheme-seq2seq-final.tex}
 
