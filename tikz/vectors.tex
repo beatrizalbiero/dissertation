@@ -1,0 +1,46 @@
+\usepackage{tikz-3dplot} 
+
+\begin{figure}[ht!]
+\centering
+\tdplotsetmaincoords{60}{120}
+
+% customized coordinate system
+\let\raarotold\raarot \let\rbarotold\rbarot
+\let\rabrotold\rabrot \let\rbbrotold\rbbrot
+\let\racrotold\racrot \let\rbcrotold\rbcrot
+
+\let\raarot\racrotold \let\rbarot\rbcrotold
+\let\rabrot\rabrotold \let\rbbrot\rbbrotold
+\let\racrot\raarotold \let\rbcrot\rbarotold
+
+\begin{tikzpicture}[tdplot_main_coords]\scalebox{0.8}{
+
+  % axes
+  \draw[thick,->] (0,0,0) -- ( 7,0,0) node[anchor=south]{$z$};
+  \draw[thick,->] (0,0,0) -- ( 0,7,0) node[anchor=west]{$y$};
+  \draw[thick,->] (0,0,0) -- ( 0,0,7) node[anchor=north east]{$x$};  
+  \draw[thick]    (0,0,0) -- ( 0,-2,0);
+  \draw[thick]    (0,0,0) -- ( -2,0,0);
+  \draw[thick]    (0,0,0) -- ( 0,0,-2);
+  \draw[thick,->,purple] (0,0,0) -- ( 0,0,-7) node[anchor=south west]{$m$};
+  
+  
+  \draw[thick,->,blue] (0,0,0) -- ( 2,3,-3) node[anchor=south west]{$p$};
+   \draw[thick,->,orange] (0,0,0) -- ( 2,4,-2) node[anchor=south west]{$b$};
+   
+   \draw[thick,->,gray] (0,0,0) -- ( 2,-3,-2) node[anchor=south west]{$t$};
+   \draw[thick,->,gray] (0,0,0) -- ( 2,-3,-1) node[anchor=south west]{$d$};
+   
+   \draw[thick,->,turquoise] (0,0,0) -- (2,2,-3) node[anchor=south west]{$\hat{y}_{ap}$};
+
+  % vector 1
+  \pgfmathsetmacro{\ax}{5}
+  \pgfmathsetmacro{\ay}{5}
+  \pgfmathsetmacro{\az}{2}
+  \draw[very thick,->,red] (0,0,0) -- (\ax,\ay,\az) node[anchor=west]{$\hat{y}$};
+}
+\end{tikzpicture}
+\caption{Simulação de Representações Vetoriais de Fones em Três Dimensões} 
+\label{fig:planes}
+
+\end{figure}

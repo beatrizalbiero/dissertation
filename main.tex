@@ -13,8 +13,10 @@
 \usepackage{indentfirst}                % indentação do primeiro parágrafo
 \usepackage{makeidx}                    % índice remissivo
 \usepackage[nottoc]{tocbibind}          % acrescentamos a bibliografia/indice/conteudo no Table of Contents
-\usepackage{courier}                    % usa o Adobe Courier no lugar de Computer Modern Typewriter
+\usepackage{courier}  % usa o Adobe Courier no lugar de Computer Modern Typewriter
+\usepackage{vowel}
 \usepackage{type1cm}                    % fontes realmente escaláveis
+\usepackage{pdfpages}
 \usepackage{tipa}                       % para utilizar simbolos foneticos
 \usepackage{listings}                   % para formatar código-fonte (ex. em Java)
 \usepackage{titletoc}
@@ -25,6 +27,7 @@
     {Sumário}%
 }
 \newcommand{\aup}{\textsuperscript}
+
 
 \usepackage{tipa}
 \let\ipa\textipa
@@ -275,7 +278,12 @@ framexrightmargin=10pt
 %\input{ch06-corpus.tex}
 \input{ch07-resultados-novo.tex}
 \input{ch08-conclusao.tex}
-\input{Appendice.tex}
+\clearpage
+\appendix
+\chapter{Resultados das Decodificações}
+\includepdf[pages=-]{results_analysis_by_family.pdf}
+\chapter{Corpus}
+
 
 
 

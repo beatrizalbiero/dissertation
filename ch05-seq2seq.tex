@@ -30,11 +30,11 @@ Diferentemente do caso de tradução, em que se busca o aprendizado das relaçõ
 Para a execução dos experimentos, o escopo dessa pesquisa foi restringido a um único tempo, modo, pessoa e número, já que o português apresenta formas irregulares em múltiplas combinações destes elementos e seria necessário construir uma rede diferente para cada uma destas combinações. Optou-se por estudar as irregularidades presentes nas flexões de primeira pessoa do singular no tempo presente, modo indicativo.  
 O corpus utilizado para o treinamento dessa rede foi construído a partir da listagem de verbos contida no enderenço \textit{conjugação.com.br} \cite{conjugacao.com.br}.
 
-Primeiramente, foi realizada uma etapa de extração dos verbos e suas respectivas conjugações para um arquivo \textit{.csv} via técnica de \textit{webscraping}, uma técnica que extrai informações contidas nas páginas da web [incluir ref]. Em seguida, os verbos irregulares foram selecionados manualmente para diferentes famílias de verbos, ou seja, grupos que continham o mesmo padrão de flexão. Alguns dos verbos irregulares listados na fonte de referência não eram irregulares no processo de flexão de interesse, e portanto foram realocados para o grupo de verbos regulares. Como um exemplo disto, o verbo \textit{acudir} é considerado irregular pois apresenta irregularidade na terceira pessoa do singular no tempo presente e modo indicativo ((ele/ela) \textit{acode}), porém, como na primeira pessoa do singular o padrão regular se mantém, esse verbo foi realocado para o grupo dos verbos regulares. 
+Primeiramente, foi realizada uma etapa de extração dos verbos e suas respectivas conjugações para um arquivo \textit{.csv} via técnica de \textit{webscraping}, uma técnica que extrai informações contidas nas páginas da web (ref). Em seguida, os verbos irregulares foram selecionados manualmente para diferentes famílias de verbos, ou seja, grupos que continham o mesmo padrão de flexão. Alguns dos verbos irregulares listados na fonte de referência não eram irregulares no processo de flexão de interesse, e portanto foram realocados para o grupo de verbos regulares. Como um exemplo disto, o verbo \textit{acudir} é considerado irregular pois apresenta irregularidade na terceira pessoa do singular no tempo presente e modo indicativo ((ele/ela) \textit{acode}), porém, como na primeira pessoa do singular o padrão regular se mantém, esse verbo foi realocado para o grupo dos verbos regulares. 
 
-Após a coleta e organização do Corpus, foi necessário passar os verbos coletados para uma transcrição fonética, já que esta pesquisa visa a construção de um modelo que aprenda os padrões de flexões dos verbos. Para tal, um experimento foi realizado na tentativa de utilizar o transcritor fonético automático disponibilizado por (Guide, 2016)\cite{guide:2016}, porém o transcritor falhou na tentativa de transcrever verbos cuja escrita coincide com substantivos, como por exemplo "apoio", "peso", "toco", "posto", "jogo", entre outros. Sendo assim, os verbos coletados foram transcritos manualmente utilizando a chave de transcrição apresentada na Seção \ref{sec:transcr}. No total, foram obtidos 423 verbos, 83 verbos a menos que no experimento realizado por (Rumelhart \& McClelland, 1986)\cite{rumelhart:1986}.
+Após a coleta e organização do Corpus, foi necessário passar os verbos coletados para uma transcrição fonética, já que esta pesquisa visa a construção de um modelo que aprenda os padrões de flexões dos verbos. Para tal, um experimento foi realizado na tentativa de utilizar o transcritor fonético automático disponibilizado por (\cite{guide:2016}), porém o transcritor falhou na tentativa de transcrever verbos cuja escrita coincide com substantivos, como por exemplo "apoio", "peso", "toco", "posto", "jogo", entre outros. Sendo assim, os verbos coletados foram transcritos manualmente utilizando a chave de transcrição apresentada na Seção \ref{sec:transcr}. No total, foram obtidos 423 verbos, 83 verbos a menos que no experimento realizado por (Rumelhart \& McClelland, 1986)\cite{rumelhart:1986}.
 
-Dos 423 verbos extraídos, 20 foram considerados verbos sem possível agrupamento e foram alocados para uma classe nomeada de \textit{Singles} (verbos como "ir", "trazer" e "saber"), totalizando uma base de 214 verbos regulares e 209 irregulares (50.6\% e 49.4\% respectivamente). 
+Dos 423 verbos extraídos, 20 foram considerados verbos sem possível agrupamento e foram alocados para uma classe nomeada de \textit{Single} (verbos como "ir", "trazer" e "saber"), totalizando uma base de 214 verbos regulares e 209 irregulares (50.6\% e 49.4\% respectivamente). 
 
 A Tabela \ref{tab:classes} associa os nomes dados aos tipos de irregularidades encontradas e apresenta um exemplo de cada uma delas, além do número de exemplos de cada e a proporção desse número no total. 
 
@@ -153,24 +153,31 @@ Em conclusão, a Figura \ref{fig:seq2seq} apresenta o esquema da arquitetura fin
 
  \subsection{O Output do Modelo}
 
-A predição do verbo flexionado é o resultado da concatenação das predições do modelo de linguagem aprendido durante o treinamento. O algoritmo para de prever os fones de um verbo assim que prevê um \textit{token} de final. Tais predições não constituem mais vetores binários, ao invés disso, o modelo solta vetores com valores decimais variando de 0 a 1. Por essa razão, para o processo de decodificação dos vetores de saída são feitas duas aproximações: (i) valores abaixo de 0.5 são substituídos por 0 e valores acima são substituídos por 1; (ii) o resultado dessa operação pode não resultar em um fone válido, portanto é substituído (se necessário) pela representação vetorial cuja distância euclidiana seja a menor quando comparada a todos os candidatos de fones (ou \textit{tokens}) possíveis. 
+A predição do verbo flexionado é o resultado da concatenação das predições do modelo de linguagem aprendido durante o treinamento. O algoritmo finaliza a predição de fones de um verbo assim que prevê um \textit{token} de final. Tais predições não constituem mais vetores binários, ao invés disso, o modelo solta vetores com valores decimais variando de 0 a 1. Por essa razão, para o processo de decodificação dos vetores de saída são feitas duas aproximações: (i) valores abaixo de 0.5 são substituídos por 0 e valores acima são substituídos por 1; (ii) o resultado dessa operação pode não resultar em um fone válido, portanto é substituído (se necessário) pela representação vetorial cuja distância euclidiana seja a menor quando comparada a todos os candidatos de fones (ou \textit{tokens}) possíveis. 
 
 \input{tikz/scheme-seq2seq-final.tex}
 
-\subsection{Resumo}
+Para exemplificar o algoritmo de decodificação do output, a Fig. \ref{fig:planes} exibe um gráfico com 3 dimensões e representações vetoriais fictícias de fones. Supõe-se que fones com traços similares apresentem representações próximas mesmo em um plano multidimensional. A figura mostra também um vetor de predição arbitrário ($\hat{y}$) e o mesmo vetor após os arredondamentos necessários ($\hat{y}_{ap}$). No caso desse exemplo, vê-se que o vetor mais próximo do resultado da aproximação seria o vetor do fone \textbf{m}. Entretanto em um plano multidimensional, é mais complicado visualizar as relações entre os fones podendo haver empate entre fones candidatos. 
 
-Em resumo, o projeto final apresentado foi composto por 8 etapas: 
+Para concluir, esse processo de decodificação ocorre enquanto o vetor predito não encontrar como vetor mais próximo o vetor de \textit{token} de final. 
 
-\begin{enumerate}
-    \item Composição do Corpus
-    \item Transcrição Fonética dos Verbos Coletados
-    \item Transformação dos Verbos Transcritos em Vetores Numéricos
-    \item Inserção dos Vetores Obtidos no modelo Encoder-Decoder
-    \item Treinamento do Modelo
-    \item Predições Vetoriais do Modelo Encoder-Decoder
-    \item Decodificação das Predições Vetoriais para Fones
-    \item Concatenação dos Fones para Formação de um Verbo
-\end{enumerate}
+\input{tikz/vectors.tex}
+
+
+% \subsection{Resumo}
+
+% Em resumo, o projeto final apresentado foi composto por 8 etapas: 
+
+% \begin{enumerate}
+%     \item Composição do Corpus
+%     \item Transcrição Fonética dos Verbos Coletados
+%     \item Transformação dos Verbos Transcritos em Vetores Numéricos
+%     \item Inserção dos Vetores Obtidos no modelo Encoder-Decoder
+%     \item Treinamento do Modelo
+%     \item Predições Vetoriais do Modelo Encoder-Decoder
+%     \item Decodificação das Predições Vetoriais para Fones
+%     \item Concatenação dos Fones para Formação de um Verbo
+% \end{enumerate}
 
 
 
