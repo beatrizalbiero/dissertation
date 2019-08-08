@@ -48,7 +48,7 @@
 \usepackage[usenames,svgnames,dvipsnames]{xcolor}
 \usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry} % margens
 %\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=black,linkcolor=black,urlcolor=black,filecolor=black,bookmarksopen=true]{hyperref} % links em preto
-\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=DarkGreen,linkcolor=NavyBlue,urlcolor=DarkRed,filecolor=green,bookmarksopen=true]{hyperref} % links coloridos
+\usepackage[pdftex,plainpages=false,pdfpagelabels,pagebackref,colorlinks=true,citecolor=black,linkcolor=black,urlcolor=black,filecolor=black,bookmarksopen=true]{hyperref} % links coloridos
 \usepackage[all]{hypcap}                    % soluciona o problema com o hyperref e capitulos
 \usepackage[round,sort,nonamebreak]{natbib} % citação bibliográfica textual(plainnat-ime.bst)
 %\setcitestyle{numbers}
@@ -171,6 +171,7 @@ framexrightmargin=10pt
 \newcommand{\empt}[2]{$#1^{\langle #2 \rangle}$}
 \include{tikz/styles}
 \usepackage{tkz-euclide}
+\usepackage{tikz-3dplot}
 
 \include{definitions}
 
@@ -184,6 +185,7 @@ framexrightmargin=10pt
 \fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
 \fancyhead[RE,LO]{}
 \fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+
 
 \onehalfspacing  % espaçamento
 
@@ -274,10 +276,10 @@ framexrightmargin=10pt
 \input{ch02-fonologia.tex}
 \input{ch03-redesneurais.tex}
 %\input{ch04-modelolinguagem.tex}
-\input{ch05-seq2seq.tex}
+\input{ch04-seq2seq.tex}
 %\input{ch06-corpus.tex}
-\input{ch07-resultados-novo.tex}
-\input{ch08-conclusao.tex}
+\input{ch05-resultados.tex}
+\input{ch06-conclusao.tex}
 \clearpage
 \appendix
 \chapter{Resultados das Decodificações}
@@ -301,7 +303,7 @@ framexrightmargin=10pt
 % Bibliografia
 \setcitestyle{square}
 \backmatter \singlespacing   % espaçamento simples
-\bibliographystyle{references-style-plainnat-ime} % citação bibliográfica textual
+\bibliographystyle{marcos4} % citação bibliográfica textual
 \bibliography{references}  % associado ao arquivo: 'bibliografia.bib'
 
 % ---------------------------------------------------------------------------- %

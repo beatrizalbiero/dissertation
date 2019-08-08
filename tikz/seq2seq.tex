@@ -18,7 +18,7 @@
 \node[text, left = 2pt of i#1] (ht) {$\vect{h}^{(t)}$};
 
   % draw output nodes
-  \foreach \t [count=\step from 4] in {o,menino,pequeno,{{$<$eos$>$}}} {
+  \foreach \t [count=\step from 4] in {o,menino,pequeno,{{$<$end$>$}}} {
     \node[align=center] (o\step) at (2*\step, +2.75) {\t};
   }
   % draw embedding and hidden layers for text input

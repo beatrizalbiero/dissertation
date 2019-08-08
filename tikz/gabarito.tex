@@ -1,0 +1,51 @@
+\input{definitions/colors}
+\input{definitions/styles}
+\begin{figure}[h]
+\centering
+
+\scalebox{1.0}{
+\begin{tikzpicture}[auto]
+
+% operations =========
+% phon features 1
+\node[textonly] (out1) {Output};
+\node[textonly, right=25pt of out1] (gab) {Gabarito};
+
+
+% FNN output
+\node[normal, below=40pt of out1] (x1) {};
+\node[normal, below=35pt of x1] (x2) {};
+\node[normal, below=35pt of x2] (x3) {};
+
+% from input
+\node[normal_dashed, left=45pt of x1] (in1) {};
+\node[normal_dashed, below=5pt of in1] (in2) {};
+\node[normal_dashed, above=5pt of in1] (in3) {};
+
+\node[normal_dashed, left=45pt of x2] (in12) {};
+\node[normal_dashed, below=5pt of in12] (in22) {};
+\node[normal_dashed, above=5pt of in12] (in32) {};
+
+\node[normal_dashed, left=45pt of x3] (in13) {};
+\node[normal_dashed, below=5pt of in13] (in23) {};
+\node[normal_dashed, above=5pt of in13] (in33) {};
+
+% FNN target
+\node[normal, right=65pt of x1] (y1) {};
+\node[normal, right=65pt of x2] (y2) {};
+\node[normal, right=65pt of x3] (y3) {};
+\node[text, below=15pt of x3] (nada) {};
+
+
+
+% edges FNN
+\path[arrows_dashed] (x1) -- (y1);
+\path[arrows_dashed] (x2) -- (y2);
+\path[arrows_dashed] (x3) -- (y3);
+
+
+
+\end{tikzpicture}
+}\caption{Comparações entre o \textit{Output} e o Gabarito} 
+\label{fig:gabarito}
+\end{figure}

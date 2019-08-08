@@ -4,12 +4,12 @@
 
 \section{Introdução ao Modelo Enconder-Decoder}
 \label{sec:intro-sec-sec}
-Um modelo de mapeamento Encoder-Decoder é um sistema composto por duas Redes Neurais Recorrentes cuja principal função é mapear uma relação entre duas sequências distintas que possuem uma relação paradigmática. Modelos do tipo Encoder-Decoder (também conhecidos como \textit{Seq2Seq} (ref)) têm sido bastante utilizados em tarefas linguísticas, especialmente no desenvolvimento de sistemas de diálogo e em tradução automática.
+Um modelo de mapeamento Encoder-Decoder é um sistema composto por duas Redes Neurais Recorrentes cuja principal função é mapear uma relação entre duas sequências distintas que possuem uma relação paradigmática. Modelos do tipo Encoder-Decoder (também conhecidos como \textit{Seq2Seq} \cite{seq2seq:2014}) têm sido bastante utilizados em tarefas linguísticas, especialmente no desenvolvimento de sistemas de diálogo e em tradução automática.
 
 Em um contexto de tradução, por exemplo, o modelo recebe como input uma sequência de uma língua de origem e produz como output uma sequência em uma língua alvo. A sequência gerada precisa, além de preservar o conteúdo semântico da sequência de origem, apresentar uma sintaxe aceita pelos falantes da língua alvo. %No contexto de sistemas de diálogo, estabelece-se uma relação entre usuário e máquina, de modo que uma sentença articulada por um usuário serve como entrada e tem como alvo uma resposta coerente da máquina.\\
 
 \input{tikz/seq2seq-simple.tex}
-Observa-se que no caso da tradução, não há uma correspondência exata entre os termos de cada uma das línguas. A sentença na língua inglesa possui um termo a menos, sendo que o pronome "his" corresponde aos termos "do seu" no português. Além disso, observa-se que cada uma das línguas possui uma lógica sintática diferente. No primeiro caso, o adjetivo \textit{small} se posiciona antes do substantivo \textit{boy}. No segundo, essa ordem é invertida (\textit{menino pequeno}). 
+Observa-se que no caso da tradução, não há uma correspondência exata entre os termos de cada uma das línguas. A sentença na língua inglesa possui um termo a menos, sendo que o pronome “his” corresponde aos termos “do seu” no português. Além disso, observa-se que cada uma das línguas possui uma lógica sintática diferente. No primeiro caso, o adjetivo \textit{small} se posiciona antes do substantivo \textit{boy}. No segundo, essa ordem é invertida (\textit{menino pequeno}). 
 
 As duas redes recorrentes funcionam da seguinte maneira (ver Fig. \ref{fig:seq2seq}): uma primeira rede, a denominada \textit{Encoder} é alimentada com uma sentença da língua de origem (em inglês, por exemplo). Os termos dessa sentença entram um após o outro na rede e alimentam os \textit{estados} ($\vect{h}^{(t)}$), porém nesse caso não é necessário relacionar cada termo a um correspondente ($y_t$) como no caso do modelo de linguagem. A rede Encoder, portanto, não possui \textit{alvos}. O resultado do último estado, gerado após a inserção de todos os termos da sequência de origem, serve como estado inicial ($\vect{h}^{(0)}$) para uma segunda rede recorrente, denominada de \textit{Decoder}. A rede Decoder, por sua vez, recebe como seu primeiro \textit{input}, um \textit{token} que representa o início da sequência alvo (\textbf{<beg>}), inicializando o modelo de linguagem dessa língua, como no modelo de rede neural recorrente apresentado na Seção \ref{sec:RNN}.  
 
@@ -28,17 +28,17 @@ Diferentemente do caso de tradução, em que se busca o aprendizado das relaçõ
 \subsection{Corpus}
 
 Para a execução dos experimentos, o escopo dessa pesquisa foi restringido a um único tempo, modo, pessoa e número, já que o português apresenta formas irregulares em múltiplas combinações destes elementos e seria necessário construir uma rede diferente para cada uma destas combinações. Optou-se por estudar as irregularidades presentes nas flexões de primeira pessoa do singular no tempo presente, modo indicativo.  
-O corpus utilizado para o treinamento dessa rede foi construído a partir da listagem de verbos contida no enderenço \textit{conjugação.com.br} \cite{conjugacao.com.br}.
+O corpus utilizado para o treinamento dessa rede foi construído a partir da listagem de verbos contida no enderenço \texturl{www.conjugação.com.br}.
 
-Primeiramente, foi realizada uma etapa de extração dos verbos e suas respectivas conjugações para um arquivo \textit{.csv} via técnica de \textit{webscraping}, uma técnica que extrai informações contidas nas páginas da web (ref). Em seguida, os verbos irregulares foram selecionados manualmente para diferentes famílias de verbos, ou seja, grupos que continham o mesmo padrão de flexão. Alguns dos verbos irregulares listados na fonte de referência não eram irregulares no processo de flexão de interesse, e portanto foram realocados para o grupo de verbos regulares. Como um exemplo disto, o verbo \textit{acudir} é considerado irregular pois apresenta irregularidade na terceira pessoa do singular no tempo presente e modo indicativo ((ele/ela) \textit{acode}), porém, como na primeira pessoa do singular o padrão regular se mantém, esse verbo foi realocado para o grupo dos verbos regulares. 
+Primeiramente, foi realizada uma etapa de extração dos verbos e suas respectivas conjugações para um arquivo \textit{.csv} via técnica de \textit{webscraping}, uma técnica que extrai informações contidas nas páginas da web (\cite{mitchell:2015}). Em seguida, os verbos irregulares foram selecionados manualmente para diferentes famílias de verbos, ou seja, grupos que continham o mesmo padrão de flexão. Alguns dos verbos irregulares listados na fonte de referência não eram irregulares no processo de flexão de interesse, e portanto foram realocados para o grupo de verbos regulares. Como um exemplo disto, o verbo \textit{acudir} é considerado irregular pois apresenta irregularidade na terceira pessoa do singular no tempo presente e modo indicativo ((ele/ela) \textit{acode}), porém, como na primeira pessoa do singular o padrão regular se mantém, esse verbo foi realocado para o grupo dos verbos regulares. 
 
-Após a coleta e organização do Corpus, foi necessário passar os verbos coletados para uma transcrição fonética, já que esta pesquisa visa a construção de um modelo que aprenda os padrões de flexões dos verbos. Para tal, um experimento foi realizado na tentativa de utilizar o transcritor fonético automático disponibilizado por (\cite{guide:2016}), porém o transcritor falhou na tentativa de transcrever verbos cuja escrita coincide com substantivos, como por exemplo "apoio", "peso", "toco", "posto", "jogo", entre outros. Sendo assim, os verbos coletados foram transcritos manualmente utilizando a chave de transcrição apresentada na Seção \ref{sec:transcr}. No total, foram obtidos 423 verbos, 83 verbos a menos que no experimento realizado por (Rumelhart \& McClelland, 1986)\cite{rumelhart:1986}.
+Após a coleta e organização do Corpus, foi necessário passar os verbos coletados para uma transcrição fonética, já que esta pesquisa visa a construção de um modelo que aprenda os padrões de flexões dos verbos. Para tal, um experimento foi realizado na tentativa de utilizar o transcritor fonético automático disponibilizado por (\cite{guide:2016}), porém o transcritor falhou na tentativa de transcrever verbos cuja escrita coincide com substantivos, como por exemplo “apoio”, “peso”, “toco”, “posto”, “jogo”, entre outros. Sendo assim, os verbos coletados foram transcritos manualmente utilizando a chave de transcrição apresentada na Seção \ref{sec:transcr}. No total, foram obtidos 423 verbos, 83 verbos a menos que no experimento realizado por (Rumelhart \& McClelland, 1986)\cite{rumelhart:1986}.
 
-Dos 423 verbos extraídos, 20 foram considerados verbos sem possível agrupamento e foram alocados para uma classe nomeada de \textit{Single} (verbos como "ir", "trazer" e "saber"), totalizando uma base de 214 verbos regulares e 209 irregulares (50.6\% e 49.4\% respectivamente). 
+Dos 423 verbos extraídos, 20 foram considerados verbos sem possível agrupamento e foram alocados para uma classe nomeada de \textit{Single} (verbos como “ir”, “trazer” e “saber”), totalizando uma base de 214 verbos regulares e 209 irregulares (50.6\% e 49.4\% respectivamente). 
 
 A Tabela \ref{tab:classes} associa os nomes dados aos tipos de irregularidades encontradas e apresenta um exemplo de cada uma delas, além do número de exemplos de cada e a proporção desse número no total. 
 
-Por fim, optou-se por excluir o "r" presente no final dos verbos no infinitivo. Essa decisão foi tomada pois como todos os verbos compartilham dessa mesma característica, a presença desse fone não agrega mais informação no treinamento e se torna portanto dispensável.
+Por fim, optou-se por excluir o “r” presente no final dos verbos no infinitivo. Essa decisão foi tomada pois como todos os verbos compartilham dessa mesma característica, a presença desse fone não agrega mais informação no treinamento e se torna portanto dispensável.
 
 \begin{table}[H]
 \begin{center}
@@ -74,7 +74,7 @@ Por fim, optou-se por excluir o "r" presente no final dos verbos no infinitivo. 
 \subsubsection{Encoder}
 \label{sec:inputs}
 
-Após a definição do Corpus, os verbos transcritos passaram por uma etapa de pré-processamento em que seus respectivos fones foram associados a um dicionário de traços fonéticos, os mesmos traços que originaram as Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. A Tabela \ref{tab:pOsu} apresenta um exemplo desse processo para o verbo "posso" - \textit{pOsu}. 
+Após a definição do Corpus, os verbos transcritos passaram por uma etapa de pré-processamento em que seus respectivos fones foram associados a um dicionário de traços fonéticos, os mesmos traços que originaram as Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. A Tabela \ref{tab:pOsu} apresenta um exemplo desse processo para o verbo “posso” - \textit{pOsu}. 
 
 \begin{table}[H]
 \begin{center}
@@ -86,7 +86,7 @@ s & fricativa, alveolar, surda &  \\
 u & fechada, posterior & 
 \end{tabular}
 \end{center}
-\caption{Traços Fonéticos para o Verbo "Posso"}
+\caption{Traços Fonéticos para o Verbo “Posso“}
 \label{tab:pOsu}
 \end{table}
 

@@ -14,7 +14,7 @@ Feita essa escolha, resta definir o que será considerado como verbo irregular d
     T (R + VT) + SF (SMT + SNP)
 \end{equation}
 
-Em que T representa o tema do verbo (composto pelo radical (R) e seguido por uma vogal temática (VT)). SF representa o sufixo flexional do verbo, composto pelos sufixos modo-temporal e número-pessoal. Por essa definição, serão considerados verbos irregulares aqueles cujas formas flexionadas não apresentem o padrão regular proposto. Ainda, entende-se que verbos que apresentem irregularidade em outro tempo, modo ou pessoa que não 1\aup{a} pessoa do singular no tempo presente e modo indicativo, serão tratados como pertencentes à classe dos regulares. Também é necessário reforçar que o interesse deste estudo está em capturar irregularidades no nível fonético, portanto verbos como "gosto", "boto", "coloco"; serão classificados como irregulares. A Tabela \ref{tab:irreg} exibe alguns exemplos das classificações realizadas.
+Em que T representa o tema do verbo (composto pelo radical (R) e seguido por uma vogal temática (VT)). SF representa o sufixo flexional do verbo, composto pelos sufixos modo-temporal e número-pessoal. Por essa definição, serão considerados verbos irregulares aqueles cujas formas flexionadas não apresentem o padrão regular proposto. Ainda, entende-se que verbos que apresentem irregularidade em outro tempo, modo ou pessoa que não 1\aup{a} pessoa do singular no tempo presente e modo indicativo, serão tratados como pertencentes à classe dos regulares. Também é necessário reforçar que o interesse deste estudo está em capturar irregularidades no nível fonético, portanto verbos como “gosto”, “boto”, “coloco”; serão classificados como irregulares. A Tabela \ref{tab:irreg} exibe alguns exemplos das classificações realizadas.
 
 \begin{center}
 \begin{table}[H]
@@ -37,7 +37,7 @@ Por & Ponho & Irregular
 \section{Representações Fonéticas}
 \label{sec:transcr}
 Na década de 60, quando foi realizado o experimento dos pesquisadores Rumelhart e McClelland, o poder computacional para a construção de modelos de redes neurais era muito baixo e forçou os pesquisadores a desenvolverem um sistema de codificação composto de várias etapas. De maneira simplificada, o sistema apresentado consistia, primeiramente, na transformação dos verbos (sequências de fones) em vetores de trigramas de fones somados a uma demarcação de início e final de palavra, representada pelo símbolo \#. Em seguida, cada um dos fones era substituído por uma lista de traços distintivos %\ref{} colocar aqui a referencia do chomsky
-. Ao final, todas as possíveis combinações de três traços distintivos subsequentes foram mapeados como chaves em um dicionário de tamanho fixo em que os valores poderiam assumir somente 0 ou 1; 1 caso aquela sequência de traços estivesse presente no verbo e 0 caso contrário. A Figura \ref{fig:wick} ilustra o esquema de codificação para o verbo "came" ([kAm] segundo a chave de transcrição apresentada pelos pesquisadores). 
+. Ao final, todas as possíveis combinações de três traços distintivos subsequentes foram mapeados como chaves em um dicionário de tamanho fixo em que os valores poderiam assumir somente 0 ou 1; 1 caso aquela sequência de traços estivesse presente no verbo e 0 caso contrário. A Figura \ref{fig:wick} ilustra o esquema de codificação para o verbo “came” ([kAm] segundo a chave de transcrição apresentada pelos pesquisadores). 
 
 \input{tikz/coding-scheme.tex}
 
@@ -298,7 +298,7 @@ O AFI poderia ter sido utilizado para a construção das representações vetori
 \end{table}
 \end{center}
 
-Além de tais modificações, também não foram incluídas representações para variantes, portanto os sons de \textbf{[x]-[h]-[r]} (variantes possíveis na pronúncia da palavra 'te\textbf{rr}a') foram resumidos apenas a \textbf{[h]}. Da mesma forma, também não há um símbolo equivalente para \textbf{[\ipa{S}]}, som empregado normalmente entre \textbf{t} e \textbf{i}, como na palavra "time". A representação para as vogais foi simplicada também para facilitar as transcrições e restringir o número de traços fonéticos possíveis no modelo. A Tabela \ref{tab:chave} mostra a chave de transcrição proposta para as consoantes e vogais. A Tabela \ref{tab:transc} exibe alguns exemplos de transcrição na nova representação sugerida. O Corpus completo ecnontra-se no Apêndice.
+Além de tais modificações, também não foram incluídas representações para variantes, portanto os sons de \textbf{[x]-[h]-[r]} (variantes possíveis na pronúncia da palavra “te\textbf{rr}a”) foram resumidos apenas a \textbf{[h]}. Da mesma forma, também não há um símbolo equivalente para \textbf{[\ipa{S}]}, som empregado normalmente entre \textbf{t} e \textbf{i}, como na palavra “time”. A representação para as vogais foi simplicada também para facilitar as transcrições e restringir o número de traços fonéticos possíveis no modelo. A Tabela \ref{tab:chave} mostra a chave de transcrição proposta para as consoantes e vogais. A Tabela \ref{tab:transc} exibe alguns exemplos de transcrição na nova representação sugerida. O Corpus completo ecnontra-se no Apêndice.
 
 \begin{table}[H]
 \begin{center}
