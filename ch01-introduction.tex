@@ -48,7 +48,7 @@ O modelo desenvolvido foi criado por analogia à estrutura em que se relacionam 
 
 A primeira camada de nódulos do modelo é responsável por receber os dados de entrada (os \textit{inputs}), que são os dados referentes aos traços fonéticos distintivos que caracterizam os sons de um verbo não flexionado. Traços fonéticos podem ser caracterizados como propriedades distintivas das unidades fônicas (\cite{paraconhecer:2015}). Tais propriedades podem ser baseadas em critérios acústicos, articulatórios ou perceptuais. Na figura, cada nódulo é apresentado ao lado de uma sequência de três traços. O primeiro nódulo, por exemplo, refere-se à sequência \textbf{int-vogal-int}. Nesse caso, \textbf{int} (uma abreviação para \textit{interrompida}) indica uma propriedade comum entre algumas consoantes, referente à interrupção do fluxo de ar (como no fone [k], por exemplo). Na figura temos ainda \textbf{fric} para fricativas; \textbf{ocl} para oclusivas; vogais; \textbf{nasal} para nasalidade; locais da execução (anterior e posterior); traços de corpo da língua (média, baixa); entre outros. O tema dos traços fonéticos utilizados, bem como o motivo para a utilização das tríades dos mesmos será abordado em maior profundidade no Cap. \ref{ch:02}. Em seguida, o \textit{input} recebido é em seguida passado adiante para a próxima camada através de uma rede de conexões. 
 
-A segunda camada é uma camada de resposta (\textit{output}) que tem como objetivo retornar dados referentes aos traços que caracterizam os sons do mesmo verbo fornecido no \textit{input}, porém no tempo passado. Concluída esta etapa, os dados de saída obtidos deverão ser então comparados à forma correta do verbo no tempo passado, através de uma espécie de gabarito (Fig.\ref{fig:gabarito}). Feita essa comparação, é possível alterar a rede de conexões entre as camadas de \textit{input} e \textit{output} de modo a fortalecer (ou enfraquecer) as mesmas para atingir o objetivo proposto. Antes da primeira comparação, a rede é inicializada com conexões aleatórias. Conforme o número de comparações aumenta, a tendência é que as atualizações realizadas tenham servido como um aprendizado (uma espécie de \textit{treinamento}) e permitam que o modelo seja utilizado para flexionar os verbos.
+A segunda camada é uma camada de resposta (\textit{output}) que tem como objetivo retornar dados referentes aos traços que caracterizam os sons do mesmo verbo fornecido no \textit{input}, porém no tempo passado. Concluída esta etapa, os dados de saída obtidos deverão ser então comparados à forma correta do verbo no tempo passado, através de uma espécie de gabarito (mFig.\ref{fig:gabarito}). Feita essa comparação, é possível alterar a rede de conexões entre as camadas de \textit{input} e \textit{output} de modo a fortalecer (ou enfraquecer) as mesmas para atingir o objetivo proposto. Antes da primeira comparação, a rede é inicializada com conexões aleatórias. Conforme o número de comparações aumenta, a tendência é que as atualizações realizadas tenham servido como um aprendizado (uma espécie de \textit{treinamento}) e permitam que o modelo seja utilizado para flexionar os verbos.
 
 \input{tikz/gabarito.tex}
 
@@ -84,52 +84,169 @@ Pinker e Prince \citeyear{Pinker:1988} apresentam a formulação de uma nova teo
 
 \subsection{Motivação no campo da Linguística}
 
-Em comparação com o inglês, o português brasileiro apresenta um sistema verbal flexional mais complexo. Primeiramente, é importante notar que o paradigma conjugacional do português brasileiro apresenta uma maior distinção flexional quanto a pessoas e número, enquanto que o inglês é mais limitado nesse aspecto (no presente simples distingue apenas as pessoas \textit{he/she/it} das demais). Quanto às formas regulares, o português dispõe de três conjugações diferentes determinadas pela vogal temática, enquanto que o inglês possui apenas a conjugação regular de passado (o sufixo –ed). Por último, é importante destacar que o sistema verbal do português é repleto de irregularidades em todos os tempos verbais, enquanto que o inglês apresenta irregularidades apenas no \textit{simple past} e \textit{past participle} (\cite{wuerges:2014}).
+\subsubsection{Complexidade da Língua Portuguesa}
 
-Um aprendiz da linguagem no sistema do português brasileiro é desafiado a superar uma série de obstáculos.  Uma parte do processo é justamente perceber a relação entre a vogal temática e as possíveis conjugações verbais regulares. Nesse processo não é incomum observarmos o surgimento de trocas de conjugação. \cite{wuerges:2014} apresenta dados linguísticos produzidos por crianças com diversas destas trocas: “eu \textit{boti}“ (como tentativa de produzir \textit{botei}; troca de primeira conjugação para terceira), “eu \textit{comei}“ (como tentativa de produzir \textit{comi}; troca de segunda conjugação para primeira), “eu \textit{janti}“ (como tentativa de produzir \textit{jantei}; troca de primeira conjugação para terceira). Além destas ainda ocorre uma grande confusão com relação aos verbos da família do verbo \textit{pôr}, \cite{wuerges:2014} comenta as produções de “eu \textit{puso}“ e “eu \textit{ponhei}“ como tentativa de produzir a forma correspondente no tempo passado.  
+A morfologia verbal da língua Inglesa é bastante simples, se comparada à Portuguesa. Em primeiro lugar, os verbos do Português se distribuem em três classes módicas (\textit{conjugações}), sendo cada uma destas definida a partir de uma \textit{vogal temática} (\textit{/a/}, \textit{/e/} e \textit{/i/}). Dado um verbo em sua forma infinitiva, por exemplo \textit{Amar}, a vogal temática é a aquela que se encontra entre o morfema lexical do verbo (o radical) e o fone \textit{r}.
 
-As formas verbais irregulares apresentam-se como uma dificuldade adicional nesse processo para as crianças falantes da língua portuguesa. \cite{wuerges:2014} também aponta exemplos observados de tentativas de regularização de verbos irregulares no tempo presente: “eu \textit{consego}“ (regularização do verbo conseguir) e “eu \textit{podo}“ (regularização do verbo poder). 
+\begin{align*}
+    \text{Am + a + r}\\
+    \text{Radical + VT + r} 
+\end{align*}
 
-%Outra dificuldade é ter de lidar com o fato de que os verbos irregulares no português apresentam, em pelo menos uma forma verbal de seu paradigma, alterações no radical e/ou na sua desinência. Isto fica evidente quando observamos a enunciação de formas como: “eu consego*” ou “eu podo*” (poder). É interessante também notar enunciações criativas para verbos de natureza um pouco mais complicada, como o verbo por:  puso* (eu), ponhei* (eu) (\cite{wuerges:2014}).
+Com isto, os três possíveis tipos de conjugação são: 1\aup{a} - ar (amar, brigar), 2\aup{a} - er (beber, comer) e 3\aup{a} (rir, descobrir). Na língua Inglesa, essa distinção não existe. 
 
-Uma análise sobre a disposição das irregularidades presentes no português brasileiro (levando em consideração apenas a 1\aup{a} pessoa do singular (tempo presente - modo indicativo) nos permite observar algumas regularidades (padrões) dentre os verbos irregulares:\\
+Outra diferença entre as línguas pode ser observada com relação às pessoais gramaticais das línguas. No Inglês, com exceção do grupo \textit{to be} que apresenta três formas possíveis (considerando o tempo presente): (i) I \textit{am}, (ii) he/she/it \textit{is} e (iii) they \textit{are}; o restante dos verbos apresenta apenas duas: a forma base para \textit{I, We} e \textit{They} (por exemplo, \textit{walk}) e base + s para \textit{he/she/it }(\textit{walks}). No \textit{Past Simple} apresenta maior número de formas também apenas para o grupo \textit{to be}: (i) I/he/she/it \textit{was} e (ii) They/We \textit{were}, os demais não apresentam marcação \cite{Nelson:2010}. 
+
+No Português, a norma tradicional distingue seis pessoas: 1\aup{a}: Eu, 2\aup{a}: Tu, 3\aup{a}: Ele/Ela, 4\aup{a}: Nós, 5\aup{a}: Vós, 6\aup{a}: Eles. Mesmo com a exclusão da 2\aup{a} e da 5\aup{a} pessoa (cujo uso está em decadência (\cite{1999:camara}), o número de formas possíveis para cada verbo é o dobro do número de opções do Inglês.
+
+Com relação às irregularidades, no Inglês os verbos irregulares encontram-se apenas no \textit{Simple Past} e \textit{Past Participle}, enquanto que o sistema verbal do Português é repleto de irregularidades em todos os tempos verbais (\cite{wuerges:2014}).
+
+\subsubsection{Aprendizado de Verbos na Língua Portuguesa}
+\label{sec:aprendizado_port}
+
+Uma criança em processo de aquisição de linguagem no sistema do português brasileiro é posta a superar todas as complexidades mencionadas. Uma parte do processo é justamente perceber a relação entre a vogal temática e as possíveis conjugações verbais regulares. Nesse processo não é incomum observarmos o surgimento de trocas de conjugação. \cite{wuerges:2014} apresenta dados linguísticos produzidos por crianças com diversas destas trocas: 
+
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{cccc}
+Verbo & Execução & Objetivo & Troca  \\ \hline
+botar & “eu boti“ & botei & 1\aup{a} com 2\aup{a} ou 3\aup{a} \\
+comer & “eu comei“ & comi & 2\aup{a} com 1\aup{a} \\
+jantar & “eu janti“ & jantei & 1\aup{a} com 2\aup{a} ou 3\aup{a} \\ \hline
+\end{tabular}
+\caption{Exemplos de Trocas de Conjugação Durante o Processo de Aquisição Verbal}
+\label{tab:aquisicao}
+\end{center}
+\end{table}
+
+As formas verbais irregulares apresentam-se como uma dificuldade adicional nesse processo para as crianças falantes da língua portuguesa. \cite{wuerges:2014} também aponta exemplos observados de \textit{regularização} de verbos irregulares: “eu \textit{consego}” (regularização do verbo conseguir) e “eu \textit{podo}” (regularização do verbo poder).
+
+Um verbo é dito irregular se apresentar alterações no radical (em relação ao radical da forma infinitiva) e/ou no sufixo flexional (em relação ao padrão regular imposto por cada conjugação) (\cite{wuerges:2014}). Os sufixos flexionais (SF) são basicamente os segmentos acrescentados após o radical do verbo. Eles podem ser divididos em dois tipos: (i) sufixo modo-temporal (SMT) e (ii) sufixo número-pessoal (SNP). Para o verbo “gostaremos”, por exemplo, considera-se o segmento \textit{/gost/} como o radical do verbo, \textit{/o/} como o sufixo flexional, que neste caso marca simultaneamente modo indicativo, 1\aup{a} pessoa do singular e tempo Presente.
+
+
+% \cite{1972:camara} define a estrutura dos verbos da seguinte forma:
+
+% \begin{equation}
+%     T (R + VT) + SF (SMT + SNP)
+% \end{equation}
+
+% Em que T representa o tema do verbo (composto pelo radical (R) e seguido por uma vogal temática (VT)). SF representa o sufixo flexional do verbo, composto pelos sufixos modo-temporal e número-pessoal. Nessa fórmula, leva-se em conta a alomorfia de cada um dos sufixos flexionais e a possibilidade de zero (ø) para um deles ou ambos. Para o verbo “gostaremos”, por exemplo, considera-se o segmento “\textit{gost}” como o radical do verbo, “\textit{a}” como vogal temática  e “\textit{emos}” como o sufixo flexional, que neste caso marca simultaneamente modo indicativo, 1\aup{a} pessoa do plural e tempo Futuro do Presente.
+
+Seguindo a definição proposta, é necessário reforçar que o interesse deste estudo está em capturar irregularidades no nível fonético, portanto verbos como: “gosto”, “boto” e “coloco”, cuja ortografia apresenta o padrão regular; serão classificados como irregulares. A Tabela \ref{tab:irreg} exibe alguns exemplos das classificações realizadas.
+
+\begin{center}
+\begin{table}[H]
+\centering
+\begin{tabular}{ccc}
+\multicolumn{1}{l}{\textbf{Verbo Infinitivo}} & \multicolumn{1}{l}{\textbf{Verbo Flexionado}} & \multicolumn{1}{l}{\textbf{Classificação}} \\ \hline
+Falar & Falo & Regular \\
+Gostar & Gosto & Irregular \\
+Testar & Testo & Irregular \\
+Ansiar & Anseio & Irregular \\
+Pedir & Peço & Irregular \\
+Mentir & Minto & Irregular \\
+Por & Ponho & Irregular
+\end{tabular}
+\caption{Exemplos de Classificações de Verbos Quanto a Presença de Irregularidades}
+\label{tab:irreg}
+\end{table}
+\end{center}
+
+Uma análise sobre a disposição das irregularidades presentes no português brasileiro (levando em consideração apenas a 1\aup{a} Pessoa do Singular (tempo Presente e modo Indicativo) nos permite observar algumas regularidades (padrões) dentre os verbos irregulares:\\
 
 \begin{center}
 
 Bobear – Bobeio, Bloquear – Bloqueio, Chatear – Chateio, Clarear – Clareio, Golpear – Golpeio;\\
-
+\\
 Agredir – Agrido, Conseguir – Consigo, Inserir – Insiro, Perseguir – Persigo, Preferir – Prefiro, Proferir – Profiro, Repetir – Repito, Servir –  Sirvo, Vestir – Visto;\\
-
+\\
 Cobrir – Cubro, Dormir – Durmo, Engolir – Engulo;\\
-
+\\
  Al[e]gar – Al[ε]go, C[e]gar – C[ε]go, Compl[e]tar – Compl[ε]to,  Col[e]tar – Col[ε]to, Entr[e]gar – Entr[ε]go, Pr[e]gar – Pr[ε]go;\\
-
+\\
 Ad[o]rar – Ad[\textopeno]ro, Ad[o]tar – Ad[\textopeno]to, B[o]tar – B[\textopeno]to, C[o]lar – C[\textopeno]lo, F[o]car – F[\textopeno]co, M[o]rar – M[\textopeno]ro, S[o]ltar – S[\textopeno]lto, S[o]lar – S[\textopeno]lo, T[o]car – T[\textopeno]co, M[o]strar – M[\textopeno]stro;\\
-
+\\
 Mentir - Minto, Sentir - Sintu;
 
 \end{center}
+
+
 
 Os padrões observados a partir da exposição de algumas classes irregulares, permitem, assim como no inglês, a proposição de fórmulas, ou regras fonéticas, que explicam as flexões realizadas em cada classe. É possível notar, por exemplo, que um verbo da mesma família de \textit{conseguir} segue a regra:
 
 % Inserir regrinha formal
 \begin{center}
-e $\rightarrow$ i/\_C*]ir \footnote{C* indica uma sequência de uma ou mais consoantes}
+e $\rightarrow$ i/\_C*]ir 
 \end{center}
 
+A regra proposta indica que /e/ se transforma em /i/ quando em um contexto de terceira conjugação (ir). No caso, C* indica uma sequência de consoantes. 
 
-As previsibilidades encontradas sugerem não somente a possibilidade de elaboração das regras, como também a possibilidade do desenvolvimento de redes capazes de capturar tais dependências. Apesar disso, deve-se destacar que a língua portuguesa apresenta um comportamento diferente da língua inglesa. %Uma análise foi realizada a partir de uma base de verbos irregulares do inglês em notação fonética (retirados de \url{https://www.apronus.com/learn_english/irregularverbs.htm}) e concluiu-se que a média de número de fonemas por verbo é de 4.16 fonemas. Em contrapartida, construiu-se uma base de verbos da línguas portuguesa e concluiu-se que a média de número de fonemas por verbo é de 6.39 fonemas.
+As previsibilidades encontradas sugerem não somente a possibilidade de elaboração de regras, como também a possibilidade do desenvolvimento de redes capazes de capturar tais dependências. 
+
+\subsubsection{Delimitação de Escopo}
+
+Dada a maior complexidade do Português e a existência de irregularidades verbais em múltiplos paradigmas de tempos, pessoas e modos, o presente estudo se limitará a estudar apenas os padrões irregulares encontrados no paradigma da 1\aup{a} Pessoa do Singular no tempo Presente e modo Indicativo (com exemplos já explorados na Seção \ref{sec:aprendizado_port}). Desse modo, verbos que apresentem irregularidade em outro tempo, modo ou pessoa que não 1\aup{a} pessoa do singular no tempo presente e modo indicativo, serão tratados como pertencentes à classe dos regulares. Como exemplo, considere os verbo \textit{correr}. Esse verbo apresenta flexão regular para a 1\aup{a} Pessoa (\textit{corro}), mas é irregular para a 3\aup{a} Pessoa (\textit{corre}). Desse modo, apesar de \textit{correr} ser um verbo irregular, por apresentar flexão regular no paradigma escolhido, será tratado como regular para os fins dessa pesquisa.
+
+Mesmo com a delimitação escolhida, podemos dizer que a complexidade da tarefa ainda é maior do que o exercício de aprendizado dos verbos irregulares do passado do inglês. 
+
+ 
+
+
+% \subsubsection{Verbos Irregulares}
+
+% %Em princípio, a «irregularidade» pode-se referir ao sufixo flexional, como vimos em nota ao capítulo anterior para SNP = -des, em credes, ledes, etc. Muito mais relevante há a mudança no radical, que passa a contribuir para as noções gramaticais de modo-tempo e número-pessoa. A mudança no radical é que é verdadeiramente importante e cria uma série de padrões morfológicos verbais, que vamos apreciar no presente capítulo. pg 111 camara jr
+% Como foi introduzido no Capítulo \ref{ch:01}, o cerne desta pesquisa está na construção de um modelo de redes neurais que consiga capturar os processos flexionais dos verbos irregulares do português brasileiro. Para tanto, fazem-se necessárias definições e delimitações a respeito do objeto de estudo para que se possa construir uma representação vetorial que permita ao modelo capturar os padrões esperados.
+
+% A primeira definição que deve ser feita diz respeito à escolha do paradigma conjugacional de estudo. Diferentemente do inglês que apresenta irregularidades apenas no \textit{Simple Past}, os verbos irregulares do português brasileiro se distribuem livremente entre diferentes tempos, modos e pessoas. Como observado no capítulo introdutório, o paradigma conjugacional de 1\aup{a} pessoa do singular no tempo presente e modo indicativo apresenta uma diversidade de verbos irregulares que podem ser agrupados em classes de acordo com os mesmos processos flexionais e foi portanto escolhido como o paradigma conjugacional desta pesquisa.
+% Feita essa escolha, resta definir o que será considerado como verbo irregular dentro desse escopo. 
+
+
+%Outra dificuldade é ter de lidar com o fato de que os verbos irregulares no português apresentam, em pelo menos uma forma verbal de seu paradigma, alterações no radical e/ou na sua desinência. Isto fica evidente quando observamos a enunciação de formas como: “eu consego*” ou “eu podo*” (poder). É interessante também notar enunciações criativas para verbos de natureza um pouco mais complicada, como o verbo por:  puso* (eu), ponhei* (eu) (\cite{wuerges:2014}).
+
+% Uma análise sobre a disposição das irregularidades presentes no português brasileiro (levando em consideração apenas a 1\aup{a} pessoa do singular (tempo presente - modo indicativo) nos permite observar algumas regularidades (padrões) dentre os verbos irregulares:\\
+
+% \begin{center}
+
+% Bobear – Bobeio, Bloquear – Bloqueio, Chatear – Chateio, Clarear – Clareio, Golpear – Golpeio;\\
+
+% Agredir – Agrido, Conseguir – Consigo, Inserir – Insiro, Perseguir – Persigo, Preferir – Prefiro, Proferir – Profiro, Repetir – Repito, Servir –  Sirvo, Vestir – Visto;\\
+
+% Cobrir – Cubro, Dormir – Durmo, Engolir – Engulo;\\
+
+%  Al[e]gar – Al[ε]go, C[e]gar – C[ε]go, Compl[e]tar – Compl[ε]to,  Col[e]tar – Col[ε]to, Entr[e]gar – Entr[ε]go, Pr[e]gar – Pr[ε]go;\\
+
+% Ad[o]rar – Ad[\textopeno]ro, Ad[o]tar – Ad[\textopeno]to, B[o]tar – B[\textopeno]to, C[o]lar – C[\textopeno]lo, F[o]car – F[\textopeno]co, M[o]rar – M[\textopeno]ro, S[o]ltar – S[\textopeno]lto, S[o]lar – S[\textopeno]lo, T[o]car – T[\textopeno]co, M[o]strar – M[\textopeno]stro;\\
+
+% Mentir - Minto, Sentir - Sintu;
+
+% \end{center}
+
+% Os padrões observados a partir da exposição de algumas classes irregulares, permitem, assim como no inglês, a proposição de fórmulas, ou regras fonéticas, que explicam as flexões realizadas em cada classe. É possível notar, por exemplo, que um verbo da mesma família de \textit{conseguir} segue a regra:
+
+% % Inserir regrinha formal
+% \begin{center}
+% e $\rightarrow$ i/\_C*]ir \footnote{C* indica uma sequência de uma ou mais consoantes}
+% \end{center}
+
+
+% As previsibilidades encontradas sugerem não somente a possibilidade de elaboração das regras, como também a possibilidade do desenvolvimento de redes capazes de capturar tais dependências. Apesar disso, deve-se destacar que a língua portuguesa apresenta um comportamento diferente da língua inglesa. %Uma análise foi realizada a partir de uma base de verbos irregulares do inglês em notação fonética (retirados de \url{https://www.apronus.com/learn_english/irregularverbs.htm}) e concluiu-se que a média de número de fonemas por verbo é de 4.16 fonemas. Em contrapartida, construiu-se uma base de verbos da línguas portuguesa e concluiu-se que a média de número de fonemas por verbo é de 6.39 fonemas.
 
 \subsection{Motivação no campo da Computação}
 
-Desde a apresentação do modelo conexionista de Rumelhart e McClelland em 1986, os modelos de redes neurais já passaram por diversos avanços. As melhorias nos poderes computacionais em conjunto com o acesso a grandes quantidades de dados impulsionaram as pesquisas na área e com isso o surgimento de novas arquiteturas. Entre elas, destaca-se o modelo Encoder-Decoder (\cite{enc-dec:2014}). O Encoder-Decoder é uma arquitetura especialmente conhecida pelo seu bom desempenho em tarefas, em especial no ramo da tradução automática. Sendo assim, parte da motivação desta pesquisa consiste na avaliação desse modelo na tarefa de aprendizado de flexão de verbos irregulares. 
+Desde a apresentação da pesquisa de \cite{rumelhart:1986}, o modelo associativo utilizado pelos autores já passou por diversos avanços. Na realidade, essa  modelagem hoje é chamada de Rede Neural Artificial (ou também \textit{Deep Learning}) e passou a ser utilizada em uma variedade de tarefas computacionais, como classificação de imagens, classificação de texto, tradução automática, agentes conversacionais, entre outros. A diferença, é que ao longo dos últimos anos o poder computacional foi aumentando e com isso arquiteturas mais robustas foram sendo desenvolvidas. Inclusive, o próprio nome \textit{Deep Learning} surgiu a partir da adição de camadas intermediárias de nódulos entre as camadas de \textit{input} e \textit{output}. 
+
+No que diz respeito à questão do aprendizado dos verbos do \textit{Past Simple} do Inglês, uma série de novos experimentos deram sequência após as críticas de \cite{Pinker:1988}. 
+
+. Hoje, com o avanço nas arquiteturas e acréscimo de camadas intermediárias (entre as camadas de \textit{input} e \textit{output}, também são conhecidos como modelos de \textit{Deep Learning} (\cite{Goodfellow-et-al-2016}). Os modelos de redes neurais 
+As melhorias nos poderes computacionais em conjunto com o acesso a grandes quantidades de dados impulsionaram as pesquisas na área e com isso o surgimento de novas arquiteturas. Entre elas, destaca-se o modelo Encoder-Decoder (\cite{enc-dec:2014}). O Encoder-Decoder é uma arquitetura especialmente conhecida pelo seu bom desempenho em tarefas, em especial no ramo da tradução automática. Sendo assim, parte da motivação desta pesquisa consiste na avaliação desse modelo na tarefa de aprendizado de flexão de verbos irregulares. 
 
 
 % ------------------------------------------------------------------------
 \section{Objetivo}
 \label{sec:objectives}
 
-Este trabalho tem como principal objetivo revisitar a questão de aprendizado de verbos irregulares do Português Brasileiro através de um novo tipo de modelagem de rede neural, o Encoder-Decoder. 
+Este trabalho tem como principal objetivo estudar a questão de aprendizado de verbos irregulares do Português Brasileiro através de um novo tipo de modelagem de rede neural, o Encoder-Decoder. 
 
 Por se tratar de um trabalho de caráter experimental no campo da Linguística Computacional, em nenhum momento se prestará à defesa de uma corrente teórica em aquisição, porém apresenta novos resultados que poderão fomentar futuras discussões sobre o assunto. 
 
@@ -144,7 +261,7 @@ O Capítulo \ref{ch:02} expõe o embasamento teórico linguístico necessário p
 
 O Capítulo \ref{ch:03} apresenta uma introdução aos modelos de redes neurais e também introduz os conceitos de Modelo de Linguagem e Redes Neurais Recorrentes - conceitos imprescindíveis para o entendimento do modelo final desenvolvido.
 
-O Capítulo \ref{ch:05} exibe a teoria do modelo Encoder-Decoder e em seguida a aplicação do mesmo para a questão do aprendizado de flexão dos verbos. Também apresenta uma seção dedicada à formação do Corpus utilizado.
+O Capítulo \ref{ch:05} exibe a arquitetura conhecida como \textit{Encoder-Decoder} e em seguida a aplicação do mesmo para a questão do aprendizado de flexão dos verbos. Também apresenta uma seção dedicada à formação do Corpus utilizado.
 
 O Capítulo \ref{ch:07} apresenta os resultados obtidos pelo modelo.
 

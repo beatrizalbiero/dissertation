@@ -1,38 +1,7 @@
 \chapter{Pré-Processamento dos Verbos para Redes Neurais}
 \label{ch:02}
 
-\section{Verbos Irregulares}
 
-Como foi introduzido no Capítulo \ref{ch:01}, o cerne desta pesquisa está na construção de um modelo de redes neurais que consiga capturar os processos flexionais dos verbos irregulares do português brasileiro. Para tanto, fazem-se necessárias definições e delimitações a respeito do objeto de estudo para que se possa construir uma representação vetorial que permita ao modelo capturar os padrões esperados.
-
-A primeira definição que deve ser feita diz respeito à escolha do paradigma conjugacional de estudo. Diferentemente do inglês que apresenta irregularidades apenas no \textit{Simple Past}, os verbos irregulares do português brasileiro se distribuem livremente entre diferentes tempos, modos e pessoas. Como observado no capítulo introdutório, o paradigma conjugacional de 1\aup{a} pessoa do singular no tempo presente e modo indicativo apresenta uma diversidade de verbos irregulares que podem ser agrupados em classes de acordo com os mesmos processos flexionais e foi portanto escolhido como o paradigma conjugacional desta pesquisa.
-Feita essa escolha, resta definir o que será considerado como verbo irregular dentro desse escopo. 
-
-\cite{1972:camara} define os verbos regulares como os verbos que apresentam o seguinte padrão:
-
-\begin{equation}
-    T (R + VT) + SF (SMT + SNP)
-\end{equation}
-
-Em que T representa o tema do verbo (composto pelo radical (R) e seguido por uma vogal temática (VT)). SF representa o sufixo flexional do verbo, composto pelos sufixos modo-temporal e número-pessoal. Por essa definição, serão considerados verbos irregulares aqueles cujas formas flexionadas não apresentem o padrão regular proposto. Ainda, entende-se que verbos que apresentem irregularidade em outro tempo, modo ou pessoa que não 1\aup{a} pessoa do singular no tempo presente e modo indicativo, serão tratados como pertencentes à classe dos regulares. Também é necessário reforçar que o interesse deste estudo está em capturar irregularidades no nível fonético, portanto verbos como “gosto”, “boto”, “coloco”; serão classificados como irregulares. A Tabela \ref{tab:irreg} exibe alguns exemplos das classificações realizadas.
-
-\begin{center}
-\begin{table}[H]
-\centering
-\begin{tabular}{ccc}
-\multicolumn{1}{l}{\textbf{Verbo Infinitivo}} & \multicolumn{1}{l}{\textbf{Verbo Flexionado}} & \multicolumn{1}{l}{\textbf{Classificação}} \\ \hline
-Falar & Falo & Regular \\
-Gostar & Gosto & Irregular \\
-Testar & Testo & Irregular \\
-Ansiar & Anseio & Irregular \\
-Pedir & Peço & Irregular \\
-Mentir & Minto & Irregular \\
-Por & Ponho & Irregular
-\end{tabular}
-\caption{Exemplos de Classificações de Verbos Quanto a Presença de Irregularidades}
-\label{tab:irreg}
-\end{table}
-\end{center}
 
 \section{Representações Fonéticas}
 \label{sec:transcr}
@@ -373,6 +342,49 @@ voltar & voutar \\ \hline
 \label{tab:chave}
 \end{table}
 
+\subsection{Corpus}
+
+Para a execução dos experimentos, o escopo dessa pesquisa foi restringido a um único tempo, modo, pessoa e número, já que o português apresenta formas irregulares em múltiplas combinações destes elementos e seria necessário construir uma rede diferente para cada uma destas combinações. Optou-se por estudar as irregularidades presentes nas flexões de primeira pessoa do singular no tempo presente, modo indicativo.  
+O corpus utilizado para o treinamento dessa rede foi construído a partir da listagem de verbos contida no enderenço \texturl{www.conjugação.com.br}.
+
+Primeiramente, foi realizada uma etapa de extração dos verbos e suas respectivas conjugações para um arquivo \textit{.csv} via técnica de \textit{webscraping}, uma técnica que extrai informações contidas nas páginas da web (\cite{mitchell:2015}). Em seguida, os verbos irregulares foram selecionados manualmente para diferentes famílias de verbos, ou seja, grupos que continham o mesmo padrão de flexão. Alguns dos verbos irregulares listados na fonte de referência não eram irregulares no processo de flexão de interesse, e portanto foram realocados para o grupo de verbos regulares. Como um exemplo disto, o verbo \textit{acudir} é considerado irregular pois apresenta irregularidade na terceira pessoa do singular no tempo presente e modo indicativo ((ele/ela) \textit{acode}), porém, como na primeira pessoa do singular o padrão regular se mantém, esse verbo foi realocado para o grupo dos verbos regulares. 
+
+Após a coleta e organização do Corpus, foi necessário passar os verbos coletados para uma transcrição fonética, já que esta pesquisa visa a construção de um modelo que aprenda os padrões de flexões dos verbos. Para tal, um experimento foi realizado na tentativa de utilizar o transcritor fonético automático disponibilizado por (\cite{guide:2016}), porém o transcritor falhou na tentativa de transcrever verbos cuja escrita coincide com substantivos, como por exemplo “apoio”, “peso”, “toco”, “posto”, “jogo”, entre outros. Sendo assim, os verbos coletados foram transcritos manualmente utilizando a chave de transcrição apresentada na Seção \ref{sec:transcr}. No total, foram obtidos 423 verbos, 83 verbos a menos que no experimento realizado por (Rumelhart \& McClelland, 1986)\cite{rumelhart:1986}.
+
+Dos 423 verbos extraídos, 20 foram considerados verbos sem possível agrupamento e foram alocados para uma classe nomeada de \textit{Single} (verbos como “ir”, “trazer” e “saber”), totalizando uma base de 214 verbos regulares e 209 irregulares (50.6\% e 49.4\% respectivamente). 
+
+A Tabela \ref{tab:classes} associa os nomes dados aos tipos de irregularidades encontradas e apresenta um exemplo de cada uma delas, além do número de exemplos de cada e a proporção desse número no total. 
+
+Por fim, optou-se por excluir o “r” presente no final dos verbos no infinitivo. Essa decisão foi tomada pois como todos os verbos compartilham dessa mesma característica, a presença desse fone não agrega mais informação no treinamento e se torna portanto dispensável.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|}
+\toprule
+& Classes & Exemplos & Contagem & Proporção\\
+\midrule
+1 & iar:eiu & ansiar, anseio & 9 & 2.13\%\\
+2 & o\_ar:O\_u & tocar, toco & 30 & 7.09\%\\
+3 & o\_ir:u\_o & cobrir, cubro & 7 & 1.65\%\\
+4 & izer:igu & dizer, digo & 7 & 1.65\%\\
+5 & fazer:fasu & fazer, faço & 15 & 3.55\%\\
+6 & crer:eiu & crer, creio & 5 & 1.18\%\\
+7 & entir:intu & sentir, sinto & 8 & 1.89\% \\
+8 & edir:Esu & pedir, peço & 7 & 1.65\%\\
+9 & or:oNu & pôr, ponho & 27 & 6.38\%\\
+10 & e\_ir:i\_u & seguir, sigo & 27 & 6.38\%\\
+11 & ter:teNu & ter, tenho & 10 & 2.36\%\\
+12 & e\_ar:E\_u & testar, testo & 20 & 4.73\%\\
+13 & ver:veju & ver, vejo & 6 & 1.42\%\\
+14 & vir:veniu & vir, venho & 10 & 2.60\%\\
+15 & Singles & saber, sei & 20 & 4.73\%\\
+16 & Regulares & falar, falo & 214 & 50.59\%\\
+\bottomrule
+\end{tabular}
+\end{center}
+\captionof{table}{Organização do corpus}
+\label{tab:classes}
+\end{table}
 
 
 
