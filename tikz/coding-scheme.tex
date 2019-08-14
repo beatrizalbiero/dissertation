@@ -7,16 +7,16 @@
 \begin{tikzpicture}[H]
 
 %vetor
-\node[box2] (box1) {};
-\node[box2, below=0pt of box1] (box2) {};
-\node[box3, below=0pt of box2] (box3) {};
-\node[box3, below=0pt of box3] (box4) {};
+\node[box2] (box1) {0};
+\node[box2, below=0pt of box1] (box2) {0};
+\node[box3, below=0pt of box2] (box3) {1};
+\node[box3, below=0pt of box3] (box4) {1};
 \node[textonly, below=0pt of box4] (box5) {\reflectbox{$\vdots$}};
-\node[box3, below=0pt of box5] (box6) {};
-\node[box3, below=0pt of box6] (box7) {};
-\node[box2, below=0pt of box7] (box8) {};
-\node[box3, below=0pt of box8] (box9) {};
-\node[box2, below=0pt of box9] (box10) {};
+\node[box3, below=0pt of box5] (box6) {1};
+\node[box3, below=0pt of box6] (box7) {1};
+\node[box2, below=0pt of box7] (box8) {0};
+\node[box3, below=0pt of box8] (box9) {1};
+\node[box2, below=0pt of box9] (box10) {0};
 % \node[textonly, below=0pt of box10] (dim) {460x1};
 \node[textonly, below=0pt of dim] (space) {};
 %wickelfeatures
@@ -43,6 +43,7 @@
 
 \node[box2, right=15pt of wi3] (fig1) {};
 \node[box3, below=10pt of fig1] (fig2) {};
+\node[text, below=10pt of wi10] (nada) {};
 
 \draw [decorate,decoration={brace,amplitude=10pt},xshift=-10pt,yshift=0pt]
 (-8.5,-5) -- (-8.5,-1) node [black,midway,xshift=-1cm] 

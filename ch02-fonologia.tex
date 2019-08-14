@@ -1,16 +1,73 @@
 \chapter{Pré-Processamento dos Verbos para Redes Neurais}
 \label{ch:02}
 
+Este capítulo tratará de uma das partes mais importantes da modelagem em redes neurais: o pré-processamento dos dados. Muito se discute sobre o desenvolvimento de novas técnicas e arquiteturas, mas nem sempre a mesma importância é dada para esse estágio da modelagem - que é, na maioria das vezes, onde se dedica mais tempo. 
 
+Neste trabalho, os dados de interesse são \textit{verbos}, e para um computador, um verbo é apenas uma sequência de caracteres. Ademais, um modelo de Redes Neurais é um modelo computacional, e para que o modelo funcione, é necessário preparar os dados para que eles estejam em um formato adequado para os cálculos que serão realizados. Desse modo, mesmo sem adentrar na parte teórica do funcionamento do modelo, já cabe discutir de que forma os verbos serão inseridos. Em suma, os modelos de redes neurais são alimentados com \textit{vetores numéricos} (ou \textit{arrays}). Esses vetores são essencialmente uma lista de números (por ex. [0, 1, 2, 3]). Assim, pré-processar os verbos para a alimentação do modelo significa encontrar uma \textit{representação vetorial} para cada um deles. Ainda, teremos que todos os verbos serão representados por vetores de comprimentos iguais, e que será este mesmo comprimento que definirá a dimensão (número de nódulos) da primeira camada da rede (a camada de \textit{input}). Além disso, também é neste momento em que definiremos o recorte dos dados - o nível de abstração do estudo, por assim dizer. Em outras palavras, isso significa que podemos recortar um verbo de diversas maneiras: podemos considerar que verbos são uma sequência de letras, ou uma sequência de fones, uma sequência de morfemas, etc. Porém, ao fazermos este recorte, estaremos automaticamente enviesando o resultado final do estudo. Por exemplo, se optarmos por representar um verbo utilizando a escrita ortográfica do mesmo, o modelo falhará em encontrar as relações mais sutis entre os elementos fonéticos desse verbo.
 
-\section{Representações Fonéticas}
+Desse modo, fica evidente a importância desta etapa. Falaremos primeiramente sobre o pré-processamento utilizado por \cite{rumelhart:1986}. Em seguida, será exibido o pré-processamento utilizado neste trabalho para a alimentação do \textit{Encoder-Decoder} desenvolvido. Ainda, em questão de terminologia, por vezes o termo \textit{codificação} será utilizado como opção a pré-processamento.  
+
+\section{Pré-Processamento de Rumelhart \& McClelland}
 \label{sec:transcr}
-Na década de 60, quando foi realizado o experimento dos pesquisadores Rumelhart e McClelland, o poder computacional para a construção de modelos de redes neurais era muito baixo e forçou os pesquisadores a desenvolverem um sistema de codificação composto de várias etapas. De maneira simplificada, o sistema apresentado consistia, primeiramente, na transformação dos verbos (sequências de fones) em vetores de trigramas de fones somados a uma demarcação de início e final de palavra, representada pelo símbolo \#. Em seguida, cada um dos fones era substituído por uma lista de traços distintivos %\ref{} colocar aqui a referencia do chomsky
-. Ao final, todas as possíveis combinações de três traços distintivos subsequentes foram mapeados como chaves em um dicionário de tamanho fixo em que os valores poderiam assumir somente 0 ou 1; 1 caso aquela sequência de traços estivesse presente no verbo e 0 caso contrário. A Figura \ref{fig:wick} ilustra o esquema de codificação para o verbo “came” ([kAm] segundo a chave de transcrição apresentada pelos pesquisadores). 
+A arquitetura do modelo utilizado por \cite{rumelhart:1986} era bastante limitada para o problema em questão. A limitação resultava do fato de que tanto os \textit{inputs} quantos os \textit{alvos} do modelo possuíam tamanhos variáveis. O \textit{input}, por exemplo, poderia ser “\textit{like}” ou “\textit{overtake}”, e os \textit{alvos}, “\textit{liked}” e “\textit{overtook}”. Entretanto, a arquitetura \textit{Feedforward} (Fig. \ref{fig:ffd}) é composta por um número fixo de nódulos em cada camada. Poderíamos supor simplesmente que cada nódulo representasse cada fone do alfabeto fonético. Dessa forma, o \textit{input} hipotético seria o conjunto de fones do verbo. Entretanto, ao fazermos isto, a rede perderia completamente a noção de sequência dos fones. Dada a limitação, Rumelhart e McClelland acabaram desenvolvendo um sistema de codificação composto por várias etapas. Utilizaremos o verbo “\textit{came}” como exemplo para detalhar cada um dos estágios de codificação utilizados pelos pesquisadores.
+
+A primeira etapa consistiu na transcrição dos verbos utilizando um alfabeto compatível com o código ASCII (\cite{mackenzie1980coded}). O código ASCII é um código 
+usado para representar textos em computadores. Ele codifica letras do alfabeto latino, sinais de pontuação e sinais matemáticos. A opção pela utilização do código ASCII é necessária, pois o código fonético não é interpretável pelas linguagens de programação. Segundo a chave de transcrição dos pesquisadores (Apêndice), o verbo “\textit{came}” foi transcrito para “\#\textit{kAm}\#”. O símbolo “\#” é utilizado para demarcar o início e o final do verbo. 
+
+Em seguida, as transcrições foram reestruturadas em \textit{trigramas}. Fazer isso significa analisar a sequência do verbo de três em três segmentos, ou seja, nessa etapa, a sequência “\#\textit{kAm}\#” passou a ser tratada como “\#\textit{kA}” + “\textit{kAm}” + “\textit{Am}\#”. Cada um desses trigramas é chamado de \textit{Wickelphone}, estrutura nomeada por \cite{wickelgren:1969}.
+
+Na sequência, os autores apresentam uma nova estrutura intitulada de \textit{Wickelfeatures}. Os \textit{Wickelfeatures} são justamente as tríades de traços fonéticos introduzidas no Cap. \ref{ch:01}. Como visto na Tabela \ref{tab:trigrams}, cada um dos fones pode ser descrito por algumas características relacionadas à execução dos seus respectivos sons. Entretanto, as características dos trigramas formados podem ser combinadas de muitas formas, mais precisamente, $4^{3}$ possibilidades, visto que cada fone pode ser descrito por 4 traços. 
+
+Assim, para a construção dos nódulos do modelo, \cite{rumelhart:1986} computaram todos os \textit{Wickelfeatures} possíveis entre os verbos e excluíram alguns redundantes para simplificar a computação. Ao final, os \textit{Wickelfeatures} dos verbos foram mapeados como chaves em um dicionário de tamanho fixo (um vetor) em que os valores poderiam assumir somente 0 ou 1; 1 caso aquele \textit{Wickelfeature} estivesse presente no verbo e 0 caso contrário. A Figura \ref{fig:wick} ilustra o esquema de codificação para o verbo “came”. 
 
 \input{tikz/coding-scheme.tex}
 
-Na época, a dificuldade de se representar uma sequência de itens em um único vetor numérico era muito grande. O modelo apresentou problemas especialmente em casos em que uma mesma sequência de traços distintivos aparecia mais de uma vez no mesmo verbo, visto que o modelo marca apenas presença ou ausência da sequência. Hoje, novas arquiteturas de redes neurais (a ver no Cap \ref{ch:03}) estão disponíveis para lidar com dados sequenciais com a utilização de representações vetoriais menos complicadas. 
+Como comentado no Cap. \ref{ch:01}, o modelo de \cite{rumelhart:1986} conseguiu alto desempenho nos dados de treinamento. Entretanto, a arquitetura do tipo \textit{Feedforward} não é a mais adequada para esse tipo de problema. Em primeiro lugar, o esquema de codificação proposto é bastante limitado, visto que os vetores de \textit{input} da rede conseguem marcar apenas a presença ou ausência dos \textit{Wickelfeatures}. Como um exemplo do problema, podemos analisar o verbo  \textit{understand}. A Tabela \ref{tab:wickeldertan} exibe uma comparação entre os \textit{Wickelfeatures} dos trigramas \textit{der} e \textit{tan}, ambos presentes no verbo de exemplo.
+
+\begin{table}[!htb]
+    \begin{minipage}{.5\linewidth}
+      \centering
+      \caption{}
+        \begin{tabular}{ccc}
+        d                    & e                    & r                    \\ \hline
+        consoante            & vogal                & consoante            \\
+        sonora               & frontal              & líquida              \\
+        stop                 & short                & média                \\
+        média               & low                  & sonora               \\
+        \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
+        \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
+        \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{}
+        \end{tabular}
+        %\caption{Wickelfeatures do Trigrama der}
+        \label{tab:der}
+    \end{minipage}%
+    \begin{minipage}{.5\linewidth}
+      \centering
+        \caption{}
+
+    \begin{tabular}{ccc}
+    t                    & a                    & n                    \\ \hline
+    consoante            & vogal                & consoante            \\
+    surda                & frontal              & líquida              \\
+    stop                 & short                & média                \\
+    média                & low                  & sonora               \\
+    \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
+    \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
+    \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{}
+    \end{tabular}
+    %\caption{Wickelfeatures do Trigrama tan}
+    \label{tab:tan}
+    \end{minipage} 
+\caption{\textit{Wickelfeatures} de \textit{der} e \textit{tan}}
+\label{tab:wickeldertan}
+\end{table}
+
+
+Observa-se na Tabela \ref{tab:wickeldertan} que muitos \textit{Wickelfeatures} coincidem apesar dos dois trigramas serem completamente diferentes. 
+
+Assim como os verbos tem que ser processados para entrarem nos modelos como vetores, a saída do modelo também precisa ser decodificada para reconstruir um verbo -  esse é o esquema de \textit{decodificação} dos \textit{outputs} do modelo. A decodificação envolvia um esquema também composto por várias etapas. De maneira simplificada, \cite{rumelhart:1986} elencaram os trigramas (\textit{Wickelphones}) candidatos para cada verbo e estes “competiam” pelos vetores de \textit{Wickelfeatures} mais relevantes da saída do modelo. Neste sentido, \cite{Pinker:1999} critica o modelo dos pesquisadores utilizando como exemplo a palavra “\textit{algalgal}” (uma palavra da língua Oykangand), cuja a repetição de \textit{Wickelfeatures} ocorre diversas vezes, uma vez que há repetição dos trigramas. Como a saída da rede FFD é também um vetor que guarda apenas a presença ou ausência dos traços, e não quantas vezes eles aparecem, o processo de decodificação apresenta problemas e a rede dificilmente acerta em casos de verbos maiores ou com repetições de \textit{Wickelfeatures}. As complicações observadas tanto na construção da codificação quanto na decodificação dos dados refletem a necessidade de uma arquitetura mais adequada para o problema em questão.
+
+\section{Pré-Processamento para o Encoder-Decoder}
 
 Uma possível escolha para tal representação é o tradicional Alfabeto Fonético Internacional (AFI), apresentado nas Tabelas \ref{tab:ipa1} e \ref{tab:ipa2}. O AFI é um sistema de notação fonética, criado pela Associação Fonética Internacoional para promover uma padronização na transcrição de dados de diferentes idiomas. Ele organiza símbolos que representam unidades sonoras presentes nas línguas humanas a partir de características de execução dessas unidades. A Tabela \ref{tab:ipa1} reune o conjunto do sons consoantes e exibe na dimensão das colunas o ponto de articulação dos sons. As linhas compõe os diferentes modos de articulação possíveis. Por fim, dentro de uma mesma célula pode ocorrer um som com ou sem a vibração das cordas vocais, é o caso do par \textbf{[p b]}. O símbolo da esquerda representa o som surdo e o símbolo da direita, sonoro. As vogais estão organizadas na Tabela \ref{tab:ipa2}. As colunas dessa tabela se referem ao local de reprodução dos sons e as linhas à abertura da boca durante a execução. Quando os símbolos aparecem em pares, aquele da direita representa uma vogal arredondada. %\cite{para conhecer} 
 \begin{center}
@@ -183,32 +240,29 @@ O AFI poderia ter sido utilizado para a construção das representações vetori
 
 \begin{center}
 \scalebox{0.9}{
-    \begin{tabular}{|l|cc|cc|cc|cc|cc|cc|}
+    \begin{tabular}{|l|cc|cc|cc|cc|cc|}
         \hline & 
             \multicolumn{2}{|c|}{\footnotesize{Bilabial}} &					% Bilabial
             \multicolumn{2}{|c|}{\footnotesize{Lab. dent.}} & 			% Labiodental
             \multicolumn{2}{|c|}{\footnotesize{Alveolar}} & 				% Alveolar
             \multicolumn{2}{|c|}{\footnotesize{P-alveo.}} & 		% Post-alveolar
 
-            \multicolumn{2}{|c|}{\footnotesize{Velar}} & 					% Velar
-            \multicolumn{2}{|c|}{\footnotesize{Glottal}}  \\					% Glottal
+            \multicolumn{2}{|c|}{\footnotesize{Velar}} & 					% Velar  \\				
 
         \hline Plosive &  							% Plosive
             p & b &	% Bilabial
             &&	% Labiodental
             t & d	% Alveolar
             & &% Post-alveolar
-            & k & g 											& 		% Velar
-
-            & \BlankCell         \\								% Glottal
+            & k & g 										         \\								
 
         \hline Nasal & 							% Nasal
             & m 	% Bilabial
             &  &  & % Labiodental
             & n 	% Alveolar
             & & % Post-alveolar
-            & & N 	% Velar
-            &  &          \\		% Glottal
+            & & N \\	% Velar
+                     	
 
         \hline Tap/Flap &  						% Tap /Flap
             &													% Bilabial
@@ -216,16 +270,14 @@ O AFI poderia ter sido utilizado para a construção das representações vetori
            && r &					% Alveolar
             &&                 % Post-alveolar
 
-            \BlankCell        & \BlankCell        &		% Velar
-            \BlankCell        & \BlankCell         \\		% Glottal
+            \BlankCell        & &        	% Vela
 
         \hline Fricative & 						% Fricative
             &  &									% Bilabial
             f & v &													% Labiodental
             s & z &													% Alveolar
             x & j &									% Post-alveolar
-            &  &% Velar
-            h &  \\										% Glottal
+            h  & \\										
 
         \hline Lat. appr. & 					% Lat. Approx
             \BlankCell        & \BlankCell        &		% Bilabial
@@ -234,9 +286,9 @@ O AFI poderia ter sido utilizado para a construção das representações vetori
            & l &							% Alveolar
                                                       &&                  % Post-alveolar
   
-             & L & 												% Palatal
-            											% Velar
-            \BlankCell        & \BlankCell         \\		% Glottal
+             & L  	
+             &% Velar
+         
         \hline
     \end{tabular}
 }%scalebox
@@ -267,8 +319,10 @@ O AFI poderia ter sido utilizado para a construção das representações vetori
 \end{table}
 \end{center}
 
-Além de tais modificações, também não foram incluídas representações para variantes, portanto os sons de \textbf{[x]-[h]-[r]} (variantes possíveis na pronúncia da palavra “te\textbf{rr}a”) foram resumidos apenas a \textbf{[h]}. Da mesma forma, também não há um símbolo equivalente para \textbf{[\ipa{S}]}, som empregado normalmente entre \textbf{t} e \textbf{i}, como na palavra “time”. A representação para as vogais foi simplicada também para facilitar as transcrições e restringir o número de traços fonéticos possíveis no modelo. A Tabela \ref{tab:chave} mostra a chave de transcrição proposta para as consoantes e vogais. A Tabela \ref{tab:transc} exibe alguns exemplos de transcrição na nova representação sugerida. O Corpus completo ecnontra-se no Apêndice.
+vogais 
 
+Além de tais modificações, também não foram incluídas representações para variantes, portanto os sons de \textbf{[x]-[h]-[r]} (variantes possíveis na pronúncia da palavra “te\textbf{rr}a”) foram resumidos apenas a \textbf{[h]}. Da mesma forma, também não há um símbolo equivalente para \textbf{[\ipa{S}]}, som empregado normalmente entre \textbf{t} e \textbf{i}, como na palavra “time”. A representação para as vogais foi simplificada também para facilitar as transcrições e restringir o número de traços fonéticos possíveis no modelo. A Tabela \ref{tab:chave} mostra a chave de transcrição proposta para as consoantes e vogais. A Tabela \ref{tab:transc} exibe alguns exemplos de transcrição na nova representação sugerida. O Corpus completo ecnontra-se no Apêndice.
+final
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{cc}
@@ -344,7 +398,6 @@ voltar & voutar \\ \hline
 
 \subsection{Corpus}
 
-Para a execução dos experimentos, o escopo dessa pesquisa foi restringido a um único tempo, modo, pessoa e número, já que o português apresenta formas irregulares em múltiplas combinações destes elementos e seria necessário construir uma rede diferente para cada uma destas combinações. Optou-se por estudar as irregularidades presentes nas flexões de primeira pessoa do singular no tempo presente, modo indicativo.  
 O corpus utilizado para o treinamento dessa rede foi construído a partir da listagem de verbos contida no enderenço \texturl{www.conjugação.com.br}.
 
 Primeiramente, foi realizada uma etapa de extração dos verbos e suas respectivas conjugações para um arquivo \textit{.csv} via técnica de \textit{webscraping}, uma técnica que extrai informações contidas nas páginas da web (\cite{mitchell:2015}). Em seguida, os verbos irregulares foram selecionados manualmente para diferentes famílias de verbos, ou seja, grupos que continham o mesmo padrão de flexão. Alguns dos verbos irregulares listados na fonte de referência não eram irregulares no processo de flexão de interesse, e portanto foram realocados para o grupo de verbos regulares. Como um exemplo disto, o verbo \textit{acudir} é considerado irregular pois apresenta irregularidade na terceira pessoa do singular no tempo presente e modo indicativo ((ele/ela) \textit{acode}), porém, como na primeira pessoa do singular o padrão regular se mantém, esse verbo foi realocado para o grupo dos verbos regulares. 
