@@ -197,6 +197,7 @@ A regra proposta indica que /e/ se transforma em /i/ quando em um contexto de te
 As previsibilidades encontradas sugerem não somente a possibilidade de elaboração de regras, como também a possibilidade do desenvolvimento de redes capazes de capturar tais dependências. 
 
 \subsubsection{Delimitação de Escopo}
+\label{sec:escopo}
 
 Dada a maior complexidade do Português e a existência de irregularidades verbais em múltiplos paradigmas de tempos, pessoas e modos, o presente estudo se limitará a estudar apenas os padrões irregulares encontrados no paradigma da 1\aup{a} Pessoa do Singular no tempo Presente e modo Indicativo (com exemplos já explorados na Seção \ref{sec:aprendizado_port}). Desse modo, verbos que apresentem irregularidade em outro tempo, modo ou pessoa que não 1\aup{a} pessoa do singular no tempo presente e modo indicativo, serão tratados como pertencentes à classe dos regulares. Como exemplo, considere o verbo \textit{correr}. Esse verbo apresenta flexão regular para a 1\aup{a} Pessoa (\textit{corro}), mas é irregular para a 3\aup{a} Pessoa (\textit{corre}). Desse modo, apesar de \textit{correr} ser um verbo irregular, por apresentar flexão regular no paradigma escolhido, será tratado como regular para os fins dessa pesquisa.
 
@@ -245,6 +246,7 @@ Mesmo com a delimitação escolhida, podemos dizer que a complexidade da tarefa 
 % As previsibilidades encontradas sugerem não somente a possibilidade de elaboração das regras, como também a possibilidade do desenvolvimento de redes capazes de capturar tais dependências. Apesar disso, deve-se destacar que a língua portuguesa apresenta um comportamento diferente da língua inglesa. %Uma análise foi realizada a partir de uma base de verbos irregulares do inglês em notação fonética (retirados de \url{https://www.apronus.com/learn_english/irregularverbs.htm}) e concluiu-se que a média de número de fonemas por verbo é de 4.16 fonemas. Em contrapartida, construiu-se uma base de verbos da línguas portuguesa e concluiu-se que a média de número de fonemas por verbo é de 6.39 fonemas.
 
 \subsection{Motivação no campo da Computação}
+\label{sec:compmot}
 
 Desde a apresentação da pesquisa de \cite{rumelhart:1986}, o modelo associativo utilizado pelos autores já passou por diversos avanços. Na realidade, essa modelagem hoje é chamada de Rede Neural Artificial (ou também \textit{Deep Learning}) e passou a ser utilizada em uma variedade de tarefas computacionais, como classificação de imagens, classificação de texto, tradução automática, agentes conversacionais, entre outros. 
 
@@ -276,7 +278,7 @@ Apesar do debate Linguístico em questão, esta pesquisa se limitará à verific
 \subsection{Objetivos Específicos}
 
 \begin{itemize}
-    \item Construção de um Corpus composto por verbos flexionados na 1\aup{a} Pessoa do Singular no tempo Presente e no modo Indicativo, suas respectivas formas no não flexionadas (radical + vogal temática) e suas respectivas transcrições fonéticas\footnote{Realizadas com base na chave de transcrição a ser apresentada no Capítulo \ref{ch:02}}.
+    \item Construção de um Corpus composto por verbos flexionados na 1\aup{a} Pessoa do Singular no tempo Presente e no modo Indicativo, suas respectivas formas não flexionadas (radical + vogal temática) e suas respectivas transcrições fonéticas\footnote{Realizadas com base na chave de transcrição a ser apresentada no Capítulo \ref{ch:02}}.
     \item Construção de um modelo de arquitetura \textit{Encoder-Decoder}
     \item Treinamento do modelo com o Corpus construído.
 \end{itemize}

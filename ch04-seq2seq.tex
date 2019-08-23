@@ -29,69 +29,6 @@ Diferentemente do caso de tradução, em que se busca o aprendizado das relaçõ
 
 \subsection{O modelo Encoder-Decoder Desenvolvido}
 
-\subsubsection{Encoder}
-\label{sec:inputs}
-
-Após a definição do Corpus, os verbos transcritos passaram por uma etapa de pré-processamento em que seus respectivos fones foram associados a um dicionário de traços fonéticos, os mesmos traços que originaram as Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. A Tabela \ref{tab:pOsu} apresenta um exemplo desse processo para o verbo “posso” - \textit{pOsu}. 
-
-\begin{table}[H]
-\begin{center}
-\begin{tabular}{lll}
-Fone & Traços Fonéticos &  \\ \cline{1-2}
-p & bilabial, oclusiva, surda &  \\
-O & meio-aberta, posterior &  \\
-s & fricativa, alveolar, surda &  \\
-u & fechada, posterior & 
-\end{tabular}
-\end{center}
-\caption{Traços Fonéticos para o Verbo “Posso“}
-\label{tab:pOsu}
-\end{table}
-
-Os traços fonéticos também fazem parte de um outro dicionário. No total são necessários 20 traços para representar um fone. São 18 para representar os traços das tabelas fonéticas: Oclusiva, Nasal, Tepe, Fricativa, Aproximante Lateral, Bilabial, Labio-Dental, Alveolar, Pós-Alveolar, Velar e Glotal; e 2 para representar início e fim do verbo ($<$beg$>$ e $<$end$>$).
-
-Os fones são por fim caracterizados pela presença (1) e ausência (0) dos traços mencionados.  A Tabela \ref{tab:coding_example} mostra como exemplo uma comparação entre dois fones similares (\textbf{p} e \textbf{b}) que distinguem-se apenas pelo traço fonético sonoro. O resultado é uma representação vetorial que também carrega essa noção de proximidade. O começo do verbo é representado por um vetor que marca 0 em todos os traços fonéticos e 1 no \textit{token} de começo (o traço de fim pode ser compreendido de maneira análoga). 
-
-\begin{table}[H]
-\begin{center}
-\begin{tabular}{lll}
- Traço & p & b \\
- \toprule
-oclusiva & 1 & 1 \\
-nasal & 0 & 0 \\
-tepe & 0 & 0 \\
-fricativa & 0 & 0 \\
-l-aprox & 0 & 0 \\
-bilabial & 1 & 1 \\
-labiodental & 0 & 0 \\
-alveolar & 0 & 0 \\
-p-alveolar & 0 & 0 \\
-velar & 0 & 0 \\
-glotal & 0 & 0 \\
-sonora & 0 & 1 \\
-fechada & 0 & 0 \\
-m-fechada & 0 & 0 \\
-m-aberta & 0 & 0 \\
-aberta & 0 & 0 \\
-anterior & 0 & 0 \\
-posterior & 0 & 0 \\
-\<beg\> & 0 & 0 \\
-\<end\> & 0 & 0
-\end{tabular}
-\end{center}
-\caption{Exemplo de Codificação de fones}
-\label{tab:coding_example}
-\end{table}
-
-Por fim, juntando todos os passos expostos, o processo completo de transformação dos inputs pode ser resumido a:
-
-\begin{enumerate}
-    \item Processo de \textit{tokenização} do verbo transcrito (divisão dos verbos em fones).
-    \item Cada fone passa a ser representado por um vetor originado a partir do dicionário de traços fonéticos.
-    \item Os vetores entram em ordem na primeira rede (o Encoder).
-\end{enumerate}
-
-Como mencionado na seção introdutória (Seção \ref{sec:intro-sec-sec}), a rede Encoder não precisa ter \textit{alvos}. Os \textit{inputs} entram, ou seja, multiplicam as matrizes de estados e o estado final resultante dessas operações serve como estado inicial para o Decoder. 
 
 \subsubsection{Decoder}
 
@@ -119,7 +56,7 @@ Para exemplificar o algoritmo de decodificação do output, a Fig. \ref{fig:plan
 
 Para concluir, esse processo de decodificação ocorre enquanto o vetor predito não encontrar como vetor mais próximo o vetor de \textit{token} de final. 
 
-\input{tikz/vectors.tex}
+
 
 
 % \subsection{Resumo}

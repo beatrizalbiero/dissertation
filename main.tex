@@ -134,6 +134,11 @@ framexrightmargin=10pt
 \usepackage{colortbl}
 \usepackage{algpseudocode}
 \usepackage{soul}
+\usetikzlibrary{matrix,chains,positioning,decorations.pathreplacing,arrows}
+
+%circle table
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{% <---- BEWARE
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
 
 % Declaracoes em Português
 \algrenewcommand\algorithmicend{\textbf{fim}}

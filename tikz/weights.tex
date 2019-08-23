@@ -1,0 +1,66 @@
+\input{definitions/colors}
+\input{definitions/styles}
+\begin{figure}[ht!]
+\centering
+
+\scalebox{1.0}{
+\begin{tikzpicture}[auto]
+
+\node[textonly] (1pho1) {1};
+\node[textonly, below=45pt of 1pho1] (1pho2) {0};
+\node[textonly, below=45pt of 1pho2] (1pho3) {0};
+
+% Legenda
+\node[textonly, above=20pt of 1pho1] (leg1) {Inputs};
+\node[textonly, right=55pt of leg1] (legw) {Matriz \textbf{W}};
+
+
+
+% FNN input
+\node[normal, right=25pt of 1pho1] (x1) {};
+\node[normal, below=45pt of x1] (x2) {};
+\node[normal, below=45pt of x2] (x3) {};
+\node[textonly, below=13pt of legw] (w11) {0.8 $w_{(1,1)}$};
+\node[text, below=5pt of x1] (nada) {};
+\node[textonly, right=13pt of nada] (w12) {0.4 $w_{(1,2)}$};
+
+\node[textonly, below=70pt of w12] (w32) {0.2 $w_{(3,2)}$};
+%\node[textonly, left=1pt of nada] (w31) {0.2 $w_{(3,1)}$};
+
+\node[text, below=10pt of x3] (nada) {};
+
+% FNN output
+\node[normal, right=95pt of x1] (y1) {};
+\node[normal, right=95pt of x2] (y2) {};
+\node[normal, right=95pt of x3] (y3) {};
+
+% edges FNN
+\path[tedge] (x1) -- (y1);
+\path[tedge] (x1) -- (y2);
+\path[tedge] (x1) -- (y3);
+\path[tedge] (x2) -- (y1);
+\path[tedge] (x2) -- (y2);
+\path[tedge] (x2) -- (y3);
+\path[tedge] (x3) -- (y1);
+\path[tedge] (x3) -- (y2);
+\path[tedge] (x3) -- (y3);
+
+\node[box2, right=40pt of y2] (sigma) {$\displaystyle\Sigma$};
+\node[box2, right=30pt of sigma] (activation) {$f$};
+
+\node[text, right=40pt of activation] (output) {$\hat{y}$};
+
+\node[text, right = 145pt of legw] (lego) {\textbf{Output}};
+
+\path[tedge] (y1) -> (sigma);
+\path[tedge] (y2) -> (sigma);
+\path[tedge] (y3) -> (sigma);
+
+\path[tedge] (sigma) -> (activation);
+
+\path[tedge] (activation) -> (output);
+
+\end{tikzpicture}
+}\caption{Digrama de uma Rede Neural do Tipo Perceptron} 
+\label{fig:diagram}
+\end{figure}

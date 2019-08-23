@@ -65,11 +65,17 @@ Como comentado no Cap. \ref{ch:01}, o modelo de \cite{rumelhart:1986} conseguiu 
 
 Observa-se na Tabela \ref{tab:wickeldertan} que muitos \textit{Wickelfeatures} coincidem apesar dos dois trigramas serem completamente diferentes. 
 
-Assim como os verbos tem que ser processados para entrarem nos modelos como vetores, a saída do modelo também precisa ser decodificada para reconstruir um verbo -  esse é o esquema de \textit{decodificação} dos \textit{outputs} do modelo. A decodificação envolvia um esquema também composto por várias etapas. De maneira simplificada, \cite{rumelhart:1986} elencaram os trigramas (\textit{Wickelphones}) candidatos para cada verbo e estes “competiam” pelos vetores de \textit{Wickelfeatures} mais relevantes da saída do modelo. Neste sentido, \cite{Pinker:1999} critica o modelo dos pesquisadores utilizando como exemplo a palavra “\textit{algalgal}” (uma palavra da língua Oykangand), cuja a repetição de \textit{Wickelfeatures} ocorre diversas vezes, uma vez que há repetição dos trigramas. Como a saída da rede FFD é também um vetor que guarda apenas a presença ou ausência dos traços, e não quantas vezes eles aparecem, o processo de decodificação apresenta problemas e a rede dificilmente acerta em casos de verbos maiores ou com repetições de \textit{Wickelfeatures}. As complicações observadas tanto na construção da codificação quanto na decodificação dos dados refletem a necessidade de uma arquitetura mais adequada para o problema em questão.
+Assim como os verbos tem que ser processados para entrarem nos modelos como vetores, a saída do modelo também precisa ser decodificada para reconstruir um verbo -  esse é o esquema de \textit{decodificação} dos \textit{outputs} do modelo. A decodificação envolvia um esquema também composto por várias etapas. De maneira simplificada, \cite{rumelhart:1986} elencaram os trigramas (\textit{Wickelphones}) candidatos para cada verbo e estes “competiam” pelos vetores de \textit{Wickelfeatures} mais relevantes da saída do modelo. Neste sentido, \cite{Pinker:1999} critica o modelo dos pesquisadores utilizando como exemplo a palavra “\textit{algalgal}” (uma palavra da língua Oykangand), cuja a repetição de \textit{Wickelfeatures} ocorre diversas vezes. Como a saída da rede FFD é também um vetor que guarda apenas a presença ou ausência dos traços, e não quantas vezes eles aparecem, o processo de decodificação apresenta problemas e a rede dificilmente acerta em casos de verbos maiores ou com repetições de \textit{Wickelfeatures}. As complicações observadas tanto na construção da codificação quanto na decodificação dos dados refletem a necessidade de uma arquitetura mais adequada para o problema em questão.
 
 \section{Pré-Processamento para o Encoder-Decoder}
 
-Uma possível escolha para tal representação é o tradicional Alfabeto Fonético Internacional (AFI), apresentado nas Tabelas \ref{tab:ipa1} e \ref{tab:ipa2}. O AFI é um sistema de notação fonética, criado pela Associação Fonética Internacoional para promover uma padronização na transcrição de dados de diferentes idiomas. Ele organiza símbolos que representam unidades sonoras presentes nas línguas humanas a partir de características de execução dessas unidades. A Tabela \ref{tab:ipa1} reune o conjunto do sons consoantes e exibe na dimensão das colunas o ponto de articulação dos sons. As linhas compõe os diferentes modos de articulação possíveis. Por fim, dentro de uma mesma célula pode ocorrer um som com ou sem a vibração das cordas vocais, é o caso do par \textbf{[p b]}. O símbolo da esquerda representa o som surdo e o símbolo da direita, sonoro. As vogais estão organizadas na Tabela \ref{tab:ipa2}. As colunas dessa tabela se referem ao local de reprodução dos sons e as linhas à abertura da boca durante a execução. Quando os símbolos aparecem em pares, aquele da direita representa uma vogal arredondada. %\cite{para conhecer} 
+No caso da arquitetura \textit{Encoder-Decoder}, não há motivo para preocupação com relação à sequência dos dados, nem durante o processo de inserção, nem no processo de predição do modelo. A razão para tal ficará mais clara após os capítulos \ref{ch:03} e \ref{ch:05}. Entretanto, o que já pode ser adiantado é que não há a necessidade do tratamento dos verbos em trigramas, tão-pouco em \textit{Wickelfeatures}. Neste tipo de arquitetura, os verbos podem ser normalmente tratados como uma sequência de fones. Entretanto, mesmo com essa simplificação, existem múltiplas maneiras de se abordar essa questão. Este trabalho tem como objetivo estudar as relações entre os verbos em um nível fonético, portanto é importante que as representações vetoriais construídas levem isto em consideração.
+
+Começaremos pela apresentação do Alfabeto Fonético Internacional (AFI), apresentado nas Tabelas \ref{tab:ipa1} e \ref{tab:ipa2}. O AFI é um sistema de notação fonética, criado pela Associação Fonética Internacional para promover uma padronização na transcrição de dados de diferentes idiomas. Ele organiza símbolos que representam unidades sonoras presentes nas línguas humanas a partir de características de execução dessas unidades. 
+
+A Tabela \ref{tab:ipa1} reúne o conjunto dos sons consoantes e exibe na dimensão das colunas o ponto de articulação dos sons, isto é, o ponto de contato onde ocorre uma obstrução no trato vocal. A coluna “Bilabial”, por exemplo, corresponde à obstrução que ocorre nos lábios durante a produção dos seus respectivos fones. As linhas compõem os diferentes \textit{modos} de articulação possíveis, ou seja, as formas de obstrução da passagem de ar. A obstrução pode ser total como em \textbf{[p]} ou parcial como em \textbf{[s]}. Por fim, dentro de uma mesma célula pode ocorrer um som com ou sem a vibração das cordas vocais, é o caso do par \textbf{[p b]}. O símbolo da esquerda representa o som surdo e o símbolo da direita, sonoro. 
+
+As vogais estão organizadas na Tabela \ref{tab:ipa2}. As colunas dessa tabela se referem ao local de reprodução dos sons e as linhas à abertura da boca durante a execução. Quando os símbolos aparecem em pares, aquele da direita representa uma vogal arredondada (\cite{paraconhecer:2015}).  
 \begin{center}
 \scalebox{0.8}{
     \begin{tabular}{|l|cc|cc|cc|cc|cc|cc|cc|cc|cc|cc|cc|}
@@ -80,36 +86,36 @@ Uma possível escolha para tal representação é o tradicional Alfabeto Fonéti
             \multicolumn{2}{|c|}{\footnotesize{Dental}} & 					% Dental
             \multicolumn{2}{|c|}{\footnotesize{Alveolar}} & 				% Alveolar
             \multicolumn{2}{|c|}{\footnotesize{P-alveo.}} & 		% Post-alveolar
-            \multicolumn{2}{|c|}{\footnotesize{Retroflex}} & 				% Retroflex
+            \multicolumn{2}{|c|}{\footnotesize{Retroflexo}} & 				% Retroflex
             \multicolumn{2}{|c|}{\footnotesize{Palatal}} & 					% Palatal
             \multicolumn{2}{|c|}{\footnotesize{Velar}} & 					% Velar
             \multicolumn{2}{|c|}{\footnotesize{Uvular}} & 					% Uvular
             \multicolumn{2}{|c|}{\footnotesize{Pharyng.}} & 			% Pharyngeal
-            \multicolumn{2}{|c|}{\footnotesize{Glottal}}  \\% Glottal
+            \multicolumn{2}{|c|}{\footnotesize{Glotal}}  \\% Glottal
 
         \hline 
-        Plosive &	% Plosive
-            p & b &													% Bilabial
+        Oclusivo &	% Plosive
+            \circled{p} & \circled{b} &													% Bilabial
             &&														% Labiodental
-            \multicolumn{3}{|r}{t}&							% Dental
-            \multicolumn{3}{l|}{d}&							% Alveolar
+            \multicolumn{3}{|r}{\circled{t}}&							% Dental
+            \multicolumn{3}{l|}{\circled{d}}&							% Alveolar
                                                                         % Post-alveolar
             \ipa{\:t} & \ipa{\:d}&									% Retroflex
             c & \textbardotlessj &														% Palatal
-            k & g &													% Velar
+            \circled{k} & \circled{g} &													% Velar
             q & \ipa{\;G} &										% Uvular
             & \BlankCell        &								% Pharyngeal
             \ipa{P}& \BlankCell         \\								% Glottal
 
         \hline Nasal & 							% Nasal
-            & m &													% Bilabial
+            & \circled{m} &													% Bilabial
             & \ipa{M} &											% Labiodental
             \multicolumn{3}{|r}{}&								% Dental
-            \multicolumn{3}{l|}{n}&							% Alveolar
+            \multicolumn{3}{l|}{\circled{n}}&							% Alveolar
                                                                         % Post-alveolar
             & \ipa{\:n} &														% Retroflex
             & \textltailn &														% Palatal
-            & \ipa{N} &														% Velar
+            & \circled{\ipa{N}} &														% Velar
             & N &														% Uvular
             \BlankCell        & \BlankCell        &		% Pharyngeal
             \BlankCell        & \BlankCell         \\		% Glottal
@@ -118,7 +124,7 @@ Uma possível escolha para tal representação é o tradicional Alfabeto Fonéti
             & \ipa{\;B}&											% Bilabial
             & &														% Labiodental
             \multicolumn{3}{|r}{}&								% Dental
-            \multicolumn{3}{l|}{r}&								% Alveolar
+            \multicolumn{3}{l|}{\circled{r}}&								% Alveolar
                                                                         % Post-alveolar
             & &														% Retroflex
             & &														% Palatal
@@ -142,13 +148,13 @@ Uma possível escolha para tal representação é o tradicional Alfabeto Fonéti
 
         \hline Fricative & 						% Fricative
             \ipa{F} & \ipa{B} &									% Bilabial
-            f & v &													% Labiodental
+            \circled{f} & \circled{v} &													% Labiodental
             \ipa{T} & \ipa{D} &									% Dental
-            s & z &													% Alveolar
-            \ipa{S} & \ipa{Z} &									% Post-alveolar
+            \circled{s} & \circled{z} &													% Alveolar
+            \circled{\ipa{S}} & \circled{\ipa{Z}} &									% Post-alveolar
             \ipa{\:s} & \ipa{\:z} &								% Retroflex
             \ipa{\c{c}} & \ipa{J} &								% Palatal
-            x & \ipa{G} &											% Velar
+            \circled{x} & \ipa{G} &											% Velar
             \ipa{X} & \ipa{K} &									% Uvular
             \textcrh & \ipa{Q} &								% Pharyngeal
             h & \texthth \\										% Glottal
@@ -183,11 +189,11 @@ Uma possível escolha para tal representação é o tradicional Alfabeto Fonéti
             \BlankCell        & \BlankCell        &		% Bilabial
             \BlankCell        & \BlankCell        &		% Labiodental
             \multicolumn{3}{|r}{}&								% Dental
-            \multicolumn{3}{l|}{l}&								% Alveolar
+            \multicolumn{3}{l|}{\circled{l}}&								% Alveolar
                                                                         % Post-alveolar
             & \textipa{\:l} &											% Retroflex
             & \textipa{L} &												% Palatal
-            & \textipa{\;L} &											% Velar
+            & \circled{\textipa{\;L}} &											% Velar
             & &														% Uvular
             \BlankCell        & \BlankCell        &		% Pharyngeal
             \BlankCell        & \BlankCell         \\		% Glottal
@@ -231,11 +237,7 @@ Uma possível escolha para tal representação é o tradicional Alfabeto Fonéti
 \captionof{table}{Vogais IPA}\label{tab:ipa2}   
 \end{center} 
 
-O AFI poderia ter sido utilizado para a construção das representações vetoriais, mas apenas um subconjunto do mesmo seria aproveitado já que o português não contém todos os fones possíveis. Desse modo, optou-se por uma simplificação do AFI que resultou na Tabela \ref{tab:new_rep}. Nessa nova representação, além da exclusão de alguns pontos e modos de articulação, apresenta-se também uma chave de transcrição alternativa que engloba apenas caracteres pertencentes ao código ASCII. A opção pela realização dessas modificações se deu em razão de facilitar o pré-processamento do corpus uma vez que o código fonético não é interpretável pela maioria das linguagens de programação.
-
-
-
-
+A ideia do AFI é mapear e caracterizar todos os sons das línguas humanas. Desse modo, cada língua aproveita apenas um subconjunto do AFI. Os fones presentes no Português-Brasileiro estão circulados. Levando em conta apenas o subconjunto dos fones do PB e também tendo em mente que os símbolos do alfabeto fonético precisam ser transformados em código ASCII para serem interpretados, faz sentido construir uma nova tabela adaptada para o problema em questão. O resultado desta adaptação pode ser visto nas Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. Nessa nova tabela, além da exclusão de alguns pontos e modos de articulação, apresenta-se também uma chave de transcrição alternativa que engloba apenas caracteres pertencentes ao código ASCII. A Tabela \ref{tab:transc} exibe alguns exemplos de transcrições possíveis.  
 
 
 \begin{center}
@@ -321,35 +323,6 @@ O AFI poderia ter sido utilizado para a construção das representações vetori
 
 vogais 
 
-Além de tais modificações, também não foram incluídas representações para variantes, portanto os sons de \textbf{[x]-[h]-[r]} (variantes possíveis na pronúncia da palavra “te\textbf{rr}a”) foram resumidos apenas a \textbf{[h]}. Da mesma forma, também não há um símbolo equivalente para \textbf{[\ipa{S}]}, som empregado normalmente entre \textbf{t} e \textbf{i}, como na palavra “time”. A representação para as vogais foi simplificada também para facilitar as transcrições e restringir o número de traços fonéticos possíveis no modelo. A Tabela \ref{tab:chave} mostra a chave de transcrição proposta para as consoantes e vogais. A Tabela \ref{tab:transc} exibe alguns exemplos de transcrição na nova representação sugerida. O Corpus completo ecnontra-se no Apêndice.
-final
-\begin{table}[H]
-\begin{center}
-\begin{tabular}{cc}
-\hline
-\textbf{Verbo} & \textbf{Transcrição} \\ \hline
-ressentir & hes3ntir \\
-paro & paru \\
-possuo & posuu \\
-olha & oLa \\
-sacudir & sakudir \\
-voltar & voutar \\ \hline
-\end{tabular}
-\end{center}
-\caption{Exemplos de Transcrições}
-\label{tab:transc}
-\end{table}
-
-\begin{center}
-\begin{table}[H]
-\begin{center}
-
-\end{center}
-\caption{Vogais na nova representação}
-\label{tab:transc}
-\end{table}
-\end{center}
-
 
 \begin{table}[H]
 \begin{center}
@@ -396,48 +369,131 @@ voltar & voutar \\ \hline
 \label{tab:chave}
 \end{table}
 
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{cc}
+\hline
+\textbf{Verbo} & \textbf{Transcrição} \\ \hline
+ressentir & hes3ntir \\
+paro & paru \\
+possuo & posuu \\
+olha & oLa \\
+sacudir & sakudir \\
+voltar & voutar \\ \hline
+\end{tabular}
+\end{center}
+\caption{Exemplos de Transcrições}
+\label{tab:transc}
+\end{table}
+
+
+
 \subsection{Corpus}
 
 O corpus utilizado para o treinamento dessa rede foi construído a partir da listagem de verbos contida no enderenço \texturl{www.conjugação.com.br}.
 
-Primeiramente, foi realizada uma etapa de extração dos verbos e suas respectivas conjugações para um arquivo \textit{.csv} via técnica de \textit{webscraping}, uma técnica que extrai informações contidas nas páginas da web (\cite{mitchell:2015}). Em seguida, os verbos irregulares foram selecionados manualmente para diferentes famílias de verbos, ou seja, grupos que continham o mesmo padrão de flexão. Alguns dos verbos irregulares listados na fonte de referência não eram irregulares no processo de flexão de interesse, e portanto foram realocados para o grupo de verbos regulares. Como um exemplo disto, o verbo \textit{acudir} é considerado irregular pois apresenta irregularidade na terceira pessoa do singular no tempo presente e modo indicativo ((ele/ela) \textit{acode}), porém, como na primeira pessoa do singular o padrão regular se mantém, esse verbo foi realocado para o grupo dos verbos regulares. 
+Primeiramente, foi realizada uma etapa de extração dos verbos e suas respectivas formas flexionadas para um arquivo \textit{.csv} via técnica de \textit{webscraping}, uma técnica que extrai informações contidas nas páginas da web (\cite{mitchell:2015}). Em seguida, os verbos irregulares foram selecionados manualmente para diferentes famílias de verbos, ou seja, grupos que continham o mesmo padrão de flexão. Alguns dos verbos irregulares listados na fonte de referência não eram irregulares no processo de flexão de interesse, e portanto foram realocados para o grupo de verbos regulares (vide exemplo do verbo \textit{correr} na Seção \ref{sec:escopo}). Na sequência, os verbos  coletados na forma infinitiva tiveram o fone /\textit{r}/ extraído para que no \textit{input} do modelo entrasse apenas o radical + vogal temática dos verbos.
 
-Após a coleta e organização do Corpus, foi necessário passar os verbos coletados para uma transcrição fonética, já que esta pesquisa visa a construção de um modelo que aprenda os padrões de flexões dos verbos. Para tal, um experimento foi realizado na tentativa de utilizar o transcritor fonético automático disponibilizado por (\cite{guide:2016}), porém o transcritor falhou na tentativa de transcrever verbos cuja escrita coincide com substantivos, como por exemplo “apoio”, “peso”, “toco”, “posto”, “jogo”, entre outros. Sendo assim, os verbos coletados foram transcritos manualmente utilizando a chave de transcrição apresentada na Seção \ref{sec:transcr}. No total, foram obtidos 423 verbos, 83 verbos a menos que no experimento realizado por (Rumelhart \& McClelland, 1986)\cite{rumelhart:1986}.
+ Um experimento foi realizado na tentativa de utilizar o transcritor fonético automático disponibilizado por (\cite{guide:2016}) para tornar o processo de transcrição mais rápido. Entretanto, o transcritor falhou na tentativa de transcrever verbos cuja escrita coincide com substantivos, como por exemplo “apoio”, “peso”, “toco”, “posto”, “jogo”, entre outros. Desse modo, os verbos coletados foram transcritos manualmente utilizando a chave de transcrição apresentada na Tabela \ref{tab:chave}. No total, foram obtidos 423 verbos, 83 a menos que no experimento realizado por (\cite{rumelhart:1986}).
 
-Dos 423 verbos extraídos, 20 foram considerados verbos sem possível agrupamento e foram alocados para uma classe nomeada de \textit{Single} (verbos como “ir”, “trazer” e “saber”), totalizando uma base de 214 verbos regulares e 209 irregulares (50.6\% e 49.4\% respectivamente). 
+Dos 423 verbos extraídos, 20 foram considerados verbos sem possível agrupamento (verbos como “ir”, “trazer” e “saber”), totalizando uma base de 214 verbos regulares e 209 irregulares (50.6\% e 49.4\% respectivamente). 
 
-A Tabela \ref{tab:classes} associa os nomes dados aos tipos de irregularidades encontradas e apresenta um exemplo de cada uma delas, além do número de exemplos de cada e a proporção desse número no total. 
-
-Por fim, optou-se por excluir o “r” presente no final dos verbos no infinitivo. Essa decisão foi tomada pois como todos os verbos compartilham dessa mesma característica, a presença desse fone não agrega mais informação no treinamento e se torna portanto dispensável.
+A Tabela \ref{tab:classes} associa exemplos das classes obtidas à sua respectiva contagem e proporção no corpus.
 
 \begin{table}[H]
 \begin{center}
-\begin{tabular}{|l|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|}
 \toprule
-& Classes & Exemplos & Contagem & Proporção\\
+ & Exemplos & Contagem & Proporção\\
 \midrule
-1 & iar:eiu & ansiar, anseio & 9 & 2.13\%\\
-2 & o\_ar:O\_u & tocar, toco & 30 & 7.09\%\\
-3 & o\_ir:u\_o & cobrir, cubro & 7 & 1.65\%\\
-4 & izer:igu & dizer, digo & 7 & 1.65\%\\
-5 & fazer:fasu & fazer, faço & 15 & 3.55\%\\
-6 & crer:eiu & crer, creio & 5 & 1.18\%\\
-7 & entir:intu & sentir, sinto & 8 & 1.89\% \\
-8 & edir:Esu & pedir, peço & 7 & 1.65\%\\
-9 & or:oNu & pôr, ponho & 27 & 6.38\%\\
-10 & e\_ir:i\_u & seguir, sigo & 27 & 6.38\%\\
-11 & ter:teNu & ter, tenho & 10 & 2.36\%\\
-12 & e\_ar:E\_u & testar, testo & 20 & 4.73\%\\
-13 & ver:veju & ver, vejo & 6 & 1.42\%\\
-14 & vir:veniu & vir, venho & 10 & 2.60\%\\
-15 & Singles & saber, sei & 20 & 4.73\%\\
-16 & Regulares & falar, falo & 214 & 50.59\%\\
+1  & ansia, anseio & 9 & 2.13\%\\
+2  & toca, toco & 30 & 7.09\%\\
+3  & cobri, cubro & 7 & 1.65\%\\
+4  & dize, digo & 7 & 1.65\%\\
+5 & faze, faço & 15 & 3.55\%\\
+6  & cre, creio & 5 & 1.18\%\\
+7  & senti, sinto & 8 & 1.89\% \\
+8  & pedi, peço & 7 & 1.65\%\\
+9  & pô, ponho & 27 & 6.38\%\\
+10  & segui, sigo & 27 & 6.38\%\\
+11  & te, tenho & 10 & 2.36\%\\
+12  & testa, testo & 20 & 4.73\%\\
+13  & ve, vejo & 6 & 1.42\%\\
+14  & vi, venho & 10 & 2.60\%\\
+15 & sabe, sei & 20 & 4.73\%\\
+16  & fala, falo & 214 & 50.59\%\\
 \bottomrule
 \end{tabular}
 \end{center}
 \captionof{table}{Organização do corpus}
 \label{tab:classes}
 \end{table}
+
+\subsection{Os Inputs do Modelo Encoder-Decoder}
+\label{sec:inputs}
+
+Após a construção do corpus, os verbos transcritos tiveram seus respectivos fones associados a um dicionário de traços fonéticos, os mesmos traços que originaram as Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. A Tabela \ref{tab:pOsu} apresenta um exemplo desse processo para o verbo “posso” - “\textit{pOsu}”. 
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{lll}
+Fone & Traços Fonéticos &  \\ \cline{1-2}
+p & bilabial, oclusiva, surda &  \\
+O & meio-aberta, posterior &  \\
+s & fricativa, alveolar, surda &  \\
+u & fechada, posterior & 
+\end{tabular}
+\end{center}
+\caption{Traços Fonéticos para o Verbo “Posso“}
+\label{tab:pOsu}
+\end{table}
+
+Na computação, um dicionário é uma estrutura de armazenamento de dados que associa uma chave a um valor. Essa estrutura possui um conjunto mutuamente exclusivo de chaves, cada uma associada a um valor. Desse modo, ao consultar um dicionário com um valor chave, a estrutura retorna como resposta o valor associado.
+
+ No total são necessários 20 traços para representar um fone. São 18 para representar os traços das tabelas fonéticas construídas (\ref{tab:new_rep} e \ref{tab:new_rep}): Oclusivo, Nasal, Tepe, Fricativa, Aproximante Lateral, Bilabial, Labio-Dental, Alveolar, Pós-Alveolar, Velar, Glotal, Fechada, Meia-fechada, Meia-aberta, Aberta, Anterior, Posterior; e 2 para representar início e fim do verbo ($<$beg$>$ e $<$end$>$).
+
+Os fones são então caracterizados pela presença (1) e ausência (0) dos traços mencionados. Por fim, o dicionário construído possui fones nos valores das chaves e uma lista de 0's e 1's para representar a presença e ausência dos traços fonéticos. A Tabela \ref{tab:coding_example} mostra como exemplo uma comparação entre dois fones similares (\textbf{p} e \textbf{b}) que distinguem-se apenas pelo traço fonético sonoro. O resultado é uma representação vetorial que também carrega essa noção de proximidade entre os fones. O começo do verbo é representado por um vetor que marca 0 em todos os traços fonéticos e 1 no \textit{token} de começo (o traço de fim pode ser compreendido de maneira análoga). 
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{lll}
+\textbf{ Traço} & \textbf{p} &\textbf{ b} \\
+ \toprule
+oclusiva & 1 & 1 \\
+nasal & 0 & 0 \\
+tepe & 0 & 0 \\
+fricativa & 0 & 0 \\
+l-aprox & 0 & 0 \\
+bilabial & 1 & 1 \\
+labiodental & 0 & 0 \\
+alveolar & 0 & 0 \\
+p-alveolar & 0 & 0 \\
+velar & 0 & 0 \\
+glotal & 0 & 0 \\
+sonora & 0 & 1 \\
+fechada & 0 & 0 \\
+m-fechada & 0 & 0 \\
+m-aberta & 0 & 0 \\
+aberta & 0 & 0 \\
+anterior & 0 & 0 \\
+posterior & 0 & 0 \\
+<beg> & 0 & 0 \\
+<end> & 0 & 0
+\end{tabular}
+\end{center}
+\caption{Exemplo de Codificação de fones}
+\label{tab:coding_example}
+\end{table}
+
+Por fim, juntando todos os passos expostos, o processo completo de transformação dos inputs pode ser resumido a:
+
+\begin{enumerate}
+    \item Adição dos \textit{tokens} de início e final dos verbos.
+    \item Divisão dos verbos em fones, seguindo chave de transcrição proposta.
+    \item Transformação dos fones em \textit{arrays} de 0's e 1's, seguindo o dicionário de fones desenvolvido.
+\end{enumerate}
+
+
 
 
 

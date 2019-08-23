@@ -1,0 +1,37 @@
+\input{definitions/colors}
+\input{definitions/styles}
+\begin{figure}[ht!]
+\centering
+
+\scalebox{0.8}{
+\begin{tikzpicture}[H]
+
+%vetor
+\node[box2] (box1) {0};
+\node[box2, below=0pt of box1] (box2) {0};
+\node[box2, below=0pt of box2] (box3) {0};
+\node[box3, below=0pt of box3] (box4) {1};
+\node[textonly, below=0pt of box4] (box5) {\reflectbox{$\vdots$}};
+\node[box2, below=0pt of box5] (box6) {0};
+\node[box2, below=0pt of box6] (box7) {0};
+\node[box2, below=0pt of box7] (box8) {0};
+
+% \node[textonly, below=0pt of box10] (dim) {460x1};
+\node[textonly, below=0pt of dim] (space) {};
+%wickelfeatures
+\node[textonly, right=20pt of box1] (wi1) {Pedro};
+\node[textonly, right=20pt of box2] (wi2) {vai};
+\node[textonly, right=20pt of box3] (wi3) {à};
+\node[textonly, right=20pt of box4] (wi4) {missa};
+\node[textonly, right=20pt of box5] (wi5) {\reflectbox{$\vdots$}};
+\node[textonly, right=20pt of box6] (wi6) {festa};
+\node[textonly, right=20pt of box7] (wi7) {amigo};
+\node[textonly, right=20pt of box8] (wi8) {do};
+
+\node[text, below=10pt of box8] (nada) {};
+
+
+\end{tikzpicture}
+}\caption{Representação One-hot Encoding} 
+\label{fig:ohe}
+\end{figure}
