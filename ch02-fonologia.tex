@@ -388,13 +388,13 @@ voltar & voutar \\ \hline
 
 
 
-\subsection{Corpus}
+\section{Corpus}
 
 O corpus utilizado para o treinamento dessa rede foi construído a partir da listagem de verbos contida no enderenço \texturl{www.conjugação.com.br}.
 
 Primeiramente, foi realizada uma etapa de extração dos verbos e suas respectivas formas flexionadas para um arquivo \textit{.csv} via técnica de \textit{webscraping}, uma técnica que extrai informações contidas nas páginas da web (\cite{mitchell:2015}). Em seguida, os verbos irregulares foram selecionados manualmente para diferentes famílias de verbos, ou seja, grupos que continham o mesmo padrão de flexão. Alguns dos verbos irregulares listados na fonte de referência não eram irregulares no processo de flexão de interesse, e portanto foram realocados para o grupo de verbos regulares (vide exemplo do verbo \textit{correr} na Seção \ref{sec:escopo}). Na sequência, os verbos  coletados na forma infinitiva tiveram o fone /\textit{r}/ extraído para que no \textit{input} do modelo entrasse apenas o radical + vogal temática dos verbos.
 
- Um experimento foi realizado na tentativa de utilizar o transcritor fonético automático disponibilizado por (\cite{guide:2016}) para tornar o processo de transcrição mais rápido. Entretanto, o transcritor falhou na tentativa de transcrever verbos cuja escrita coincide com substantivos, como por exemplo “apoio”, “peso”, “toco”, “posto”, “jogo”, entre outros. Desse modo, os verbos coletados foram transcritos manualmente utilizando a chave de transcrição apresentada na Tabela \ref{tab:chave}. No total, foram obtidos 423 verbos, 83 a menos que no experimento realizado por (\cite{rumelhart:1986}).
+ Um experimento foi realizado na tentativa de utilizar o transcritor fonético automático disponibilizado por \cite{guide:2016} para tornar o processo de transcrição mais rápido. Entretanto, o transcritor falhou na tentativa de transcrever verbos cujas escritas coincidem com substantivos, como por exemplo “apoio”, “peso”, “toco”, “posto”, “jogo”, entre outros. Desse modo, os verbos coletados foram transcritos manualmente utilizando a chave de transcrição apresentada na Tabela \ref{tab:chave}. No total, foram obtidos 423 verbos, 83 a menos que no experimento realizado por (\cite{rumelhart:1986}).
 
 Dos 423 verbos extraídos, 20 foram considerados verbos sem possível agrupamento (verbos como “ir”, “trazer” e “saber”), totalizando uma base de 214 verbos regulares e 209 irregulares (50.6\% e 49.4\% respectivamente). 
 
@@ -428,6 +428,15 @@ A Tabela \ref{tab:classes} associa exemplos das classes obtidas à sua respectiv
 \captionof{table}{Organização do corpus}
 \label{tab:classes}
 \end{table}
+
+\subsection{Types x Tokens}
+Outra questão importante a respeito do corpus utilizado, refere-se à frequência em que os verbos serão inseridos no modelo. Para isso, introduzimos os conceitos de \textit{word type} e \textit{word token} (\cite{Manning:1999}). Discutir sobre a frequência em que os verbos são inseridos é relevante, pois o treinamento das Redes Neurais se dá por meio de \textit{ciclos}. Como vimos no Cap. \ref{ch:01}, \cite{rumelhart:1986} conseguiram fabricar o comportamento da \textit{Curva de Desenvolvimento em U} ao manipular a frequência de inserção dos dados, privilegiando verbos irregulares. 
+
+O termo \textit{type}, importado da área de \textit{Processamento de Linguagem Natural}, refere-se ao número de palavras \textbf{únicas} presentes em um Corpus. A frase “Essa frase é uma frase de exemplo.”, portanto, possui 6 \textit{types}. O termo \textit{token}, em contrapartida, refere-se ao número total de termos presentes, incluindo as repetições. Nesse caso, a mesma frase de exemplo possui 7 \textit{tokens}. 
+
+Evidências na área de psicolinguística (\cite{Bybee:1995,janet:2018}) indicam que humanos aprendem a generalizar padrões fonológicos baseado na contagem de \textit{word types}, ignorando a frequência de uso das palavras. Com isso, nesta pesquisa cada verbo é visto como um \textit{word type}. Isso significa que a frequência de uso dos verbos não foi levada em consideração para a introdução dos mesmos no modelo. Ao invés disso, os verbos são tratados de forma igualitária e compartilham do mesmo número de inserções.\\
+
+mais infos
 
 \subsection{Os Inputs do Modelo Encoder-Decoder}
 \label{sec:inputs}
@@ -492,6 +501,8 @@ Por fim, juntando todos os passos expostos, o processo completo de transformaç�
     \item Divisão dos verbos em fones, seguindo chave de transcrição proposta.
     \item Transformação dos fones em \textit{arrays} de 0's e 1's, seguindo o dicionário de fones desenvolvido.
 \end{enumerate}
+
+
 
 
 

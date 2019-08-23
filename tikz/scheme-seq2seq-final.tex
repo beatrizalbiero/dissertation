@@ -3,8 +3,8 @@
 \begin{tikzpicture}
 \node[punkt] (pred) {Predição\\$\hat{y}$};
 \node[punkt, right=40pt of pred] (arr) {Aproximação\\$\hat{y}_{ap}$};
-\node[punkt, right=40pt of arr] (dist) {Distância Euclidiana com Fones Candidatos};
-\node[punkt, right=40pt of dist] (subs) {Substituição pelo Vetor Candidato mais Próximo};
+\node[punkt, right=40pt of arr] (dist) {Distância Euclidiana com Fones Possíveis};
+\node[punkt, right=40pt of dist] (subs) {Substituição pelo Vetor do Fone mais Próximo};
 
 \path[tedge] (pred) -- (arr);
 \path[tedge] (arr) -- (dist);
@@ -12,18 +12,29 @@
 
 
 \node[punkt, below=40 pt of pred] (pred1) {[0.8734, 0.235, 0.003, ...]};
-\node[punkt, below=40pt of arr] (arr1) {[1.0, 0.0, 0.0, ...]};
-\node[punkt, right=160pt of arr1] (subs1) {[1.0, 0.0, 0.0, ...]};
+\node[punkt, below=40pt of arr] (arr1) {[1.0, 1.0, 0.0, ...]};
+
+\node[punkt,below=60pt of dist] (dist1) {[1.0, 0.0, 0.0, ...]};
+
+\node[punkt,below=20pt of dist] (dist2) {[1.0, 0.0, 1.0, ...]};
+
+\node[punkt,below=100pt of dist] (dist3) {[0.0, 1.0, 0.0, ...]};
+
+\node[box2, below=40pt of subs] (p) {\textbf{p}};
 
 
 \path[tedge] (pred1) -- (arr1);
-\path[tedge] (arr1) -- (subs1);
+\path[tedge] (arr1) -- (dist1);
+\path[tedge] (arr1) -- (dist2);
+\path[tedge] (arr1) -- (dist3);
+
+\path[tedge] (dist1) -- (p);
 
 \node[text, below=10 pt of arr1] (nada) {};
 
 
 
 \end{tikzpicture}
-\caption{Decodificação dos Outputs do Modelo} 
+\caption{Pós-Processamento do Modelo} 
 \label{fig:outputs}
 \end{figure}

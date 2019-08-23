@@ -4,60 +4,74 @@
 
 \section{Introdução ao Modelo Enconder-Decoder}
 \label{sec:intro-sec-sec}
-Um modelo de mapeamento Encoder-Decoder é um sistema composto por duas Redes Neurais Recorrentes cuja principal função é mapear uma relação entre duas sequências distintas que possuem uma relação paradigmática. Modelos do tipo Encoder-Decoder (também conhecidos como \textit{Seq2Seq} \cite{seq2seq:2014}) têm sido bastante utilizados em tarefas linguísticas, especialmente no desenvolvimento de sistemas de diálogo e em tradução automática.
+Um modelo de mapeamento \textit{Encoder-Decoder} (\cite{enc-dec:2014}) é um sistema composto por duas Redes Neurais Recorrentes cuja principal função é mapear uma relação entre duas sequências distintas que possuem uma relação paradigmática. Modelos do tipo \textit{Encoder-Decoder} (também conhecidos como \textit{Seq2Seq} (\cite{seq2seq:2014}) têm sido bastante utilizados em tarefas linguísticas, especialmente no desenvolvimento de sistemas de diálogo e em tradução automática.
 
-Em um contexto de tradução, por exemplo, o modelo recebe como input uma sequência de uma língua de origem e produz como output uma sequência em uma língua alvo. A sequência gerada precisa, além de preservar o conteúdo semântico da sequência de origem, apresentar uma sintaxe aceita pelos falantes da língua alvo. %No contexto de sistemas de diálogo, estabelece-se uma relação entre usuário e máquina, de modo que uma sentença articulada por um usuário serve como entrada e tem como alvo uma resposta coerente da máquina.\\
+Em um contexto de tradução, por exemplo, o modelo recebe como \textit{input }uma sequência de uma língua de origem e produz como \textit{output} uma sequência em uma língua alvo. A sequência gerada precisa, além de preservar o conteúdo semântico da sequência de origem, apresentar uma sintaxe aceita pelos falantes da língua alvo. 
 
 \input{tikz/seq2seq-simple.tex}
-Observa-se que no caso da tradução, não há uma correspondência exata entre os termos de cada uma das línguas. A sentença na língua inglesa possui um termo a menos, sendo que o pronome “his” corresponde aos termos “do seu” no português. Além disso, observa-se que cada uma das línguas possui uma lógica sintática diferente. No primeiro caso, o adjetivo \textit{small} se posiciona antes do substantivo \textit{boy}. No segundo, essa ordem é invertida (\textit{menino pequeno}). 
+Observa-se no caso da tradução, que não há uma correspondência exata entre os termos de cada uma das línguas. A sentença na língua inglesa possui um termo a menos, sendo que o pronome “his” corresponde aos termos “do seu” no português. Além disso, observa-se que cada uma das línguas possui uma sintaxe diferente. No primeiro caso, o adjetivo \textit{small} se posiciona antes do substantivo \textit{boy}. No segundo, essa ordem é invertida (\textit{menino pequeno}). 
 
-As duas redes recorrentes funcionam da seguinte maneira (ver Fig. \ref{fig:seq2seq}): uma primeira rede, a denominada \textit{Encoder} é alimentada com uma sentença da língua de origem (em inglês, por exemplo). Os termos dessa sentença entram um após o outro na rede e alimentam os \textit{estados} ($\vect{h}^{(t)}$), porém nesse caso não é necessário relacionar cada termo a um correspondente ($y_t$) como no caso do modelo de linguagem. A rede Encoder, portanto, não possui \textit{alvos}. O resultado do último estado, gerado após a inserção de todos os termos da sequência de origem, serve como estado inicial ($\vect{h}^{(0)}$) para uma segunda rede recorrente, denominada de \textit{Decoder}. A rede Decoder, por sua vez, recebe como seu primeiro \textit{input}, um \textit{token} que representa o início da sequência alvo (\textbf{<beg>}), inicializando o modelo de linguagem dessa língua, como no modelo de rede neural recorrente apresentado na Seção \ref{sec:RNN}.  
+As duas redes recorrentes funcionam da seguinte maneira (ver Fig. \ref{fig:seq2seq}): uma primeira rede, a denominada \textit{Encoder} é alimentada com uma sentença da língua de origem (em inglês, por exemplo). Os termos dessa sentença entram um após o outro na rede e alimentam os \textit{estados} ($\vect{h}^{(t)}$), porém nesse caso não é necessário relacionar cada termo a um correspondente ($y_t$) como no caso do modelo de linguagem. A rede \textit{Encoder}, portanto, não possui \textit{alvos}, ela serve apenas para acumular os dados da língua de origem. Para tanto, o resultado do último estado, gerado após a inserção de todos os termos da sequência de origem, serve como estado inicial ($\vect{h}^{(0)}$) para uma segunda rede recorrente, denominada de \textit{Decoder}. A rede \textit{Decoder}, por sua vez, recebe como seu primeiro \textit{input}, um \textit{token} que representa o início da sequência alvo (\textbf{<beg>}), inicializando o modelo de linguagem dessa língua, como no modelo de rede neural recorrente apresentado na Seção \ref{sec:RNN}. 
 
  \input{tikz/seq2seq.tex}
  
- Por fim, o aprendizado do modelo ocorre como já explanado no Capítulo \ref{ch:03}: os \textit{outputs} do modelo são comparados com os \textit{alvos}, o erro é propagado de volta através do algoritmo de \textit{backpropagation}, os pesos da rede são atualizados de modo a diminuir esse erro e o processo se repete até a conclusão de todas as \textit{épocas}.
+ Por fim, o aprendizado do modelo ocorre como já explanado no Capítulo \ref{ch:03}: os \textit{outputs} do modelo são comparados com os \textit{alvos}, o erro é propagado de volta através do algoritmo de \textit{backpropagation}, os pesos da rede são atualizados de modo a diminuir esse erro e o processo se repete até a conclusão de todas as \textit{épocas}. É importante ressaltar também que, embora a figura ilustre como exemplo duas sequências de três palavras, o modelo comporta sequências de tamanhos quaisquer e que não precisam coincidir entre si.
  
-\section{A Questão do Aprendizado da Flexão dos Verbos}
+\section{A Questão do Aprendizado de Flexão dos Verbos}
 
-Assim como no problema da tradução automática, pode-se retratar a questão do aprendizado de flexão dos verbos através de uma relação entre duas sequências que compartilham de um mesmo sentido.
+Assim como no problema da tradução automática, pode-se retratar a questão do aprendizado de flexão dos verbos através de uma relação entre duas sequências que compartilham de um mesmo paradigma. No caso desta pesquisa, trataremos apenas da transformação partindo de uma forma base para a forma flexionada escolhida (Seç. \ref{sec:escopo}).
 
 \input{tikz/seq2seq_verbs.tex}
 
-Diferentemente do caso de tradução, em que se busca o aprendizado das relações entre uma palavra e outra das línguas de origem e de alvo, no caso do aprendizado de flexão de verbos busca-se aprender as relações existentes entre um verbo e outro a nível fonético. Desse modo, resta explicar como se deu a transformação dos verbos em vetores adequados para que o modelo fosse capaz de aprender tais relações.
-
-
+Diferentemente do caso de tradução, em que se busca o aprendizado das relações entre uma palavra e outra das línguas de origem e de alvo, no caso do aprendizado de flexão de verbos busca-se aprender as relações existentes entre uma forma verbal básica e uma flexionada a nível fonético. Desse modo, resta explicar como se deu a transformação dos verbos em vetores adequados para que o modelo fosse capaz de aprender tais relações.
 
 \subsection{O modelo Encoder-Decoder Desenvolvido}
 
+\subsubsection{Encoder}
+
+Relembrando a Seç \ref{sec:inputs}, temos que cada fone é representado através de uma forma vetorial com 20 dimensões (correspondentes ao número de traços fonéticos do estudo). Desse modo, a camada de \textit{inputs} da rede \textit{Encoder} tem dimensão 20, e é responsável por receber os verbos na forma base (RAD + VT). Em seguida, o \textit{input} é direcionado para uma rede de tipo LSTM unidirecional. Essas duas camadas constituem o que é chamado de \textit{Encoder}.
 
 \subsubsection{Decoder}
 
-A rede Decoder, por sua vez, tem como objetivo aprender um modelo de linguagem. Isso significa que o verbo flexionado entra como \textit{input} na rede (passando por um processo similar ao explanado na Seção \ref{sec:inputs}) e o seu respectivo \textit{alvo} é o mesmo verbo, porém com um desvio de um passo à frente para constituir o treinamento do modelo. Em conclusão, a preparação dos dados de input e \textit{alvo} da rede Decoder pode ser resumida por:  
+A rede \textit{Decoder}, por sua vez, funciona como um modelo de linguagem. O estado inicial desse modelo ($\vect{h}^{(0)}$) é o estado final gerado pela rede \textit{Encoder}. Além disso, também entram como \textit{input} na rede os respectivos verbos flexionados. A rede recorrente utilizada também é de tipo LSTM unidirecional.
 
-\begin{enumerate}
-    \item Adicionam-se \textit{tokens} de início e final a um verbo transcrito \textbf{flexionado}.
-    \item Os tokens e fones passam a ser representados por vetores numéricos originados a partir do dicionário de traços fonéticos.
-    \item Os vetores entram em ordem na segunda rede (o Decoder).
-    \item O primeiro vetor de \textit{input} para o Decoder representa o \textit{token} de começo.
-    \item O \textit{target} do Decoder é o mesmo verbo flexionado, porém com início no primeiro fone do verbo.
-\end{enumerate}
-
-Em conclusão, a Figura \ref{fig:seq2seq} apresenta o esquema da arquitetura final do modelo desenvolvido. 
+A Figura \ref{fig:seq2seq} apresenta o esquema final do modelo desenvolvido utilizando como exemplo o verbo irregular “\textit{ler}”.
 
 \input{tikz/phonetic_seq2seq.tex}
 
- \subsection{O Output do Modelo}
+% \subsubsection{Metodologia Computacional}
 
-A predição do verbo flexionado é o resultado da concatenação das predições do modelo de linguagem aprendido durante o treinamento. O algoritmo finaliza a predição de fones de um verbo assim que prevê um \textit{token} de final. Tais predições não constituem mais vetores binários, ao invés disso, o modelo solta vetores com valores decimais variando de 0 a 1. Por essa razão, para o processo de decodificação dos vetores de saída são feitas duas aproximações: (i) valores abaixo de 0.5 são substituídos por 0 e valores acima são substituídos por 1; (ii) o resultado dessa operação pode não resultar em um fone válido, portanto é substituído (se necessário) pela representação vetorial cuja distância euclidiana seja a menor quando comparada a todos os candidatos de fones (ou \textit{tokens}) possíveis. 
+% O modelo foi desenvolvido utilizando-se a API \textit{Keras} (\cite{chollet2015keras}). A arquitetura final pode ser verificada na Fig. \ref{fig:arq}. Na figura, notamos a adição de uma camada intermediária após a saída da rede. 
+
+
+
+
+
+% \begin{figure}[!htb]
+%         \center{\includegraphics[width=0.7\textwidth]
+%         {img/encoder-decoder.png}}
+%         \caption{\label{fig:arq} Arquitetura Utilizada}
+%       \end{figure}
+
+ \subsection{Pós-Processamento}
+
+Assim como é necessária uma etapa de pré-processamento para transformar os verbos em vetores numéricos para a alimentação do modelo, também é necessário traduzir a saída do modelo (que neste momento corresponde a uma sequência de vetores numéricos) para uma sequência de caracteres e para a reconstrução do verbo flexionado predito.
+
+Primeiramente, temos que predição do verbo flexionado é o resultado da concatenação das predições do modelo de linguagem aprendido durante o treinamento. Dessa forma, para realizar uma predição, o algoritmo libera um vetor de cada vez. O algoritmo finaliza a predição de fones de um verbo assim que prevê um \textit{token} de final. Tais predições não constituem mais vetores binários, ao invés disso, o modelo solta vetores com valores decimais variando de 0 a 1 (conforme a função de ativação utilizada). Por essa razão, para o pós-processamento dos vetores de saída são feitas duas aproximações: (i) valores abaixo de 0.5 foram substituídos por 0 e valores acima são substituídos por 1; (ii) o resultado dessa operação pode não resultar em um fone válido, com por exemplo um vetor com presença de dois traços contraditórios (ex: fricativo e oclusivo), portanto é substituído (se necessário) pela representação vetorial cuja distância seja mínima quando comparada a todos os fones possíveis. 
+
+Na álgebra linear existem várias maneiras para se medir a distância entre dois vetores. Nesta pesquisa, optou-se pela \textit{distância euclidiana} (ref). A distância euclidiana entre os pontos \textbf{p} e \textbf{q} é equivalente ao comprimento do segmento de reta que os conecta (${\displaystyle {\overline {\mathbf {p} \mathbf {q} }}}$). Utilizando coordenadas cartesianas, e sejam \textbf{q} = ($q_1, q_2, ..., q_n$) e \textbf{p} = ($p_1, p_2, ..., p_n$) dois pontos em um espaço n-dimensional, temos:
+
+\begin{equation}
+    d(\textbf{q}, \textbf{p)} = \sqrt{(q_1 - p_1)^2 + (q_2 - p_2)^2 + ... + (q_n - p_n)^2}\notag
+\end{equation}
+\begin{equation}
+    = \sqrt{\sum_{i=1}^n (q_i-p_i)^2}.    
+\end{equation}
+
 
 \input{tikz/scheme-seq2seq-final.tex}
 
-Para exemplificar o algoritmo de decodificação do output, a Fig. \ref{fig:planes} exibe um gráfico com 3 dimensões e representações vetoriais fictícias de fones. Supõe-se que fones com traços similares apresentem representações próximas mesmo em um plano multidimensional. A figura mostra também um vetor de predição arbitrário ($\hat{y}$) e o mesmo vetor após os arredondamentos necessários ($\hat{y}_{ap}$). No caso desse exemplo, vê-se que o vetor mais próximo do resultado da aproximação seria o vetor do fone \textbf{m}. Entretanto em um plano multidimensional, é mais complicado visualizar as relações entre os fones podendo haver empate entre fones candidatos. 
-
-Para concluir, esse processo de decodificação ocorre enquanto o vetor predito não encontrar como vetor mais próximo o vetor de \textit{token} de final. 
-
-
-
+ 
 
 % \subsection{Resumo}
 
