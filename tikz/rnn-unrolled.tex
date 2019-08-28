@@ -29,7 +29,7 @@
 
 % % timestep 2
 \rnnSimple{(2)}{(1)}{t2}{right=50pt of ht1};
-\node[textonly, below= 80pt of ht1] (ontem) {Ontem};
+\node[textonly, below= 80pt of ht1] (ontem) {<beg>};
 \node[textonly, above= 80pt of ht1] (eu) {Pedro};
 \path [pil, bend left=40] (ontem) edge node {} (eu);
 
@@ -37,11 +37,11 @@
 \rnnSimple{(3)}{(1)}{t3}{right=50pt of ht2};
 \node[textonly, below= 80pt of ht2] (eu2) {Pedro};
 \path [pil, bend left=3] (eu) edge node {} (eu2);
-\node[textonly, above= 80pt of ht2] (fui) {foi};
+\node[textonly, above= 80pt of ht2] (fui) {vai};
 \path [pil, bend left=40] (eu2) edge node {} (fui);
 
 % timestep future
-\node[textonly, below= 80pt of ht3] (fui2) {foi};
+\node[textonly, below= 80pt of ht3] (fui2) {vai};
 \path [pil, bend left=3] (fui) edge node {} (fui2);
 \node[textonly, above= 80pt of ht3] (na) {à};
 \path [pil, bend left=40] (fui2) edge node {} (na);

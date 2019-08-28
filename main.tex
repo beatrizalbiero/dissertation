@@ -4,6 +4,10 @@
 % Pacotes 
 \usepackage[T1]{fontenc}
 \usepackage[portuguese]{babel}
+\usepackage{floatrow}
+\newfloatcommand{capbtabbox}{table}[][\FBwidth]
+\usepackage{blindtext}
+
 % \usepackage[latin1]{inputenc}
 \usepackage[utf8x]{inputenc}
 \usepackage[pdftex]{graphicx}           % usamos arquivos pdf/png como figuras
@@ -28,7 +32,7 @@
 }
 \newcommand{\aup}{\textsuperscript}
 
-
+\usepackage{lastpage}
 \usepackage{tipa}
 \let\ipa\textipa
 \usepackage[utf8]{inputenc}
@@ -201,7 +205,7 @@ framexrightmargin=10pt
 \thispagestyle{empty}
 \begin{center}
     \vspace*{2.3cm}
-    \textbf{\Large{A Arquitetura Neural Encoder-Decoder Aplicada para Irregularidades Verbais do Português Brasileiro
+    \textbf{\Large{O modelo Encoder-Decoder aplicado em irregularidades verbais do Português Brasileiro
 }}\\
     
     
@@ -224,6 +228,7 @@ framexrightmargin=10pt
 
 \pagenumbering{roman}     % começamos a numerar
 
+\include{Aprovacao}
 
 % ---------------------------------------------------------------------------- %
 % Dedicatória

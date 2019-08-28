@@ -16,7 +16,7 @@ usado para representar textos em computadores. Ele codifica letras do alfabeto l
 
 Em seguida, as transcrições foram reestruturadas em \textit{trigramas}. Fazer isso significa analisar a sequência do verbo de três em três segmentos, ou seja, nessa etapa, a sequência “\#\textit{kAm}\#” passou a ser tratada como “\#\textit{kA}” + “\textit{kAm}” + “\textit{Am}\#”. Cada um desses trigramas é chamado de \textit{Wickelphone}, estrutura nomeada por \cite{wickelgren:1969}.
 
-Na sequência, os autores apresentam uma nova estrutura intitulada de \textit{Wickelfeatures}. Os \textit{Wickelfeatures} são justamente as tríades de traços fonéticos introduzidas no Cap. \ref{ch:01}. Como visto na Tabela \ref{tab:trigrams}, cada um dos fones pode ser descrito por algumas características relacionadas à execução dos seus respectivos sons. Entretanto, as características dos trigramas formados podem ser combinadas de muitas formas, mais precisamente, $4^{3}$ possibilidades, visto que cada fone pode ser descrito por 4 traços. 
+Na sequência, os autores apresentam uma nova estrutura intitulada de \textit{Wickelfeatures}. Os \textit{Wickelfeatures} são justamente as tríades de traços fonéticos introduzidas no Cap. \ref{ch:01}. Como visto na Tabela \ref{tab:trigrams}, cada um dos fones pode ser descrito por algumas características relacionadas à execução dos seus respectivos sons. Entretanto, as características dos trigramas formados podem ser combinadas de muitas formas, mais precisamente, $4^{3}$ possibilidades, visto que cada fone pode ser descrito por 4 traços (Apêndice (ref)). 
 
 Assim, para a construção dos nódulos do modelo, \cite{rumelhart:1986} computaram todos os \textit{Wickelfeatures} possíveis entre os verbos e excluíram alguns redundantes para simplificar a computação. Ao final, os \textit{Wickelfeatures} dos verbos foram mapeados como chaves em um dicionário de tamanho fixo (um vetor) em que os valores poderiam assumir somente 0 ou 1; 1 caso aquele \textit{Wickelfeature} estivesse presente no verbo e 0 caso contrário. A Figura \ref{fig:wick} ilustra o esquema de codificação para o verbo “came”. 
 
@@ -75,26 +75,27 @@ Começaremos pela apresentação do Alfabeto Fonético Internacional (AFI), apre
 
 A Tabela \ref{tab:ipa1} reúne o conjunto dos sons consoantes e exibe na dimensão das colunas o ponto de articulação dos sons, isto é, o ponto de contato onde ocorre uma obstrução no trato vocal. A coluna “Bilabial”, por exemplo, corresponde à obstrução que ocorre nos lábios durante a produção dos seus respectivos fones. As linhas compõem os diferentes \textit{modos} de articulação possíveis, ou seja, as formas de obstrução da passagem de ar. A obstrução pode ser total como em \textbf{[p]} ou parcial como em \textbf{[s]}. Por fim, dentro de uma mesma célula pode ocorrer um som com ou sem a vibração das cordas vocais, é o caso do par \textbf{[p b]}. O símbolo da esquerda representa o som surdo e o símbolo da direita, sonoro. 
 
-As vogais estão organizadas na Tabela \ref{tab:ipa2}. As colunas dessa tabela se referem ao local de reprodução dos sons e as linhas à abertura da boca durante a execução. Quando os símbolos aparecem em pares, aquele da direita representa uma vogal arredondada (\cite{paraconhecer:2015}).  
+As vogais estão organizadas na Fig. \ref{fig:vowels_ipa}. As colunas dessa tabela se referem ao local de reprodução dos sons (com avanço ou recuo da língua), e as linhas, à altura da língua em relação ao céu da boca durante a execução do som. Quando os símbolos aparecem em pares, aquele da direita representa uma vogal arredondada (\cite{paraconhecer:2015}). Como um exemplo do funcionamento desta tabela, é interessante observar a execução da vogal \textbf{[u]} compará-la com a vogal \textbf{[o]}. Ao pronunciar ambas para uma comparação, nota-se o arredondamento dos lábios em ambas, porém a altura da língua durante a execução da segunda é levemente mais baixa que a altura da primeira. Para entender a questão de anterioridade/posterioridade, é interessante observar a movimentação (avanço e recuo) da língua durante a execução de \textbf{[e]} e \textbf{[o]}.
+
 \begin{center}
 \scalebox{0.8}{
     \begin{tabular}{|l|cc|cc|cc|cc|cc|cc|cc|cc|cc|cc|cc|}
 %\begin{tabular}{|l|cc|}
         \hline & 
             \multicolumn{2}{|c|}{\footnotesize{Bilabial}} &					% Bilabial
-            \multicolumn{2}{|c|}{\footnotesize{Lab. dent.}} & 			% Labiodental
+            \multicolumn{2}{|c|}{\footnotesize{Labiodental}} & 			% Labiodental
             \multicolumn{2}{|c|}{\footnotesize{Dental}} & 					% Dental
             \multicolumn{2}{|c|}{\footnotesize{Alveolar}} & 				% Alveolar
             \multicolumn{2}{|c|}{\footnotesize{P-alveo.}} & 		% Post-alveolar
-            \multicolumn{2}{|c|}{\footnotesize{Retroflexo}} & 				% Retroflex
+            \multicolumn{2}{|c|}{\footnotesize{Retroflexa}} & 				% Retroflex
             \multicolumn{2}{|c|}{\footnotesize{Palatal}} & 					% Palatal
             \multicolumn{2}{|c|}{\footnotesize{Velar}} & 					% Velar
             \multicolumn{2}{|c|}{\footnotesize{Uvular}} & 					% Uvular
-            \multicolumn{2}{|c|}{\footnotesize{Pharyng.}} & 			% Pharyngeal
+            \multicolumn{2}{|c|}{\footnotesize{Faringal}} & 			% Pharyngeal
             \multicolumn{2}{|c|}{\footnotesize{Glotal}}  \\% Glottal
 
         \hline 
-        Oclusivo &	% Plosive
+        Oclusiva &	% Plosive
             \circled{p} & \circled{b} &													% Bilabial
             &&														% Labiodental
             \multicolumn{3}{|r}{\circled{t}}&							% Dental
@@ -120,7 +121,7 @@ As vogais estão organizadas na Tabela \ref{tab:ipa2}. As colunas dessa tabela s
             \BlankCell        & \BlankCell        &		% Pharyngeal
             \BlankCell        & \BlankCell         \\		% Glottal
 
-        \hline Trill &  								% Trill
+        \hline Vibrante &  								% Trill
             & \ipa{\;B}&											% Bilabial
             & &														% Labiodental
             \multicolumn{3}{|r}{}&								% Dental
@@ -133,7 +134,7 @@ As vogais estão organizadas na Tabela \ref{tab:ipa2}. As colunas dessa tabela s
             & &														% Pharyngeal
             \BlankCell        & \BlankCell         \\		% Glottal
 
-        \hline Tap/Flap &  						% Tap /Flap
+        \hline Tepe &  						% Tap /Flap
             & &													% Bilabial
             & &														% Labiodental
             \multicolumn{3}{|r}{} &					% Dental
@@ -146,7 +147,7 @@ As vogais estão organizadas na Tabela \ref{tab:ipa2}. As colunas dessa tabela s
             & &														% Pharyngeal
             \BlankCell        & \BlankCell         \\		% Glottal
 
-        \hline Fricative & 						% Fricative
+        \hline Fricativa & 						% Fricative
             \ipa{F} & \ipa{B} &									% Bilabial
             \circled{f} & \circled{v} &													% Labiodental
             \ipa{T} & \ipa{D} &									% Dental
@@ -159,7 +160,7 @@ As vogais estão organizadas na Tabela \ref{tab:ipa2}. As colunas dessa tabela s
             \textcrh & \ipa{Q} &								% Pharyngeal
             h & \texthth \\										% Glottal
 
-        \hline Lat. Fric. & 					% Lat. Fricative
+        \hline Fric. Lateral & 					% Lat. Fricative
             \BlankCell        & \BlankCell        &		% Bilabial
             \BlankCell        & \BlankCell        &		% Labiodental
             \multicolumn{3}{|r}{\textbeltl} &				% Dental
@@ -172,7 +173,7 @@ As vogais estão organizadas na Tabela \ref{tab:ipa2}. As colunas dessa tabela s
             \BlankCell        & \BlankCell        			% Pharyngeal
             & \BlankCell        & \BlankCell         \\   % Glottal
 
-        \hline Approx & 							% Approx.
+        \hline Aprox. & 							% Approx.
             & &														% Bilabial
             & \ipa{V} &											% Labiodental
             \multicolumn{3}{|r}{}&								% Dental
@@ -185,7 +186,7 @@ As vogais estão organizadas na Tabela \ref{tab:ipa2}. As colunas dessa tabela s
             & &														% Pharyngeal
             \BlankCell        & \BlankCell         \\		% Glottal
 
-        \hline Lat. appr. & 					% Lat. Approx
+        \hline Aprox. Lateral & 					% Lat. Approx
             \BlankCell        & \BlankCell        &		% Bilabial
             \BlankCell        & \BlankCell        &		% Labiodental
             \multicolumn{3}{|r}{}&								% Dental
@@ -203,42 +204,14 @@ As vogais estão organizadas na Tabela \ref{tab:ipa2}. As colunas dessa tabela s
 \captionof{table}{Consoantes AFI}\label{tab:ipa1}
 \end{center}
 
-\begin{center}
-    \begin{vowel}
-        %    \putcvowel[l]{i}{1}
-        \putvowel[l]{i}{0pt}{0pt}
-        \putcvowel[r]{y}{1}
-        \putcvowel[l]{e}{2}
-        \putcvowel[r]{\o}{2}
-        \putcvowel[l]{\textepsilon}{3}
-        \putcvowel[r]{\oe}{3}
-        \putcvowel[l]{a}{4}
-        \putcvowel[r]{\textscoelig}{4}
-        \putcvowel[l]{\textscripta}{5}
-        \putcvowel[r]{\textturnscripta}{5}
-        \putcvowel[l]{\textturnv}{6}
-        \putcvowel[r]{\textopeno}{6}
-        \putcvowel[l]{\textramshorns}{7}
-        \putcvowel[r]{o}{7}
-        \putcvowel[l]{\textturnm}{8}
-        \putcvowel[r]{u}{8}
-        \putcvowel[l]{\textbari}{9}
-        \putcvowel[r]{\textbaru}{9}
-        \putcvowel[l]{\textreve}{10}
-        \putcvowel[r]{\textbaro}{10}
-        \putcvowel{\textschwa}{11}
-        \putcvowel[l]{\textrevepsilon}{12}
-        \putcvowel[r]{\textcloserevepsilon}{12}
-        \putcvowel{\textsci\ \textscy}{13}
-        \putcvowel{\textupsilon}{14}
-        \putcvowel{\textturna}{15}
-        \putcvowel{\ae}{16}
-    \end{vowel}
-\captionof{table}{Vogais IPA}\label{tab:ipa2}   
-\end{center} 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth]{img/vowels.png}
+    \caption{Vogais IPA}
+    \label{fig:vowels_ipa}
+\end{figure}
 
-A ideia do AFI é mapear e caracterizar todos os sons das línguas humanas. Desse modo, cada língua aproveita apenas um subconjunto do AFI. Os fones presentes no Português-Brasileiro estão circulados. Levando em conta apenas o subconjunto dos fones do PB e também tendo em mente que os símbolos do alfabeto fonético precisam ser transformados em código ASCII para serem interpretados, faz sentido construir uma nova tabela adaptada para o problema em questão. O resultado desta adaptação pode ser visto nas Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. Nessa nova tabela, além da exclusão de alguns pontos e modos de articulação, apresenta-se também uma chave de transcrição alternativa que engloba apenas caracteres pertencentes ao código ASCII. A Tabela \ref{tab:transc} exibe alguns exemplos de transcrições possíveis.  
-
+A ideia do AFI é mapear e caracterizar todos os sons das línguas humanas. Desse modo, cada língua aproveita apenas um subconjunto do AFI. Os fones presentes no Português-Brasileiro estão circulados. Levando em conta apenas o subconjunto dos fones do PB, e também tendo em mente que os símbolos do alfabeto fonético precisam ser transformados em código ASCII para serem interpretados, faz sentido construir uma nova tabela adaptada para o problema em questão. O resultado desta adaptação pode ser visto nas Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. Nessas novas tabelas, além da exclusão de alguns pontos e modos de articulação (motivada pela própria natureza do PB), apresenta-se também uma chave de transcrição alternativa que engloba apenas caracteres pertencentes ao código ASCII. Com relação à tabela das vogais (\ref{tab:new_vocals}), a dimensão de arredondamento foi dispensada pois não havia mais a necessidade dessa marcação.
 
 \begin{center}
 \scalebox{0.9}{
@@ -321,8 +294,8 @@ A ideia do AFI é mapear e caracterizar todos os sons das línguas humanas. Dess
 \end{table}
 \end{center}
 
-vogais 
 
+ A Tabela \ref{tab:chave} exibe a chave de transcrição proposta utilizando as tabelas  fonéticas criadas e a Tabela \ref{tab:transc} exibe alguns exemplos de transcrições possíveis.  
 
 \begin{table}[H]
 \begin{center}
@@ -396,7 +369,7 @@ Primeiramente, foi realizada uma etapa de extração dos verbos e suas respectiv
 
  Um experimento foi realizado na tentativa de utilizar o transcritor fonético automático disponibilizado por \cite{guide:2016} para tornar o processo de transcrição mais rápido. Entretanto, o transcritor falhou na tentativa de transcrever verbos cujas escritas coincidem com substantivos, como por exemplo “apoio”, “peso”, “toco”, “posto”, “jogo”, entre outros. Desse modo, os verbos coletados foram transcritos manualmente utilizando a chave de transcrição apresentada na Tabela \ref{tab:chave}. No total, foram obtidos 423 verbos, 83 a menos que no experimento realizado por (\cite{rumelhart:1986}).
 
-Dos 423 verbos extraídos, 20 foram considerados verbos sem possível agrupamento (verbos como “ir”, “trazer” e “saber”), totalizando uma base de 214 verbos regulares e 209 irregulares (50.6\% e 49.4\% respectivamente). 
+Dos 423 verbos extraídos, 20 foram considerados verbos sem possível agrupamento (verbos como “ir”, “trazer” e “saber”), totalizando uma base de 214 verbos regulares e 209 irregulares (50.6\% e 49.4\% respectivamente). A título de comparação, o estudo de \cite{rumelhart:1986} era composto por apenas 20\% de verbos irregulares.
 
 A Tabela \ref{tab:classes} associa exemplos das classes obtidas à sua respectiva contagem e proporção no corpus.
 
@@ -407,7 +380,7 @@ A Tabela \ref{tab:classes} associa exemplos das classes obtidas à sua respectiv
  & Exemplos & Contagem & Proporção\\
 \midrule
 1  & ansia, anseio & 9 & 2.13\%\\
-2  & toca, toco & 30 & 7.09\%\\
+2  & bota, boto & 30 & 7.09\%\\
 3  & cobri, cubro & 7 & 1.65\%\\
 4  & dize, digo & 7 & 1.65\%\\
 5 & faze, faço & 15 & 3.55\%\\
@@ -429,6 +402,8 @@ A Tabela \ref{tab:classes} associa exemplos das classes obtidas à sua respectiv
 \label{tab:classes}
 \end{table}
 
+Apesar do volume de verbos irregulares ser consideravelmente maior do que o volume utilizado no estudo de \cite{rumelhart:1986}, pode-se dizer que algumas das famílias coletadas apresentam certa improdutividade, no sentido de que muitos verbos são reaproveitamentos de outros através do uso de prefixos. Por exemplo, a família do verbo “fazer” é composta apenas de verbos derivados do mesmo: “desfazer”, “refazer”, etc. Isto pode ser observado em outras classes, como a do verbo “cobrir”, “pedir”, “dizer”, “ver”, entre outras. As classes com maior variabilidade são as do verbo “botar” com por exemplo “tocar”, “gostar”, “colocar”; “testar” com “pegar”, “secar”, “testar”; e “seguir” com “digerir”, “regredir”, “divertir”.   
+
 \subsection{Types x Tokens}
 Outra questão importante a respeito do corpus utilizado, refere-se à frequência em que os verbos serão inseridos no modelo. Para isso, introduzimos os conceitos de \textit{word type} e \textit{word token} (\cite{Manning:1999}). Discutir sobre a frequência em que os verbos são inseridos é relevante, pois o treinamento das Redes Neurais se dá por meio de \textit{ciclos}. Como vimos no Cap. \ref{ch:01}, \cite{rumelhart:1986} conseguiram fabricar o comportamento da \textit{Curva de Desenvolvimento em U} ao manipular a frequência de inserção dos dados, privilegiando verbos irregulares. 
 
@@ -436,7 +411,6 @@ O termo \textit{type}, importado da área de \textit{Processamento de Linguagem 
 
 Evidências na área de psicolinguística (\cite{Bybee:1995,janet:2018}) indicam que humanos aprendem a generalizar padrões fonológicos baseado na contagem de \textit{word types}, ignorando a frequência de uso das palavras. Com isso, nesta pesquisa cada verbo é visto como um \textit{word type}. Isso significa que a frequência de uso dos verbos não foi levada em consideração para a introdução dos mesmos no modelo. Ao invés disso, os verbos são tratados de forma igualitária e compartilham do mesmo número de inserções.\\
 
-mais infos
 
 \subsection{Os Inputs do Modelo Encoder-Decoder}
 \label{sec:inputs}
@@ -459,9 +433,11 @@ u & fechada, posterior &
 
 Na computação, um dicionário é uma estrutura de armazenamento de dados que associa uma chave a um valor. Essa estrutura possui um conjunto mutuamente exclusivo de chaves, cada uma associada a um valor. Desse modo, ao consultar um dicionário com um valor chave, a estrutura retorna como resposta o valor associado.
 
- No total são necessários 20 traços para representar um fone. São 18 para representar os traços das tabelas fonéticas construídas (\ref{tab:new_rep} e \ref{tab:new_rep}): Oclusivo, Nasal, Tepe, Fricativa, Aproximante Lateral, Bilabial, Labio-Dental, Alveolar, Pós-Alveolar, Velar, Glotal, Fechada, Meia-fechada, Meia-aberta, Aberta, Anterior, Posterior; e 2 para representar início e fim do verbo ($<$beg$>$ e $<$end$>$).
+ No total são necessários 20 traços para representar um fone. São 18 para representar os traços das tabelas fonéticas construídas (\ref{tab:new_rep} e \ref{tab:new_rep}): Oclusivo, Nasal, Tepe, Fricativa, Aproximante Lateral, Bilabial, Labio-Dental, Alveolar, Pós-Alveolar, Velar, Glotal, Fechada, Meia-fechada, Meia-aberta, Aberta, Anterior, Posterior; e 2 para representar início e final do verbo ($<$beg$>$ e $<$end$>$).
 
-Os fones são então caracterizados pela presença (1) e ausência (0) dos traços mencionados. Por fim, o dicionário construído possui fones nos valores das chaves e uma lista de 0's e 1's para representar a presença e ausência dos traços fonéticos. A Tabela \ref{tab:coding_example} mostra como exemplo uma comparação entre dois fones similares (\textbf{p} e \textbf{b}) que distinguem-se apenas pelo traço fonético sonoro. O resultado é uma representação vetorial que também carrega essa noção de proximidade entre os fones. O começo do verbo é representado por um vetor que marca 0 em todos os traços fonéticos e 1 no \textit{token} de começo (o traço de fim pode ser compreendido de maneira análoga). 
+Os fones são então caracterizados pela presença (1) e ausência (0) dos traços mencionados. Desse modo, o dicionário construído possui fones nos valores das chaves e uma lista de 0's e 1's para representar as presenças e ausências dos traços fonéticos. De acordo com as tabelas fonéticas desenvolvidas, cada fonema pode ser descrito por apenas três ou dois traços fonéticos, de modo que cada vetor terá apenas três ou dois valores marcados como \textbf{1}'s. Os \textit{tokens} de início e final do verbo ($<$beg$>$ e $<$end$>$) são exceções, com apenas uma marcação de \textbf{1} no vetor. 
+
+A Tabela \ref{tab:coding_example} mostra como exemplo uma comparação entre dois fones similares (\textbf{p} e \textbf{b}) que distinguem-se apenas pelo traço fonético sonoro. O resultado é uma representação vetorial que também carrega essa noção de proximidade entre os fones. O começo do verbo é representado por um vetor que marca 0 em todos os traços fonéticos e 1 no \textit{token} de começo (o traço de fim pode ser compreendido de maneira análoga). 
 
 \begin{table}[H]
 \begin{center}

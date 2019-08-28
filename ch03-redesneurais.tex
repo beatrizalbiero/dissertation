@@ -21,14 +21,31 @@ Os aprendizados não-supervisionados podem ser caracterizados pela não utiliza�
     \caption{\label{fig:iris} Algoritmo não-supervisionado (K-means) realizado no \textit{dataset Iris} }
   \end{figure}
 
-Os aprendizados por reforço consistem em algoritmos que recebem sinais de recompensa/punição quando acertam/erram uma tarefa de interesse. Recomenda-se a leitura de \cite{KLMSurvey:1996} para maiores detalhes.
+Um modelo de aprendizado de máquina é dito supervisionado caso seja feito o uso de uma variável \textit{resposta} para o treinamento do mesmo. Para exemplificar o que isso significa, podemos utilizar o mesmo dataset \textit{Iris}, porém para uma tarefa diferente. Observe o gráfico na figura que relaciona os tamanhos de pétalas de uma espécie de flor com os respectivos tamanhos das sépalas. A partir da observação do gráfico, podemos ver que é possível supor que exista uma relação linear entre as duas variáveis e que, além disso, seja possível estimar uma delas a partir da observação da outra. No caso, vemos que saber o comprimento da sépala nos traz informação também sobre o comprimento da pétala, isto é, conforme o tamanho da sépala aumenta, o tamanho da pétala também tende a aumentar. 
 
-um paragrafo maior sobre aprendizado supervisionado, tarefas de regressao etc
-No caso das redes neurais, o aprendizado diz-se supervisionado, pois informa-se ao modelo o \textit{alvo} esperado  pelo treinamento para cada informação de entrada (Fig. \ref{fig:gabarito}). 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/iris_linear.png}
+    \caption{Gráfico de Dispersão das variáveis \textit{Comprimento de Sépala} e \textit{Comprimento de Sépala} para uma mesma espécie de planta no dataset \textit{Iris}}
+    \label{fig:my_label}
+\end{figure}
+
+Desse modo, um dos modelos que podemos utilizar para estimar o comprimento de uma pétala a partir do comprimento de uma sépala é o modelo de aprendizado de máquina de \textit{Regressão Linear}. O objetivo desse modelo é encontrar a expressão para uma reta que represente a relação observada da melhor forma possível, isto é, uma reta cujas distâncias entre as observações e a própria reta sejam mínimas. Para tanto, o treinamento requer a utilização das observações existentes, ou seja, dos valores reais das pétalas para encontrar essa reta ótima que buscamos. Assim, notamos portanto uma grande diferença entre as tarefas propostas e os algoritmos apresentados. Os algoritmos de modelos não-supervisionados são em geral utilizados quando não se tem uma variável \textit{alvo} disponível. Já os supervisionados, utilizam essa variável como uma espécie de gabarito durante o treinamento para encontrar funções ótimas (com erros mínimos).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/reg_iris.png}
+    \caption{Modelo de Regressão Linear proposto}
+    \label{fig:my_label}
+\end{figure}
+
+Temos ainda os aprendizados por \textit{reforço}. Os aprendizados por reforço consistem em algoritmos que recebem sinais de recompensa/punição quando acertam/erram uma tarefa de interesse. Recomenda-se a leitura de \cite{KLMSurvey:1996} para maiores detalhes.
+
+Para concluir, a partir dos conceitos expostos e retomando a Fig. \ref{fig:gabarito}, temos que um modelo de Rede Neural é um modelo de aprendizado de máquina supervisionado. 
 
 \section{Introdução Teórica a Redes Neurais}
 \label{sec:intro-rn}
-A inspiração para o desenvolvimento da modelagem em Redes Neurais Artificiais surgiu a partir de estudos em neurosciência que concluíram que, diante de múltiplas apresentações de um mesmo estímulo, um mesmo conjunto de neurônios sofre incitação e dispara. Um estímulo diferente resulta no disparo de um conjunto de neurônios diferente (\cite{hubel:1962}).  Analogamente, o modelo artificial é composto por uma camada denominada de \textit{input} responsável por receber diferentes estímulos (matematicamente retratados por vetores numéricos que representam o objeto do aprendizado). A informação recebida é distribuída ao longo de múltiplas conexões com a próxima camada através de uma multiplicação com uma matriz de pesos $\vect{W}$ (Fig. \ref{fig:diagram}). A matriz de pesos funciona como uma analogia às conexões existentes entre neurônios de modo que um peso maior (mais próximo de 1) representa uma conexão reforçada e um peso menor (mais próximo de 0) representa uma conexão reprimida. Na figura estão representados três pesos como exemplos, porém na prática, todas as conexões tem pesos associados.
+A inspiração para o desenvolvimento da modelagem em Redes Neurais Artificiais surgiu a partir de estudos em neurosciência que concluíram que, diante de múltiplas apresentações de um mesmo estímulo, um mesmo conjunto de neurônios sofre incitação e dispara. Um estímulo diferente resulta no disparo de um conjunto de neurônios diferente (\cite{hubel:1962}). Analogamente, o modelo artificial é composto por uma camada denominada de \textit{input} responsável por receber diferentes estímulos (matematicamente retratados por vetores numéricos que representam o objeto do aprendizado). A informação recebida é distribuída ao longo de múltiplas conexões com a próxima camada através de uma multiplicação com uma matriz de pesos $\vect{W}$ (Fig. \ref{fig:diagram}). A matriz de pesos funciona como uma analogia às conexões existentes entre neurônios de modo que um peso maior (mais próximo de 1) representa uma conexão reforçada e um peso menor (mais próximo de 0) representa uma conexão reprimida. Na figura estão representados três pesos como exemplos, porém na prática, todas as conexões tem pesos associados.
 
 % Suponha uma arquitetura simples com um \textit{input} de dimensão 3. Dada essa suposição, o número de linhas da matriz $W$ fica condicionado a 3 para que a multiplicação seja possível. O número de colunas da matriz depende da dimensão da próxima camada. Para ilustrar, suponha novamente que a dimensão da próxima camada também tem dimensão 3. Algebricamente, o processo descrito é representado pela multiplicação apresentada em \ref{eq:mult}.
 
@@ -52,7 +69,7 @@ A inspiração para o desenvolvimento da modelagem em Redes Neurais Artificiais 
 O resultado dessa multiplicação gera um vetor, cujos valores são em seguida somados ($\displaystyle\Sigma$). O valor resultante entra como argumento em uma função (que nesse contexto é chamada de \textit{função de ativação} ($f$)). As funções de ativação são parte fundamental do funcionamento da rede, são elas que permitem o aprendizado de relações complexas (não lineares) entre os \textit{inputs} e os \textit{alvos}. 
 
 Uma das funções de ativação mais utilizadas na literatura (e inclusive utilizada pelos pesquisadores Rumelhart e McClelland) é a função \textit{Sigmoid}, uma função com propriedades matemáticas desejáveis e que comprime os resultados obtidos em um intervalo de [0, 1]. Tal compressão possibilita a associação dos \textit{outputs} do modelo a probabilidades. A Fig. \ref{fig:sigmoidplot} mostra o gráfico da função \textit{Sigmoid}. Na literatura existem ainda outras funções comumente utilizadas, como a \textit{ReLu}, a \textit{Tanh} e a \textit{Softmax}
-(\cite{Goodfellow-et-al-2016}). A escolha dessas funções depende da tarefa em que estão sendo aplicadas. Entretanto, o ajuste dos modelos de Redes Neurais é bastante experimental. Na prática, recomenda-se consultar a literatura por tarefas similares para realizar tal escolha. Na ausência de tarefa similar, as funções tem seus desempenhos comparados para que se decida por uma delas. 
+(\cite{Goodfellow-et-al-2016}). A escolha dessas funções depende da tarefa em que estão sendo aplicadas. 
 
 \input{tikz/sigmoid_plot.tex} %diminuir esse desenho
 
@@ -83,9 +100,7 @@ Na Seç. \ref{sec:ml} falamos sobre o fato de uma Rede Neural ser um aprendizado
 
 Os hiperparâmetros são parâmetros do modelo que são escolhidos a priori para sua configuração. Um deles refere-se ao número de vezes em que um mesmo \textit{input} é inserido, conhecido como o número de \textit{épocas}. O treinamento de uma Rede Neural, se dá por meio de \textit{ciclos}. Cada vez que um mesmo \textit{input} é apresentado a rede, ocorre uma nova predição, e consequentemente, uma nova comparação com o \textit{alvo}. Desse modo, a rede tem a oportunidade de ir refinando e ajustando os pesos para que os \textit{outputs} se aproximem dos \textit{alvos}.
 
-Já foi falado um pouco sobre a quantidade de camadas intermediárias. Como essa questão determina a arquitetura da rede, também deve ser definida a priori, sendo considerada também um hiperparâmetro. Ademais, a dimensionalidade (número de nódulos) de tais camadas também deve ser pré-determinada. 
-
-Existem também outros hiperparâmetros importantes como a taxa de aprendizado $\eta$, o parâmetro de regularização $\lambda$, taxa de \textit{Dropout}, entre outros (\cite{josh:2017}). Todos esses hiperparâmetros definem as configurações do modelo.
+Já foi falado um pouco sobre a quantidade de camadas intermediárias. Como essa questão determina a arquitetura da rede, também deve ser definida a priori, sendo considerada também um hiperparâmetro. Ademais, a dimensionalidade (número de nódulos) de tais camadas também deve ser pré-determinada. Existem também outros hiperparâmetros importantes, como a taxa de aprendizado $\eta$, o parâmetro de regularização $\lambda$, taxa de \textit{Dropout}, entre outros. Para mais detalhes sobre o uso e variedade dos hiperparâmetros, ver \cite{josh:2017}. 
 
 Sobre a determinação dos hiperparâmetros, esta não é uma tarefa trivial, visto que há uma variedade de hiperparâmetros que podem ser combinados de várias maneiras. Múltiplos treinamentos com diferentes configurações de hiperparâmetros são realizados para que se possa fazer essa escolha. Na prática, porém, é mais comum que esses hiperparâmetros sejam configurados a partir de resultados de experimentos semelhantes publicados na literatura. Existem também algoritmos de exploração de hiperparâmetros, como por exemplo o \textit{Grid Search}. Dado um conjunto de hiperparâmetros para teste, este algoritmo testa todas as combinações possíveis e devolve como solução a combinação que gerou o melhor resultado (\cite{Goodfellow-et-al-2016}).
 
@@ -139,7 +154,7 @@ Para estimar as probabilidades do modelo de \textit{bigramas}, podemos utilizar 
 \end{equation}
 
 Pode-se verificar que o estimador em \ref{eq:brigrams} é também o estimador de \textit{máxima verossimilhança} para \ref{eq:bigramsp}.
-Considerando o exemplo de “\textit{Pedro vai à \_\_\_}”, poderíamos estimar as probabilidades do próximo termo ser “\textit{missa}”, por exemplo, contando todas as vezes que “\textit{missa}” ocorreu após “\textit{à}” no corpus. Para normalizar a contagem, dividimos o valor obtido pelo número total de ocorrências do termo “\textit{à}”.
+Considerando o exemplo de “\textit{Pedro vai à \_\_\_}”, poderíamos estimar as probabilidades do próximo termo ser “\textit{missa}”, por exemplo, contando todas as vezes que “\textit{missa}” ocorreu após “\textit{à}” no corpus. Para normalizar a contagem (restringir essa informação entre 0 e 1 para uma aproximação probabilística), dividimos o valor obtido pelo número total de ocorrências do termo “\textit{à}”.
 
 Também é possível aumentar o histórico e construir modelos de trigramas, quadrigramas, etc, basta aumentar o tamanho do histórico a ser considerado. Entretanto, deve-se considerar as implicações computacionais decorrentes da escolha de \textbf{N}. Isto se deve ao fato de que a memória necessária para computar o modelo de n-gramas cresce exponencialmente. Suponha um corpus cujo vocabulário seja um conjunto de 10.000 palavras. Para o modelo de bigramas, é necessário computar $10.000^{2}$ probabilidades; um trigrama $10.000^{3}$, e assim por diante.
 
@@ -172,13 +187,15 @@ Desse modo, retomemos o exemplo “\textit{Pedro vai à}”. Cada palavra terá 
 
 \input{tikz/one-hot.tex}
 
-A Fig. \ref{fig:unfoldedrnn} sintetiza a arquitetura da RNR aplicada para a construção de um modelo de linguagem.
+A Fig. \ref{fig:unfoldedrnn} sintetiza a arquitetura da RNR aplicada para a construção de um modelo de linguagem. Nela podemos notar que o primeiro \textit{input} ($\vect{x}^{(1)}$) é o termo \textit{<beg>} (já apresentado no Cap. \ref{ch:02} durante a composição do pré-processamento do modelo). Esse termo é utilizado para dar início às predições. Toda predição, portanto, começa a partir desse \textit{token}. Analogamente, para que a sequência tenha uma conclusão e o modelo não fique predizendo valores indefinidamente, em determinado momento o modelo deve predizer um \textit{token} de final (\textit{<end>}).  
 
 \input{tikz/rnn-unrolled.tex}
 
-falar de lstm e gru introduzir elas
-vao diferir na relevancia dos estados intermediarios em cada ponto, ordem de apresentacao de input e citar uma referencia
-flar dos tokens de inicio e fim
+\subsection{Tipos de RNR's}
+
+No Cap. \ref{ch:01} (Seç. \ref{sec:motivation}) foi comentado brevemente sobre uma arquitetura de RNR mais robusta, a LSTM. Além desta, existe uma variedade de arquiteturas que mantém o caráter de uma RNR, porém diferem quanto aos algoritmos e cálculos realizados intrinsecamente. Isto se dá em razão de principalmente dois problemas: (i) \textit{dissipação} do gradiente e (ii) \textit{explosão} do gradiente  (\cite{Goodfellow-et-al-2016}). Retomando a álgebra por detrás dos modelos de RNR's, temos que os \textit{inputs} são inseridos e propagados através de multiplicações matriciais. Com isso, a realização de múltiplas multiplicações em sequência podem resultar em matrizes com valores, ou muito grandes, caso os números resultantes sejam maiores que 1, ou muito pequenos, caso os valores estejam entre 0 e 1. Os resultados dessas operações provocam os problemas (i) e (ii) apontados e impõem limitações aos modelos de RNR's. 
+
+Dito isto, a LSTM (\textit{Long Short-Term Memory}, \cite{hochreiter:1997}) é uma arquitetura que busca minimizar os problemas apontados. Também vale comentar sobre uma alternativa bastante utilizada, a \textit{Gated Recurrent Unit} (GRU) (\cite{Goodfellow-et-al-2016}).
 
 \section{Conclusão do Capítulo}
 
