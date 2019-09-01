@@ -261,9 +261,10 @@ No âmbito da construção de modelos de regras, \cite{Albright2003RulesVA} apre
 \cite{enc-dec:2014} e \cite{seq2seq:2014} apresentam um novo tipo de arquitetura de Redes Neurais construído para mapear duas sequências de tamanhos variáveis. A nova arquitetura, conhecida como \textit{Encoder-Decoder}, ou também \textit{Seq2Seq} é reconhecida especialmente pelo seu bom desempenho em tarefas linguísticas, em especial no ramo da tradução automática (\cite{Wu:2016}). Essa arquitetura consiste na concatenação de duas RNN's. A primeira rede, \textit{Encoder}, lê cada símbolo de uma sequência de entrada (por exemplo, uma palavra em inglês) e gera como resposta uma representação abstrata da palavra lida. A segunda rede, \textit{Decoder}, recebe como entrada a representação devolvida pelo \textit{Encoder} e tem como objetivo produzir uma outra sequência correspondente em uma língua alvo. A arquitetura do modelo \textit{Encoder-Decoder} será abordada em maiores detalhes no Capítulo \ref{ch:05}.
 
 Na tarefa do aprendizado dos verbos irregulares, \cite{faruqui:2015} elabora a questão a nível de \textit{caracter} (ou seja, não utiliza traços fonéticos como \textit{inputs} no modelo \textit{Encoder-Decoder}). \cite{kann-schutze-2016-med} utilizam \textit{tags} morfológicas como \textit{inputs} no mesmo modelo. \cite{cotterell-sigmorphon2016} atingem performance \textit{estado-da-arte} em um problema de inflexão morfológica, postulado em uma tarefa compartilhada (\textit{SIGMORPHON Shared Task} (\url{http://www.sigmorphon.org/})). Neste problema foram introduzidos conjuntos de dados morfológicos para 10 idiomas (Espanhol, Alemão, Finlandês, Russo, Turco, Georgiano, Navajo, Árabe e Húngaro) com diversas características tipológicas. Para a tarefa de geração de inflexões de lemas, o sistema de \cite{cotterell-sigmorphon2016} obteve uma média de acurácia de 95,56\% em todos os idiomas, variando de
-Maltês (88,99\%) para húngaro (99,30\%).\\
+Maltês (88,99\%) para húngaro (99,30\%).
 
-Para concluir, as principais motivações desta pesquisa consistem na aplicação e avaliação do modelo \textit{Encoder-Decoder} na tarefa de aprendizado de flexão de verbos irregulares da Língua Portuguesa. Além disso, vê espaço para uma retomada da questão a partir do prisma dos traços fonéticos. 
+Para concluir, as principais motivações desta pesquisa consistem na aplicação e avaliação do modelo \textit{Encoder-Decoder} na tarefa de aprendizado de flexão de verbos irregulares da Língua Portuguesa. 
+% Além disso, vê espaço para uma retomada da questão a partir do prisma dos traços fonéticos. 
 
 % ------------------------------------------------------------------------
 \section{Objetivo}
@@ -271,7 +272,7 @@ Para concluir, as principais motivações desta pesquisa consistem na aplicaçã
 
 Este trabalho tem como principal objetivo estudar a questão de aprendizado de verbos irregulares do Português Brasileiro (mais especificamente do paradigma de 1\aup{a} Pessoa do Singular no tempo Presente e modo Indicativo), através de um novo tipo de modelagem de Rede Neural Artificial, o Encoder-Decoder. 
 
-Apesar do debate Linguístico em questão, esta pesquisa se limitará à verificação do desempenho do modelo computacional aplicado, não entrando no mérito cognitivo do debate.
+Apesar do debate Linguístico em questão, esta pesquisa se limitará à verificação do desempenho do modelo computacional aplicado, não entrando no mérito cognitivo da questão.
 
 %ressalvas: por um lado tem a questao linguistica e por outro tambem serve do ponto de vista de engenharia verificar se as novas arquiteturas sao capazes nesse momento a minha questao esta nesse questao de processamento
 

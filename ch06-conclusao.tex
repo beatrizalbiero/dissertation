@@ -1,31 +1,31 @@
 \chapter{Conclusão}
 \label{ch:08}
 
-Este trabalho revisitou a controversa questão do processo de aquisição de verbos irregulares sob a perspectiva do Português Brasileiro e o fez através de uma das técnicas de redes neurais mais recentes na literatura, o \textit{Encoder-Decoder} (ref). 
+Este trabalho teve como principal objetivo estudar a questão do aprendizado de verbo irregulares do Português Brasileiro através da arquitetura \textit{Encoder-Decoder} (\cite{enc-dec:2014}, \cite{seq2seq:2014}). 
 
-A abordagem consistiu na restrição do escopo da pesquisa para a 1$^{a}$ pessoa do singular, no tempo presente e modo indicativo. Em seguida, um corpus com 423 verbos foi criado e transcrito para uma representação fonética (utilizando a metodologia explicada no Capítulo \ref{ch:02}). Na sequência, foi realizado um levantamento bibliográfico a respeito dos modelos de redes neurais para a identificação das arquiteturas mais recentes e adequadas para a tarefa em questão. Quando do início deste projeto, a arquitetura \textit{estado-da-arte} em tarefas de mapeamento de sequências era o \textit{Encoder-Decoder} (ref). O corpus foi então tratado e pré-processado de modo a ser compatível com os parâmetros de entrada e saída do modelo. 
+Para tanto, o escopo desta pesquisa foi restringido à 1$^{a}$ pessoa do singular, no tempo presente e modo indicativo. Em seguida, um corpus com 423 verbos foi criado e transcrito para uma representação fonética utilizando a metodologia desenvolvida no Capítulo \ref{ch:02}. O corpus criado foi primeiramente particionado segundo classes de irregularidade. No total, quinze classes irregulares foram formadas. A proporção de verbos regulares e irregulares no corpus montado foi de respectivamente 50.6\% e 49.4\%. Após a coleta e organizacão dos verbos, os mesmos foram pré-processados para serem introduzidos na camada de \textit{input} do modelo. 
 
-A acurácia máxima atingida pelo modelo foi de 17\% (73 acertos em 423 verbos). Apesar disso, discute-se no Capítulo de Resultados (\ref{ch:07}) a adequabilidade da métrica de acurácia para esta tarefa visto que em diversos momentos o modelo apresentou predições corretas quanto às transformações irregulares, mas errou na predição de traços fonéticos não relacionados com a tarefa em questão. Notou-se também que a classe irregular com melhor desempenho, além de ser aquela com mais exemplos no Corpus, é também a classe com menor comprimento médio (o $\rightarrow$ \textopeno/\_C*]ar). Ainda, foram observados alguns erros interessantes de troca de famílias nos verbos irregulares, como por exemplo: repetir (hepeti $\rightarrow$ hepEtu). Também ocorreram muitos erros por regularização (x) e alguns erros (x2) por conta de um traço fonético não identificado (ver Apêndice). 
+O modelo \textit{Encoder-Decoder} foi configurado da seguinte maneira: As redes \textit{Encoder} e \textit{Decoder} são ambas do tipo LSTM's de dimensão latente de 256 nós. Para o treinamento foram utilizadas 300 épocas com lotes de 128 verbos por vez. O modelo foi otimizado com o algoritmo \textit{Adam} disponível na API do \textit{Keras} (\cite{chollet2015keras}) com hiperparâmetros pré-definidos na documentação. A função de custo utilizada foi a Entropia Cruzada Binária.
 
-Ficam também, como contribuição, algumas sugestões para pesquisas futuras: (i) Construção de um modelo do tipo \textit{Transformer} (ref) para melhorar o mapeamento das sequências; (ii) Realização de um teste psicolinguístico com verbos “irregulares” inventados para uma comparação entre o modelo e indivíduos; e por fim, (iii) Identificação de uma distribuição de frequência real com relação ao uso dos verbos do Português Brasileiro para alimentar o modelo de acordo. 
+Para a avaliação do modelo construído, foi utilizada a técnica de validação cruzada chamada \textit{K-fold} (\cite{kfold:2018}), que permite que todos os verbos do corpus sejam testados pelo modelo. A métrica de avaliação escolhida foi a acurácia. Para considerar as variações possíveis durante os treinamentos, o algoritmo K-fold foi executado trinta vezes. Desse modo, foi possível estudar o comportamento médio do modelo nas diferentes classes do estudo.
 
-Para concluir, embora o objetivo principal do projeto não tenha sido o desenvolvimento ou defesa de uma teoria conexionista, os experimentos realizados resultaram em resultados interessantes do ponto de vista linguístico e podem contribuir para o fomento da discussão a respeito do tema.
+A acurácia máxima atingida pelo modelo foi de 17\% considerando todos os verbos do corpus ($73/423$). Considerando apenas verbos regulares x verbos irregulares, o desempenho do modelo foi melhor no primeiro grupo, sendo as respectivas acurácias médias 17.88\% e 9.23\%. Considerando-se todas as classes do estudo, destaca-se a classe do verbo “botar” que, além de possuir alta proporção de exemplos no Corpus, é também a classe com menor comprimento médio. Ainda, foram observados alguns erros interessantes de troca de famílias nos verbos irregulares, como por exemplo: repetir (hepeti $\rightarrow$ hepEtu). Também ocorreram alguns erros de super-regularização (x). 
 
-% Sendo assim, concluímos que a presente pesquisa apresentou importantes contribuições para o tema do aprendizado de verbos irregulares dentro do domínio dos modelos de Redes Neurais,
+Durante a sessão de discussão (\ref{ch:05}), observamos que o tamanho do corpus obtido mostrou-se incompatível com a arquitetura \textit{Encoder-Decoder}. Entretanto, questiona-se se é razoável que um modelo computacional desenvolvido para esta tarefa necessite de um número muito maior de exemplos para o aprendizado. Por outro lado, observa-se que os módulos de pré e pós processamento dos verbos são independentes da arquitetura proposta. Neste sentido, pode-se argumentar que o resultado obtido nesta pesquisa não é conclusivo quanto ao desempenho do \textit{Encoder-Decoder}. 
 
+Para pesquisas futuras, ficam algumas sugestões:
 
+\begin{enumerate}
 
-%\begin{itemize}
+\item Obtenção de um corpus maior para a língua portuguesa
+para que o algoritmo apresentado nesta pesquisa possa ser reavaliado;
 
-%     \item melhorar a representacao fonética de modo que nao houvesse a possibilidade de ter combinações impossíveis de features
-%     reducao de dimensoes 
-%     \item falar de type e token
-%     \item sugestões de pesquisas futuras
-%      \item Falar sobre experimentos que poderiam ter sido feitos mas não foram, ex: treinar a rede de acordo com uma frequência mais realista. Experimentos psicolonguisticos, talvez experimentos com penalizações.
-%      \item introduzir que a acurácia nao foi muito boa e que apesar disso tento entender os resultados dos modelos
-%     \item 
-% \end{itemize}
+\item Desenvolvimento de novos algoritmos de pré e pós processamento dos verbos. Outras representações vetoriais podem ser desenvolvidas. Uma opção é adicionar uma camada de \textit{embedding} (ref) antes da camada de \textit{input} do \textit{Encoder}; 
 
+\item Realização de um teste psicolinguístico com verbos irregulares inventados para uma comparação entre as predições do modelo e as opiniões de falantes da língua;
 
+\item Construção de um modelo do tipo \textit{Transformer} (\cite{Vaswani2017AttentionIA}). A arquitetura \textit{Transformer} é considerada a nova arquitetura estado-da-arte para modelos de tradução automática. 
 
+\end{enumerate}
 
+Para concluir, esperamos que a presente pesquisa tenha apresentado importantes contribuições para o tema do aprendizado de verbos irregulares dentro do domínio dos modelos de Redes Neurais Artificiais. No campo da Linguística, a construção de um corpus adequado e a execução desta tarefa para o Português Brasileiro foram certamente eventos inéditos nesta língua. 
