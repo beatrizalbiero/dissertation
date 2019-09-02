@@ -1,6 +1,7 @@
 \chapter{O Experimento}
 \label{ch:07}
 
+Neste capítulo falaremos sobre o modelo \textit{Encoder-Decoder} aplicado, bem como os hiperparâmetros utilizados. Além disso, será exibida a metodologia adotada para avaliação dos resultados e discussões sobre os resultados obtidos.
 
 \section{Hiperparâmetros}
 \label{sec:treinamento}
@@ -14,7 +15,7 @@ Sem entrar em detalhes teóricos, também vale comentar os demais hiperparâmetr
 A Fig. \ref{fig:encoder-decoder} exibe a arquitetura completa do modelo.
 
 \begin{figure}[!htb]
-\center{\includegraphics[width=0.5\textwidth]
+\center{\includegraphics[width=0.4\textwidth]
 {img/encoder-decoder.png}}
 \caption{\label{fig:encoder-decoder} Arquitetura Final Utilizada.}
 \end{figure}
@@ -51,10 +52,10 @@ Como há um fator de aleatoriedade nas inicializações dos pesos, e também com
 
 Ainda, podemos avaliar os resultados de acordo com a segmentação entre regulares e irregulares e verificar se o modelo obteve vantagem em alguma das classes. 
 
-\begin{figure}[H]
+\begin{figure}[]
 \begin{floatrow}
 \ffigbox{%
-  \includegraphics[width=0.9\linewidth]{img/boxplot_irregular_vs_regular.png}%
+  \includegraphics[width=0.8\linewidth]{img/boxplot_irregular_vs_regular.png}%
 }{%
   \caption{Boxplots Para Acurácias por Classe}%
   \label{fig:boxplotsclasses}
@@ -84,7 +85,7 @@ Com a Fig. \ref{fig:boxplotsclasses} e a Tab. \ref{tab:acuraciamedia} podemos ob
 \subsection{Acurácia em Cada Classe}
 \label{sec:prop}
 
-Também é interessante avaliar o desempenho do modelo em cada classe irregular. Na Fig. \ref{fig:kfoldprop} observamos as acurácias de cada classe ordenadas pela proporção das mesmas no corpus. Nota-se que apesar da classe regular apresentar a maior proporção no corpus, as classes com maior acurácia são as classes dos verbos “botar” e “seguir”. Para avaliar a correlação entre a proporção no corpus e a acurácia foi utilizado o coeficiente de correlação de Pearson (\cite{2004:bussab}). Esse coeficiente assume valores entre -1 e 1, sendo que valores próximos às extremidades indicam maior correlação e valores próximos a zero indicam que as variáveis independem linearmente uma da outra. Para a interpretação do valor obtido utilizaremos a seguinte escala (\cite{2004:bussab}):
+Também é interessante avaliar o desempenho do modelo em cada classe irregular. Na Fig. \ref{fig:kfoldprop} observamos as acurácias de cada classe ordenadas pela proporção das mesmas no corpus. Nota-se que apesar da classe regular apresentar a maior proporção no corpus, as classes com maior acurácia são as classes dos verbos “botar” e “seguir”. Para avaliar a correlação entre a proporção no corpus e a acurácia foi utilizado o coeficiente de correlação de Pearson (\cite{2004:bussab}). Esse coeficiente assume valores entre -1 e 1, sendo que valores próximos às extremidades indicam maior correlação e valores próximos a zero indicam que as variáveis independem linearmente uma da outra. Para a interpretação do valor obtido utilizaremos a seguinte escala (\cite{pearson:1989}):
 
 \begin{itemize}
     \item 0.9 para mais ou para menos indica uma correlação muito forte.

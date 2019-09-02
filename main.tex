@@ -228,7 +228,7 @@ framexrightmargin=10pt
 
 \pagenumbering{roman}     % começamos a numerar
 
-\include{Aprovacao}
+\include{pre-textuais/Aprovacao.tex}
 
 % ---------------------------------------------------------------------------- %
 % Dedicatória
@@ -242,6 +242,7 @@ framexrightmargin=10pt
 % ---------------------------------------------------------------------------- %
 % Abstract
 \chapter*{Resumo}
+\chapter*{Abstract}
 % \noindent Albiero, B. \textbf{Um Estudo Sobre as Irregularidades Verbais do Português Brasileiro Via Redes Neurais Artificiais}. 
 % 2018.
 % Projeto de Pesquisa (MSc) - Faculdade de Filosofia e Ciências Humanas,
@@ -264,10 +265,10 @@ framexrightmargin=10pt
 \tableofcontents    % imprime o sumário
 
 % ---------------------------------------------------------------------------- %
-\include{list-abbrev}
+\include{pre-textuais/list-abbrev.tex}
 
 % ---------------------------------------------------------------------------- %
-\include{list-symbols}
+\include{pre-textuais/list-symbols.tex}}
 
 % ---------------------------------------------------------------------------- %
 % Listas de figuras e tabelas criadas automaticamente
@@ -294,9 +295,10 @@ framexrightmargin=10pt
 \input{ch06-conclusao.tex}
 \clearpage
 \appendix
-\chapter{Resultados das Decodificações}
-\includepdf[pages=-]{results_analysis_by_family.pdf}
+\chapter{Tabela de Transcrição Fonética de Rumelhart e McClelland}
 \chapter{Corpus}
+\chapter{Resultados das Decodificações}
+% \includepdf[pages=-]{results_analysis_by_family.pdf}
 
 
 
