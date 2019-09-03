@@ -228,8 +228,8 @@ framexrightmargin=10pt
 
 \pagenumbering{roman}     % começamos a numerar
 
-\include{pre-textuais/Aprovacao.tex}
-
+\include{folhaderosto}
+\include{Aprovacao}
 % ---------------------------------------------------------------------------- %
 % Dedicatória
 % ---------------------------------------------------------------------------- %
@@ -242,33 +242,29 @@ framexrightmargin=10pt
 % ---------------------------------------------------------------------------- %
 % Abstract
 \chapter*{Resumo}
+\noindent Albiero, B. \textbf{O modelo Encoder-Decoder aplicado em irregularidades verbais do Português Brasileiro}. 
+2019.
+Dissertação (Mestrado) - Faculdade de Filosofia e Ciências Humanas,
+Universidade de São Paulo, São Paulo, 2019.
+\\
+
+Inspirada na controversa questão da aquisição de verbos irregulares na língua inglesa (\cite{chomsky:1968}, \cite{Pinker:1999}, \cite{Pinker:1988}, \cite{Albright2003RulesVA}, \cite{kirov:2018}), esta pesquisa tem como objetivo estudar a questão do aprendizado de verbos irregulares do Português Brasileiro sob a ótica do modelo computacional \textit{Encoder-Decoder}. Desse modo, a tarefa proposta ao modelo era a de predizer uma forma verbal flexionada dada uma forma básica (\textit{Radical + Vogal Temática}). Para tanto, o escopo da pesquisa restringiu-se ao estudo do paradigma de 1\aup{a} Pessoa do Singular no Modo Indicativo e Tempo Presente. O modelo utilizado, por sua vez, é um modelo de caráter associativo que pertence ao grupo dos modelos de Redes Neurais Artificiais. Também, fez-se necessária a construção de um \textit{corpus} linguístico composto pelo paradigma selecionado e em seguida transcrito em notação fonética especial para viabilizar a interpretação pelo modelo escolhido. O \textit{corpus} produzido é composto por 423 verbos que foram marcados como pertencendo às famílias de verbos regulares (51\%) ou irregulares (49\%). Ainda, dentro do escopo da família de verbos irregulares, foi possível identificar 15 subgrupos irregulares baseado nos padrões de flexão encontrados. A partir da notação fonética fornecida, os verbos puderam ser associados a novas representações que continham informações relativas aos traços fonéticos presentes, tanto em suas formas básicas, quanto nas  respectivas formas flexionadas. Assim, o modelo proposto tenta predizer as formas flexionadas a partir da identificação das relações fonéticas envolvidas. O modelo apresentado foi submetido a múltiplos treinamentos e testes e apresentou uma acurácia média que se concentrou em torno de 13\%-14\%, mas chegou a acertar 17\% em um dos experimentos. Considerando a segmentação entre verbos regulares e irregulares, o modelo performou melhor na classe dos regulares. Entretanto, considerando-se todas as 16 classes individualmente (15 irregulares + 1 regular), pôde-se observar que as duas primeiras classes em que o modelo performou melhor eram classes irregulares, deixando a classe regular como a terceira com os melhores resultados.
+
+\\
+ \textbf{Palavras-chave:}
+linguística computacional, fonética, redes neurais, conexionismo, aquisição.
+
 \chapter*{Abstract}
-% \noindent Albiero, B. \textbf{Um Estudo Sobre as Irregularidades Verbais do Português Brasileiro Via Redes Neurais Artificiais}. 
-% 2018.
-% Projeto de Pesquisa (MSc) - Faculdade de Filosofia e Ciências Humanas,
-% Universidade de São Paulo, São Paulo, 2018.
-% \\
-% \\
 
-
-% Esta pesquisa foi inspirada no experimento de Rumelhart e McClelland de 1986 \cite{rumelhart:1986} em que uma nova teoria em aquisição de linguagem se constituiu a partir da formulação de uma rede neural artifical capaz de aprender padrões fonéticos entre famílias de verbos irregulares da língua inglesa. Neste trabalho, exploram-se as particularidades da modelagem em redes neurais para o aprendizado de padrões fonéticos entre verbos irregulares do Português Brasileiro. Além disso, apresentam-se resultados de experimentos realizados com o uso da arquitetura Encoder-Decoder.  
-
-
-% exploram-se as dificuldades  tem como principal objetivo um estudo sobre as irregularidades verbais do português brasileiro através de técnicas experimentais em aprendizado de máquina, em particular, redes neurais. Neste trabalho, busca-se desenvolver o aprendizado da conjugação de verbos para a primeira pessoa do singular no tempo presente do modo indicativo utilizando como referência a forma infinitiva dos mesmos. A escolha desta conjugação específica ocorre devido ao alto número de irregularidades presentes, fato que dificulta inclusive o processo de aprendizado infantil. 
-
-% Desde a apresentação do problema na década de 80, foram realizados múltiplos avanços tecnológicos e metodológicos que impulsionaram o desenvolvimento e o saber a respeito das técnicas de modelagem em redes neurais. Particularmente, uma técnica conhecida como “encoder-decoder” se destaca dentro do escopo linguístico mostrando-se relevante em múltiplas tarefas, como por exemplo no desenvolvimento de sistemas de diálogo e sistemas de tradução automática. É por esta razão que tal técnica foi utilizada como uma das principais ferramentas para a realização dos objetivos propostos. Para tal, é necessária a realização de uma busca pelos melhores hiperparâmetros bem como as melhores arquiteturas que possibilitem o aprendizado. Múltiplos experimentos serão então estudados e comparados com relação a diferentes métricas, mas principalmente com relação à acurácia. Por fim, espera-se comparar o desempenho do melhor modelo desenvolvido na tarefa de conjugação de pseudo-verbos com a intuição linguística de falantes na mesma tarefa.
-% \\
-
-% \noindent \textbf{Keywords:} Language Acquisition, Neural Networks, Connectionism, Natural Language Processing.
 % ---------------------------------------------------------------------------- %
 % Sumário
 \tableofcontents    % imprime o sumário
 
 % ---------------------------------------------------------------------------- %
-\include{pre-textuais/list-abbrev.tex}
+\include{list-abbrev}
 
 % ---------------------------------------------------------------------------- %
-\include{pre-textuais/list-symbols.tex}}
+\include{list-symbols}
 
 % ---------------------------------------------------------------------------- %
 % Listas de figuras e tabelas criadas automaticamente
