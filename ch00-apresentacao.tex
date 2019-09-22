@@ -1,0 +1,21 @@
+\chapter*{Introdução}
+\addcontentsline{toc}{chapter}{Introdução}
+
+Inspirada no controverso tema da aquisição de verbos irregulares na língua inglesa
+(\cite{Pinker:1999}, \cite{chomsky:1968},  \cite{Pinker:1988}, \cite{rumelhart:1986}), esta pesquisa tem como objetivo estudar o processo de flexão de verbos irregulares do Português Brasileiro fazendo uso de um modelo computacional conhecido como \textit{Encoder-Decoder} (\cite{enc-dec:2014}).
+
+A controvérsia em torno do processo de aprendizado de verbos irregulares teve início na década de 60, tendo sido explorada por pesquisadores de diversas áreas (linguistas, psicólogos, neurocientistas, cientistas da computação, entre outros). No Cap. \ref{ch:01}, serão apresentadas as origens e motivações da discussão, bem como os principais pesquisadores envolvidos e hipóteses levantadas. Além disso, será introduzida uma categoria de modelos computacionais associativos conhecida como Rede Neural Artificial, do qual o modelo \textit{Encoder-Decoder} faz parte. Em seguida, na primeira parte da seção de motivação (Seç. \ref{sec:motivation}) serão apontadas algumas especificidades gramaticais da língua portuguesa que podem dificultar o processo de aprendizado da flexão irregular. Na segunda parte da seção, serão apresentados alguns trabalhos computacionais que se seguiram nos anos subsequentes em resposta à discussão estabelecida. 
+
+Após a exposição dos diferentes trabalhos desenvolvidos, ficará evidente a razão pela qual tal tema chamou a atenção de tantas áreas distintas. Ademais, veremos que o problema da flexão de verbos irregulares tornou-se um desafio computacional para além dos problemas linguísticos ou cognitivos em questão, de modo que muitas pesquisas subsequentes acabaram se distanciando do debate linguístico e focando nos aspectos matemáticos que viabilizariam o aprendizado artificial. A presente pesquisa também dará continuidade a esse aspecto computacional do problema e não terá como objetivo assumir qualquer posição em torno dos aspectos cognitivos do debate. Desse modo, avaliaremos o uso do modelo \textit{Encoder-Decoder} a partir de um ponto de vista prático de acordo com a sua performance na tarefa proposta e em comparação a outros modelos computacionais já apresentados em outras pesquisas.
+
+Para a realização do objetivo proposto, primeiramente foi necessário o desenvolvimento de um corpus linguístico específico para a tarefa. O corpus resultante apresenta-se completo no Apêndice (\ref{ap:corpus}), mas será discutido em detalhes no Cap. \ref{ch:02}, na Seç \ref{sec:corpus}. Ainda nesse capítulo, veremos a importância da aplicação de tratamentos de pré-processamento adequados nas unidades do corpus para a viabilização do aprendizado pretendido. Para tanto, revisitaremos um algoritmo de pré-processamento proposto em uma pesquisa anterior, realizada por \cite{rumelhart:1986}. Em seguida, apresentaremos o algoritmo de pré-processamento desenvolvido nesta pesquisa.
+
+O Capítulo \ref{ch:03} introduzirá conceitos básicos sobre o tema de \textit{Aprendizado de Máquina} e em seguida apresentará uma introdução aos modelos de Redes Neurais Artificiais. Além disso, abordaremos os conceitos de \textit{Modelo de Linguagem} e de arquiteturas de \textit{Redes Neurais Recorrentes} - assuntos imprescindíveis para o entendimento do modelo em destaque desta pesquisa, o \textit{Encoder-Decoder}. Feitas as devidas introduções, estaremos prontos para a apresentação do modelo \textit{Encoder-Decoder} no Capítulo \ref{ch:05}.  
+
+O Capítulo \ref{ch:07}, por sua vez, apresentará e discutirá os resultados obtidos. Nele veremos as configurações escolhidas para a definição do modelo e as métricas utilizadas para a avaliação do mesmo. Analisaremos também os diferentes erros observados e procuraremos por possíveis explicações para os resultados obtidos. 
+
+Para concluir, o Capítulo \ref{ch:08} exibirá um resumo dos assuntos tratados nesta pesquisa e também apontará sugestões para pesquisas futuras sobre o assunto.
+
+
+
+

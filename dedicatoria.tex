@@ -1,0 +1,25 @@
+\newenvironment{dedication}
+  {%\clearpage           % we want a new page          %% I commented this
+   \thispagestyle{empty}% no header and footer
+   \vspace*{\stretch{10}}% some space at the top
+   \itshape             % the text is in italics
+   \raggedleft          % flush to the right margin
+  }
+  {\par % end the paragraph
+   \vspace{\stretch{2}} % space at bottom is three times that at the top
+   \clearpage           % finish off the page
+  }
+
+ \frontmatter              %% better to use this in book class
+ \chapter{}
+  \begin{dedication}
+    Em memória de Valéria. 
+    
+    Mãe, amiga, querida. 
+    \par   %% or a blank line
+    \vspace{2\baselineskip}
+    Ao meu pai André, que me deu a maior força 
+    
+    para começar, continuar e concluir este trabalho.
+    
+  \end{dedication}

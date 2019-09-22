@@ -7,7 +7,8 @@
 \usepackage{floatrow}
 \newfloatcommand{capbtabbox}{table}[][\FBwidth]
 \usepackage{blindtext}
-
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
 % \usepackage[latin1]{inputenc}
 \usepackage[utf8x]{inputenc}
 \usepackage[pdftex]{graphicx}           % usamos arquivos pdf/png como figuras
@@ -31,7 +32,7 @@
     {Sumário}%
 }
 \newcommand{\aup}{\textsuperscript}
-
+\interfootnotelinepenalty=10000
 \usepackage{lastpage}
 \usepackage{tipa}
 \let\ipa\textipa
@@ -170,6 +171,7 @@ framexrightmargin=10pt
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
+\usepackage{breakcites}
 
 \usepackage{cases}
 \newcommand\tab[1][1cm]{\hspace*{#1}}
@@ -181,6 +183,8 @@ framexrightmargin=10pt
 \include{tikz/styles}
 \usepackage{tkz-euclide}
 \usepackage{tikz-3dplot}
+\usepackage{breakcites}
+\usepackage[breaklinks=true]{hyperref}
 
 \include{definitions}
 
@@ -226,15 +230,16 @@ framexrightmargin=10pt
 \end{center}
 
 
-\pagenumbering{roman}     % começamos a numerar
-
+%\pagenumbering{roman}     % começamos a numerar
 \include{folhaderosto}
 \include{Aprovacao}
 % ---------------------------------------------------------------------------- %
 % Dedicatória
+\include{dedicatoria}
 % ---------------------------------------------------------------------------- %
 % Agradecimentos
 \chapter*{Agradecimentos}
+\thispagestyle{empty}
 
 %Começar o mestrado na Linguística foi uma das melhores coisas que eu já fiz por mim. 
 
@@ -248,66 +253,77 @@ Dissertação (Mestrado) - Faculdade de Filosofia e Ciências Humanas,
 Universidade de São Paulo, São Paulo, 2019.
 \\
 
-Inspirada na controversa questão da aquisição de verbos irregulares na língua inglesa (\cite{chomsky:1968}, \cite{Pinker:1999}, \cite{Pinker:1988}, \cite{Albright2003RulesVA}, \cite{kirov:2018}), esta pesquisa tem como objetivo estudar a questão do aprendizado de verbos irregulares do Português Brasileiro sob a ótica do modelo computacional \textit{Encoder-Decoder}. Desse modo, a tarefa proposta ao modelo era a de predizer uma forma verbal flexionada dada uma forma básica (\textit{Radical + Vogal Temática}). Para tanto, o escopo da pesquisa restringiu-se ao estudo do paradigma de 1\aup{a} Pessoa do Singular no Modo Indicativo e Tempo Presente. O modelo utilizado, por sua vez, é um modelo de caráter associativo que pertence ao grupo dos modelos de Redes Neurais Artificiais. Também, fez-se necessária a construção de um \textit{corpus} linguístico composto pelo paradigma selecionado e em seguida transcrito em notação fonética especial para viabilizar a interpretação pelo modelo escolhido. O \textit{corpus} produzido é composto por 423 verbos que foram marcados como pertencendo às famílias de verbos regulares (51\%) ou irregulares (49\%). Ainda, dentro do escopo da família de verbos irregulares, foi possível identificar 15 subgrupos irregulares baseado nos padrões de flexão encontrados. A partir da notação fonética fornecida, os verbos puderam ser associados a novas representações que continham informações relativas aos traços fonéticos presentes, tanto em suas formas básicas, quanto nas  respectivas formas flexionadas. Assim, o modelo proposto tenta predizer as formas flexionadas a partir da identificação das relações fonéticas envolvidas. O modelo apresentado foi submetido a múltiplos treinamentos e testes e apresentou uma acurácia média que se concentrou em torno de 13\%-14\%, mas chegou a acertar 17\% em um dos experimentos. Considerando a segmentação entre verbos regulares e irregulares, o modelo performou melhor na classe dos regulares. Entretanto, considerando-se todas as 16 classes individualmente (15 irregulares + 1 regular), pôde-se observar que as duas primeiras classes em que o modelo performou melhor eram classes irregulares, deixando a classe regular como a terceira com os melhores resultados.
+Inspirada na controversa questão da aquisição de verbos irregulares na língua inglesa (\cite{chomsky:1968},  \cite{Pinker:1988},
+\cite{Albright2003RulesVA}, \cite{kirov:2018}), esta pesquisa tem como objetivo estudar a questão da flexão de verbos irregulares do Português Brasileiro sob a ótica do modelo computacional \textit{Encoder-Decoder}. Para tanto, a tarefa proposta ao modelo era a de predizer uma forma verbal flexionada dada uma forma primária (\textit{Radical + Vogal Temática}). O escopo da pesquisa restringiu-se ao estudo do paradigma de 1\aup{a} Pessoa do Singular no Modo Indicativo e Tempo Presente. O modelo utilizado, por sua vez, é um modelo de caráter associativo que pertence ao grupo dos modelos de Redes Neurais Artificiais. Também, fez-se necessária a construção de um \textit{corpus} linguístico composto pelo paradigma selecionado e em seguida transcrito em notação fonética específica para viabilizar a utilização do modelo escolhido. O \textit{corpus} produzido é composto por 423 verbos que foram marcados como pertencendo às famílias de verbos regulares (51\%) ou irregulares (49\%). Ainda, dentro do escopo da família de verbos irregulares, foi possível identificar 15 subgrupos conforme a identificação dos padrões de flexão. A partir da notação fonética fornecida, os verbos puderam ser associados a novas representações que englobavam informações relativas aos traços fonéticos presentes. Assim, o modelo proposto tenta predizer as formas flexionadas a partir da identificação das relações fonéticas envolvidas durante o processo de flexão. O modelo apresentado foi submetido a múltiplos treinamentos e testes e apresentou uma acurácia média de 13.55\%, mas chegou a acertar 17\% em um dos experimentos. Considerando a segmentação entre verbos regulares e irregulares, o modelo performou melhor na classe dos regulares. Entretanto, considerando-se todas as 16 classes individualmente (15 irregulares + 1 regular), pôde-se observar que as duas primeiras classes em que o modelo performou melhor eram classes irregulares, deixando a classe regular como a terceira com os melhores resultados.
 
 \\
  \textbf{Palavras-chave:}
-linguística computacional, fonética, redes neurais, conexionismo, aquisição.
+linguística computacional, fonética, redes neurais, conexionismo.
 
 \chapter*{Abstract}
 
+\noindent Albiero, B. \textbf{The Encoder-Decoder Model Applied to Brazilian-Portuguese Verbal Irregularities}. 
+2019.
+Dissertação (Mestrado) - Faculdade de Filosofia e Ciências Humanas,
+Universidade de São Paulo, São Paulo, 2019.
+\\
+
+Inspired by the controversial debate about the acquisition of irregular verbs in the English language (\cite{chomsky:1968}, \cite{Pinker:1988},
+\cite{Albright2003RulesVA}, \cite{kirov:2018}), this research aims to study the inflection process of irregular verbs in the Brazilian Portuguese language through the perspective of the computational model \textit{Encoder-Decoder}. To do this, we proposed the task of predicting an inflected verbal form given a primary form (\textit{Stem + Thematic Vowel}). The scope of the research was restricted to the study of the singular first-person paradigm in the indicative mood and present tense. The model, in turn, is an associative model that belongs to the group of Artificial Neural Networks models. Also, it was necessary to construct a linguistic \textit{corpus} composed by the chosen paradigm and then transcribe it into a specific phonetic notation to enable the usage of the chosen model. The resulting \textit{corpus} consists of 423 verbs that were marked as belonging to either regular (51\%) or irregular (49\%) verb families. Moreover, within the scope of irregular verbs, it was possible to identify 15 subgroups through the identification of inflection patterns. Through the phonetic notation provided, verbs could be associated with new representations that included information related to the phonetic features present. Thus, the proposed model attempts to predict inflected forms by identifying the phonetic relationships involved during the inflection process. The model was submitted to multiple trainings and tests and presented an average accuracy of 13.55\%, but it got to 17\% in one of the experiments. Considering the segmentation between regular and irregular verbs, the model performed better among the regular class. However, considering all 16 classes individually (15 irregular + 1 regular), it was observed that the first two classes in which the model performed best were irregular classes, leaving the regular class with the third place.
+
+ \textbf{Key-word:}
+computational linguistics, phonetics, neural networks, conectionism.
+
 % ---------------------------------------------------------------------------- %
 % Sumário
-\tableofcontents    % imprime o sumário
-
-% ---------------------------------------------------------------------------- %
-\include{list-abbrev}
-
-% ---------------------------------------------------------------------------- %
-\include{list-symbols}
+    % imprime o sumário
 
 % ---------------------------------------------------------------------------- %
 % Listas de figuras e tabelas criadas automaticamente
-\listoffigures            
+%\listoffigures            
 % \listoftables            
 
 % ---------------------------------------------------------------------------- %
 % Capítulos do trabalho
-\mainmatter
-
 % cabeçalho para as páginas de todos os capítulos
-\fancyhead[RE,LO]{\thesection}
+
 
 % \singlespacing              % espaçamento simples
+\tableofcontents
 \onehalfspacing            % espaçamento um e meio
-
+\mainmatter
+\input{ch00-apresentacao.tex}
+\fancyhead[RE,LO]{\thesection}
 \input{ch01-introduction.tex}
 \input{ch02-fonologia.tex}
 \input{ch03-redesneurais.tex}
-%\input{ch04-modelolinguagem.tex}
 \input{ch04-seq2seq.tex}
-%\input{ch06-corpus.tex}
 \input{ch05-resultados.tex}
 \input{ch06-conclusao.tex}
 \clearpage
 \appendix
+
 \chapter{Tabela de Transcrição Fonética de Rumelhart e McClelland}
+\label{apendice:rumelhart}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{img/rumelhartpreprocess.png}
+    \caption{Tabela de Pré-Processamento retirada de \cite{rumelhart:1986} (pág. 235)}
+    \label{fig:preprocess-rumelhart}
+\end{figure}
+
 \chapter{Corpus}
+\label{ap:corpus}
+\includepdf[pages=-]{corpus_dissertacao.pdf}
+
 \chapter{Resultados das Decodificações}
-% \includepdf[pages=-]{results_analysis_by_family.pdf}
-
-
-
-
+\label{ap:results}
+\includepdf[pages=-]{results_analysis_by_family.pdf}
 
 % cabeçalho para os apendices
 \renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }
 \fancyhead[RE,LO]{}
 \appendix
-
-% \include{Appendice} pensar sobre isso aqui
-
-% \include{ape-previous-work}
 
 % ---------------------------------------------------------------------------- %
 % Bibliografia
