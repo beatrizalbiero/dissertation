@@ -17,7 +17,7 @@
 \usepackage{float}
 \usepackage{indentfirst}                % indentação do primeiro parágrafo
 \usepackage{makeidx}                    % índice remissivo
-\usepackage[nottoc]{tocbibind}          % acrescentamos a bibliografia/indice/conteudo no Table of Contents
+\usepackage[nottoc,notlot,notlof]{tocbibind}         % acrescentamos a bibliografia/indice/conteudo no Table of Contents
 \usepackage{courier}  % usa o Adobe Courier no lugar de Computer Modern Typewriter
 \usepackage{vowel}
 \usepackage{type1cm}                    % fontes realmente escaláveis
@@ -193,11 +193,11 @@ framexrightmargin=10pt
 \begin{document}
 \frontmatter 
 % cabeçalho para as páginas das seções anteriores ao capítulo 1 (frontmatter)
-\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
-\setcounter{tocdepth}{2}
-\fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
-\fancyhead[RE,LO]{}
-\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+% \fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+% \setcounter{tocdepth}{2}
+% \fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
+% \fancyhead[RE,LO]{}
+% \fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
 
 
 \onehalfspacing  % espaçamento
@@ -229,24 +229,29 @@ framexrightmargin=10pt
     \normalsize{São Paulo\\ 2019}
 \end{center}
 
-
-%\pagenumbering{roman}     % começamos a numerar
+\makeatletter\@openrightfalse\makeatother
+\pagenumbering{gobble}
 \include{folhaderosto}
+\includepdf[pagecommand={\thispagestyle{plain}},
+  pages=-]{fichacatalografica.pdf}
 \include{Aprovacao}
 % ---------------------------------------------------------------------------- %
 % Dedicatória
 \include{dedicatoria}
 % ---------------------------------------------------------------------------- %
 % Agradecimentos
-\chapter*{Agradecimentos}
-\thispagestyle{empty}
 
-%Começar o mestrado na Linguística foi uma das melhores coisas que eu já fiz por mim. 
+\chapter*{Agradecimentos}
+\pagenumbering{gobble}
+%\thispagestyle{empty}
+
+ 
 
 
 % ---------------------------------------------------------------------------- %
 % Abstract
 \chapter*{Resumo}
+\pagenumbering{gobble}
 \noindent Albiero, B. \textbf{O modelo Encoder-Decoder aplicado em irregularidades verbais do Português Brasileiro}. 
 2019.
 Dissertação (Mestrado) - Faculdade de Filosofia e Ciências Humanas,
@@ -258,21 +263,21 @@ Inspirada na controversa questão da aquisição de verbos irregulares na língu
 
 \\
  \textbf{Palavras-chave:}
-linguística computacional, fonética, redes neurais, conexionismo.
+morfologia verbal, aprendizagem de máquina, conexionismo.
 
 \chapter*{Abstract}
-
+\pagenumbering{gobble}
 \noindent Albiero, B. \textbf{The Encoder-Decoder Model Applied to Brazilian-Portuguese Verbal Irregularities}. 
 2019.
 Dissertação (Mestrado) - Faculdade de Filosofia e Ciências Humanas,
 Universidade de São Paulo, São Paulo, 2019.
 \\
 
-Inspired by the controversial debate about the acquisition of irregular verbs in the English language (\cite{chomsky:1968}, \cite{Pinker:1988},
-\cite{Albright2003RulesVA}, \cite{kirov:2018}), this research aims to study the inflection process of irregular verbs in the Brazilian Portuguese language through the perspective of the computational model \textit{Encoder-Decoder}. To do this, we proposed the task of predicting an inflected verbal form given a primary form (\textit{Stem + Thematic Vowel}). The scope of the research was restricted to the study of the singular first-person paradigm in the indicative mood and present tense. The model, in turn, is an associative model that belongs to the group of Artificial Neural Networks models. Also, it was necessary to construct a linguistic \textit{corpus} composed by the chosen paradigm and then transcribe it into a specific phonetic notation to enable the usage of the chosen model. The resulting \textit{corpus} consists of 423 verbs that were marked as belonging to either regular (51\%) or irregular (49\%) verb families. Moreover, within the scope of irregular verbs, it was possible to identify 15 subgroups through the identification of inflection patterns. Through the phonetic notation provided, verbs could be associated with new representations that included information related to the phonetic features present. Thus, the proposed model attempts to predict inflected forms by identifying the phonetic relationships involved during the inflection process. The model was submitted to multiple trainings and tests and presented an average accuracy of 13.55\%, but it got to 17\% in one of the experiments. Considering the segmentation between regular and irregular verbs, the model performed better among the regular class. However, considering all 16 classes individually (15 irregular + 1 regular), it was observed that the first two classes in which the model performed best were irregular classes, leaving the regular class with the third place.
+Inspired by the controversial debate about the acquisition of irregular verbs in Englishlanguage (\cite{chomsky:1968}, \cite{Pinker:1988},
+\cite{Albright2003RulesVA}, \cite{kirov:2018}), this research aims to study the inflection process of irregular verbs in Portuguese through the perspective of the computational model \textit{Encoder-Decoder}. To do this, we proposed the task of predicting an inflected verbal form given a primary form (\textit{Stem + Thematic Vowel}). The scope of the research was restricted to the study of the singular first-person paradigm in the indicative mood and present tense. The model, in turn, is an associative model that belongs to the group of Artificial Neural Networks models. Also, it was necessary to construct a linguistic \textit{corpus} composed by the chosen paradigm and then transcribe it into a specific phonetic notation to enable the usage of the chosen model. The resulting \textit{corpus} consists of 423 verbs that were marked as belonging to either regular (51\%) or irregular (49\%) verb families. Moreover, within the scope of irregular verbs, it was possible to identify 15 subgroups through the identification of inflection patterns. Through the phonetic notation provided, verbs could be associated with new representations that included information related to the phonetic features. Thus, the proposed model attempts to predict inflected forms by identifying the phonetic relationships involved during the inflection process. The model was submitted to multiple trainings and tests and presented an average accuracy of 13.55\%, but it got to 17\% in one of the experiments. Considering the segmentation between regular and irregular verbs, the model performed better among the regular class. However, considering all 16 classes individually (15 irregular + 1 regular), it was observed that the first two classes in which the model performed best were irregular classes, leaving the regular class with the third place.
 
- \textbf{Key-word:}
-computational linguistics, phonetics, neural networks, conectionism.
+ \textbf{Key-words:}
+verbal morphology, machine learning, connectionism.
 
 % ---------------------------------------------------------------------------- %
 % Sumário
@@ -290,8 +295,10 @@ computational linguistics, phonetics, neural networks, conectionism.
 
 % \singlespacing              % espaçamento simples
 \tableofcontents
+
 \onehalfspacing            % espaçamento um e meio
 \mainmatter
+\pagenumbering{arabic}
 \input{ch00-apresentacao.tex}
 \fancyhead[RE,LO]{\thesection}
 \input{ch01-introduction.tex}
@@ -300,7 +307,14 @@ computational linguistics, phonetics, neural networks, conectionism.
 \input{ch04-seq2seq.tex}
 \input{ch05-resultados.tex}
 \input{ch06-conclusao.tex}
+% Bibliografia
+\setcitestyle{square}
+ \singlespacing   % espaçamento simples
+\bibliographystyle{marcos4} % citação bibliográfica textual
+\bibliography{references}  % associado ao arquivo: 'bibliografia.bib'
 \clearpage
+
+%\pagenumbering{gobble}
 \appendix
 
 \chapter{Tabela de Transcrição Fonética de Rumelhart e McClelland}
@@ -314,23 +328,19 @@ computational linguistics, phonetics, neural networks, conectionism.
 
 \chapter{Corpus}
 \label{ap:corpus}
-\includepdf[pages=-]{corpus_dissertacao.pdf}
+\includepdf[pagecommand={\thispagestyle{plain}},
+  pages=-]{corpus_dissertacao.pdf}
 
 \chapter{Resultados das Decodificações}
 \label{ap:results}
-\includepdf[pages=-]{results_analysis_by_family.pdf}
+\includepdf[pagecommand={\thispagestyle{plain}},
+  pages=-]{results_analysis_by_family.pdf}
 
+\backmatter
 % cabeçalho para os apendices
-\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\appendixname\ \thechapter}} {\MakeUppercase{#1}} }
-\fancyhead[RE,LO]{}
-\appendix
 
 % ---------------------------------------------------------------------------- %
-% Bibliografia
-\setcitestyle{square}
-\backmatter \singlespacing   % espaçamento simples
-\bibliographystyle{marcos4} % citação bibliográfica textual
-\bibliography{references}  % associado ao arquivo: 'bibliografia.bib'
+
 
 % ---------------------------------------------------------------------------- %
 
