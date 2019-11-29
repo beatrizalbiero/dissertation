@@ -193,42 +193,16 @@ framexrightmargin=10pt
 \begin{document}
 \frontmatter 
 % cabeçalho para as páginas das seções anteriores ao capítulo 1 (frontmatter)
-% \fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
 % \setcounter{tocdepth}{2}
-% \fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
-% \fancyhead[RE,LO]{}
-% \fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
+\fancyhead[LE]{\thepage\hspace{2em}\footnotesize{\leftmark}}
+\fancyhead[RE,LO]{}
+\fancyhead[RO]{{\footnotesize\rightmark}\hspace{2em}\thepage}
 
 
 \onehalfspacing  % espaçamento
 
-% ---------------------------------------------------------------------------- %
-% CAPA
-% Nota: O título para as dissertações/teses do IME-USP devem caber em um 
-% orifício de 10,7cm de largura x 6,0cm de altura que há na capa fornecida pela SPG.
-\thispagestyle{empty}
-\begin{center}
-    \vspace*{2.3cm}
-    \textbf{\Large{O modelo Encoder-Decoder aplicado em irregularidades verbais do Português Brasileiro
-}}\\
-    
-    
-    \vskip 2cm
-    \textsc{
-    Dissertação de Mestrado\\[+0.5cm]
-    Programa de Mestrado em Semiótica e Linguística Geral\\[+0.5cm]
-    Universidade de São Paulo\\[+0.5cm]
-   }
-    
-    \vspace*{6.2cm}
-    Beatriz Albiero\\
-    Orientador: Prof. Dr. Marcelo Barra Ferreira\\
-    Departamento de Linguística FFLCH-USP
-    
-    \vskip 0.5cm
-    \normalsize{São Paulo\\ 2019}
-\end{center}
-
+\include{capa}
 \makeatletter\@openrightfalse\makeatother
 \pagenumbering{gobble}
 \include{folhaderosto}
@@ -243,10 +217,20 @@ framexrightmargin=10pt
 
 \chapter*{Agradecimentos}
 \pagenumbering{gobble}
-%\thispagestyle{empty}
 
- 
+Posso dizer que eu tive ao meu lado pessoas muito importantes que me ajudaram a passar pela experiência do mestrado de forma incrível. Foram muitos desafios e aprendizados, e sem as pessoas listadas a seguir, certamente esse processo não teria sido tão produtivo. 
 
+Primeiramente, agradeço à minha família, que me apoiou e incentivou nos meus estudos desde sempre. À minha mãe Valéria, que apesar de não ter tido a oportunidade de acompanhar essa fase da minha vida, observa de longe e se faz presente a cada passo que dou. Não sinto saudades, pois sinto que está comigo sempre. Ao meu pai André, meus avós Astrid e Norberto e aos meus irmãos Fábio e Juliana, pelo amor, carinho e cuidado.
+
+Sou muito grata também ao meu orientador Marcelo Barra Ferreira. Tenho a sorte de poder dizer que a minha experiência no mestrado foi muito positiva e enriquecedora em um momento muito delicado para a pós-graduação brasileira, e certamente a sua orientação e parceria foi fundamental nesse processo.
+
+Agradeço aos meus amigos e membros do grupo de estudos em linguística computacional da USP (o GLIC), que me ajudaram e inspiraram. Agradecimentos especiais ao meu colega Bruno Guide, que me ajudou diversas vezes com as minhas questões sobre a pós, muito antes da minha pesquisa começar. Também agradeço à Livy pelo seu olhar crítico e curioso sempre. A forma como todos do grupo amam estudar linguística é incrível. Também agradeço ao querido professor Marcos Lopes, cuja participação também foi fundamental para a minha formação acadêmica e para que o meu ingresso no mundo da linguística ocorresse de maneira leve e agradável.
+
+Agradeço também aos meus colegas do Datalab, que me apoiaram e incentivaram durante a execução desta pesquisa. Sinto-me muito privilegiada por ter tido o apoio que eu tive no meu ambiente de trabalho e por todas as oportunidades que me foram concedidas para o meu desenvolvimento acadêmico. Agradecimento especial a Estêvão Uyrá, que contribuiu diretamente na execução desta pesquisa com sugestões valiosíssimas. Também sou muito grata ao professor Renato Vicente por ter me incluído em um time tão genial e criativo, além de todo o apoio na minha formação acadêmica e profissional. Também agradeço aos meus colegas Sami e Ricardo, pela compreensão, pelos conselhos e risadas.
+
+Também não posso deixar de agradecer ao meu colega Felipe Salvatore, doutorando no IME-USP, que me auxiliou com sugestões essenciais para a base computacional desta pesquisa. Às professoras Esmeralda Vailati Negrão e Maria Cristina Altman que me apresentaram ao universo da linguística e me incentivaram a estudar esse assunto com mais profundidade no mestrado.
+
+Finalmente, a todos aqueles que me apoiaram nos momentos mais difíceis, em especial: Maria Teresa Lamberte, Carlos Joventino, Arthur Athayde, Ramon Vilarino, Thaís Dresch, Marina Nagata e Manu Bonfim. 
 
 % ---------------------------------------------------------------------------- %
 % Abstract
@@ -259,7 +243,7 @@ Universidade de São Paulo, São Paulo, 2019.
 \\
 
 Inspirada na controversa questão da aquisição de verbos irregulares na língua inglesa (\cite{chomsky:1968},  \cite{Pinker:1988},
-\cite{Albright2003RulesVA}, \cite{kirov:2018}), esta pesquisa tem como objetivo estudar a questão da flexão de verbos irregulares do Português Brasileiro sob a ótica do modelo computacional \textit{Encoder-Decoder}. Para tanto, a tarefa proposta ao modelo era a de predizer uma forma verbal flexionada dada uma forma primária (\textit{Radical + Vogal Temática}). O escopo da pesquisa restringiu-se ao estudo do paradigma de 1\aup{a} Pessoa do Singular no Modo Indicativo e Tempo Presente. O modelo utilizado, por sua vez, é um modelo de caráter associativo que pertence ao grupo dos modelos de Redes Neurais Artificiais. Também, fez-se necessária a construção de um \textit{corpus} linguístico composto pelo paradigma selecionado e em seguida transcrito em notação fonética específica para viabilizar a utilização do modelo escolhido. O \textit{corpus} produzido é composto por 423 verbos que foram marcados como pertencendo às famílias de verbos regulares (51\%) ou irregulares (49\%). Ainda, dentro do escopo da família de verbos irregulares, foi possível identificar 15 subgrupos conforme a identificação dos padrões de flexão. A partir da notação fonética fornecida, os verbos puderam ser associados a novas representações que englobavam informações relativas aos traços fonéticos presentes. Assim, o modelo proposto tenta predizer as formas flexionadas a partir da identificação das relações fonéticas envolvidas durante o processo de flexão. O modelo apresentado foi submetido a múltiplos treinamentos e testes e apresentou uma acurácia média de 13.55\%, mas chegou a acertar 17\% em um dos experimentos. Considerando a segmentação entre verbos regulares e irregulares, o modelo performou melhor na classe dos regulares. Entretanto, considerando-se todas as 16 classes individualmente (15 irregulares + 1 regular), pôde-se observar que as duas primeiras classes em que o modelo performou melhor eram classes irregulares, deixando a classe regular como a terceira com os melhores resultados.
+\cite{Albright2003RulesVA}, \cite{kirov:2018}), esta pesquisa tem como objetivo estudar a questão da flexão de verbos irregulares do Português Brasileiro sob a ótica do modelo computacional \textit{Encoder-Decoder}. Para tanto, a tarefa proposta ao modelo era a de predizer uma forma verbal flexionada dada uma forma primária (\textit{Radical + Vogal Temática}). O escopo da pesquisa restringiu-se ao estudo do paradigma de 1\aup{a} Pessoa do Singular no Modo Indicativo e Tempo Presente. O modelo utilizado, por sua vez, é um modelo de caráter associativo que pertence ao grupo dos modelos de Redes Neurais Artificiais. Também, fez-se necessária a construção de um \textit{corpus} linguístico composto pelo paradigma selecionado e em seguida transcrito em notação fonética específica para viabilizar a utilização do modelo escolhido. O \textit{corpus} produzido é composto por 423 verbos que foram marcados como pertencendo às famílias de verbos regulares (51\%) ou irregulares (49\%). Ainda, dentro do escopo da família de verbos irregulares, foi possível identificar 15 subgrupos conforme a identificação de diferentes padrões de flexão. A partir da notação fonética utilizada, os verbos puderam ser associados a novas representações que englobavam informações relativas aos traços fonéticos presentes. Assim, o modelo proposto tenta predizer as formas flexionadas a partir da identificação das relações fonéticas envolvidas durante o processo de flexão. O modelo apresentado foi submetido a múltiplos treinamentos e testes e apresentou uma acurácia média de 13.55\%, mas chegou a acertar 17\% em um dos experimentos. Considerando a segmentação entre verbos regulares e irregulares, o modelo performou melhor na classe dos regulares. Entretanto, considerando-se todas as 16 classes individualmente (15 irregulares + 1 regular), pôde-se observar que as duas primeiras classes em que o modelo performou melhor eram classes irregulares, deixando a classe regular como a terceira com os melhores resultados.
 
 \\
  \textbf{Palavras-chave:}
@@ -274,28 +258,13 @@ Universidade de São Paulo, São Paulo, 2019.
 \\
 
 Inspired by the controversial debate about the acquisition of irregular verbs in Englishlanguage (\cite{chomsky:1968}, \cite{Pinker:1988},
-\cite{Albright2003RulesVA}, \cite{kirov:2018}), this research aims to study the inflection process of irregular verbs in Portuguese through the perspective of the computational model \textit{Encoder-Decoder}. To do this, we proposed the task of predicting an inflected verbal form given a primary form (\textit{Stem + Thematic Vowel}). The scope of the research was restricted to the study of the singular first-person paradigm in the indicative mood and present tense. The model, in turn, is an associative model that belongs to the group of Artificial Neural Networks models. Also, it was necessary to construct a linguistic \textit{corpus} composed by the chosen paradigm and then transcribe it into a specific phonetic notation to enable the usage of the chosen model. The resulting \textit{corpus} consists of 423 verbs that were marked as belonging to either regular (51\%) or irregular (49\%) verb families. Moreover, within the scope of irregular verbs, it was possible to identify 15 subgroups through the identification of inflection patterns. Through the phonetic notation provided, verbs could be associated with new representations that included information related to the phonetic features. Thus, the proposed model attempts to predict inflected forms by identifying the phonetic relationships involved during the inflection process. The model was submitted to multiple trainings and tests and presented an average accuracy of 13.55\%, but it got to 17\% in one of the experiments. Considering the segmentation between regular and irregular verbs, the model performed better among the regular class. However, considering all 16 classes individually (15 irregular + 1 regular), it was observed that the first two classes in which the model performed best were irregular classes, leaving the regular class with the third place.
+\cite{Albright2003RulesVA}, \cite{kirov:2018}), this research aims to study the inflection process of irregular verbs in Portuguese through the perspective of the computational model \textit{Encoder-Decoder}. To do this, we proposed the task of predicting an inflected verbal form given a primary form (\textit{Stem + Thematic Vowel}). The scope of the research was restricted to the study of the singular first-person paradigm in the indicative mood and present tense. The model, in turn, is an associative model that belongs to the group of Artificial Neural Networks models. Also, it was necessary to construct a linguistic \textit{corpus} composed by the chosen paradigm and then transcribe it into a specific phonetic notation to enable the usage of the chosen model. The resulting \textit{corpus} consists of 423 verbs that were marked as belonging to either regular (51\%) or irregular (49\%) verb families. Moreover, within the scope of irregular verbs, it was possible to identify 15 subgroups through the identification of inflection patterns. Through the phonetic notation provided, verbs could be associated with new representations that included information related to the phonetic features. Thus, the proposed model attempts to predict inflected forms by identifying the involved phonetic relationships during the inflection process. The model was submitted to multiple trainings and tests and presented an average accuracy of 13.55\%, but it got to 17\% in one of the experiments. Considering the segmentation between regular and irregular verbs, the model performed better among the regular class. However, considering all 16 classes individually (15 irregular + 1 regular), it was observed that the first two classes in which the model performed best were irregular classes, leaving the regular class with the third place.
 
- \textbf{Key-words:}
+\textbf{Key-words:}
 verbal morphology, machine learning, connectionism.
 
-% ---------------------------------------------------------------------------- %
-% Sumário
-    % imprime o sumário
-
-% ---------------------------------------------------------------------------- %
-% Listas de figuras e tabelas criadas automaticamente
-%\listoffigures            
-% \listoftables            
-
-% ---------------------------------------------------------------------------- %
-% Capítulos do trabalho
-% cabeçalho para as páginas de todos os capítulos
-
-
-% \singlespacing              % espaçamento simples
 \tableofcontents
-
+\pagestyle{fancy}
 \onehalfspacing            % espaçamento um e meio
 \mainmatter
 \pagenumbering{arabic}
