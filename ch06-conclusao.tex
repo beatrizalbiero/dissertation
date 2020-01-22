@@ -3,7 +3,7 @@
 
 Este trabalho teve como principal objetivo estudar o aprendizado de verbo irregulares do Português Brasileiro utlizando um modelo do tipo \textit{Encoder-Decoder} (\cite{enc-dec:2014}, \cite{seq2seq:2014}). 
 
-O escopo da pesquisa foi restringido à 1$^{a}$ pessoa do singular, no tempo presente e modo indicativo. Em seguida, um corpus com 423 verbos foi criado e transcrito para uma representação fonética utilizando a metodologia desenvolvida no Capítulo \ref{ch:02}. O corpus criado foi primeiramente particionado segundo classes de irregularidade. No total, quinze classes irregulares foram formadas. A proporção de verbos regulares e irregulares no corpus montado foi de respectivamente 50.6\% e 49.4\%. Após a coleta e organização dos verbos, os mesmos foram pré-processados para serem introduzidos na camada de \textit{input} do modelo. 
+O escopo da pesquisa foi restrito à 1$^{a}$ pessoa do singular, no tempo presente e modo indicativo. Em seguida, um corpus com 423 verbos foi criado e transcrito para uma representação fonética utilizando a metodologia desenvolvida no Capítulo \ref{ch:02}. O corpus criado foi primeiramente particionado segundo classes de irregularidade. No total, quinze classes irregulares foram formadas. A proporção de verbos regulares e irregulares no corpus montado foi de respectivamente 50.6\% e 49.4\%. Após a coleta e organização dos verbos, os mesmos foram pré-processados para serem introduzidos na camada de \textit{input} do modelo. 
 
 O modelo \textit{Encoder-Decoder} foi configurado da seguinte maneira: As redes \textit{Encoder} e \textit{Decoder} são ambas redes recorrentes (do tipo LSTM) com uma camada escondida de 256 nós. Para o treinamento foram utilizadas 300 épocas com lotes de 128 verbos por vez. O modelo foi otimizado com o algoritmo \textit{Adam} disponível na API do \textit{Keras} (\cite{chollet2015keras}) com hiperparâmetros pré-definidos pela API e disponíveis na documentação. A função de custo utilizada foi a Entropia Cruzada Binária (\cite{francois2017deep}).
 
@@ -21,7 +21,7 @@ Para pesquisas futuras, ficam algumas sugestões:
 para que o algoritmo apresentado nesta pesquisa possa ser reavaliado;
 
 \item Desenvolvimento de novos algoritmos de pré e pós processamento dos verbos. Outras representações vetoriais%\footnote{Uma opção é adicionar uma camada de \textit{embedding} (\cite{Jurafsky:2009:SLP:1214993}) antes da camada de \textit{input} do \textit{Encoder}}
-podem ser desenvolvidas; 
+ podem ser desenvolvidas; 
 
 \item Construção de um modelo do tipo \textit{Transformer} (\cite{Vaswani2017AttentionIA}). A arquitetura \textit{Transformer} é considerada a nova arquitetura estado-da-arte para modelos de tradução automática. 
 
@@ -29,4 +29,4 @@ podem ser desenvolvidas;
 
 Também fica como sugestão a realização de um teste psicolinguístico com verbos irregulares inventados para uma comparação entre as predições do modelo e as opiniões de falantes da língua, retomando assim o caráter cognitivo da questão. 
 
-Para concluir, esperamos que a presente pesquisa tenha apresentado importantes contribuições para o tema do aprendizado de verbos irregulares dentro do domínio dos modelos de Redes Neurais Artificiais. 
+Para concluir, esperamos que a presente pesquisa tenha apresentado contribuições para o tema do aprendizado de verbos irregulares dentro do domínio dos modelos de Redes Neurais Artificiais. 

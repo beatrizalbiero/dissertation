@@ -205,9 +205,11 @@ framexrightmargin=10pt
 \include{capa}
 \makeatletter\@openrightfalse\makeatother
 \pagenumbering{gobble}
-\include{folhaderosto}
+\include{folhaderosto} 
 \includepdf[pagecommand={\thispagestyle{plain}},
   pages=-]{fichacatalografica.pdf}
+\includepdf[pagecommand={\thispagestyle{plain}},
+  pages=-]{termocienciaeditado.pdf}
 \include{Aprovacao}
 % ---------------------------------------------------------------------------- %
 % Dedicatória

@@ -32,9 +32,9 @@ Como comentado no Cap. \ref{ch:01}, o modelo de \cite{rumelhart:1986} atingiu um
         \begin{tabular}{ccc}
         d                    & e                    & r                    \\ \hline
         consoante            & vogal                & consoante            \\
-        sonora               & frontal              & líquida              \\
+        vozeada               & frontal              & nasal             \\
         oclusiva                 & curta                & média                \\
-        média               & baixa                  & sonora\\
+        média               & anterior                  & vozeada\\
         \end{tabular}
         %\caption{Wickelfeatures do Trigrama der}
         \label{tab:der}
@@ -46,9 +46,9 @@ Como comentado no Cap. \ref{ch:01}, o modelo de \cite{rumelhart:1986} atingiu um
     \begin{tabular}{ccc}
     t                    & a                    & n                    \\ \hline
     consoante            & vogal                & consoante            \\
-    surda                & frontal              & líquida              \\
+    não vozeada                & frontal              & líquida              \\
     oclusiva                 & curta                & média                \\
-    média                & baixa                  & sonora               \\
+    média                & baixa                  & vozeada              \\
 
     \end{tabular}
     %\caption{Wickelfeatures do Trigrama tan}
@@ -62,7 +62,7 @@ Além disso, assim como os verbos tem que ser processados para entrar nos modelo
 
 \section{Apresentação do corpus}
 \label{sec:corpus}
-O corpus utilizado nesta pesquisa foi construído a partir da listagem de verbos contida no enderenço \texturl{www.conjugação.com.br}.
+O corpus utilizado nesta pesquisa foi construído a partir da listagem de verbos contida no enderenço \texturl{www.conjugacao.com.br}.
 
 Primeiramente, foi realizada uma etapa de extração dos verbos e suas respectivas formas flexionadas para um arquivo \textit{.csv} via técnica de \textit{webscraping}, uma técnica que extrai informações contidas nas páginas da web (\cite{mitchell:2015}). Em seguida, os verbos irregulares foram selecionados manualmente para diferentes famílias de verbos, ou seja, grupos que continham o mesmo padrão de flexão. Alguns dos verbos irregulares listados na fonte de referência não eram irregulares no processo de flexão de interesse, e portanto foram realocados para o grupo de verbos regulares (vide exemplo do verbo \textit{correr} na Seção \ref{sec:escopo}). Na sequência, os verbos coletados na forma infinitiva tiveram o fone /\textit{r}/ extraído para que no \textit{input} do modelo entrasse apenas o radical + vogal temática dos verbos. A razão para tal foi apenas uma questão de conveniência já que essa marcação era redundante por estar presente em todos os verbos. 
 
@@ -173,7 +173,7 @@ As vogais estão organizadas na Fig. \ref{fig:vowels_ipa}. As colunas dessa tabe
             & &														% Retroflex
             & &														% Palatal
             \BlankCell        & \BlankCell        &		% Velar
-            & \ipa{\;R}&											% Uvular
+            & R&											% Uvular
             & &														% Pharyngeal
             \BlankCell        & \BlankCell         \\		% Glottal
 
@@ -237,7 +237,7 @@ As vogais estão organizadas na Fig. \ref{fig:vowels_ipa}. As colunas dessa tabe
                                                                         % Post-alveolar
             & \textipa{\:l} &											% Retroflex
             & \textipa{L} &												% Palatal
-            & \circled{\textipa{\;L}} &											% Velar
+            & \circled{L} &											% Velar
             & &														% Uvular
             \BlankCell        & \BlankCell        &		% Pharyngeal
             \BlankCell        & \BlankCell         \\		% Glottal
@@ -254,7 +254,7 @@ As vogais estão organizadas na Fig. \ref{fig:vowels_ipa}. As colunas dessa tabe
     \label{fig:vowels_ipa}
 \end{figure}
 
-A ideia do AFI é mapear e caracterizar todos os sons das línguas humanas. Desse modo, cada língua aproveita apenas um subconjunto do AFI. Os fones presentes no Português-Brasileiro estão circulados. Levando em conta apenas o subconjunto dos fones do PB, e também tendo em mente que os símbolos do alfabeto fonético precisam ser transformados em código ASCII para serem interpretados, faz sentido construir uma nova tabela adaptada para o problema em questão. O resultado desta adaptação pode ser visto nas Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. Nessas novas tabelas, além da exclusão de alguns pontos e modos de articulação (motivada pela própria natureza do PB), apresenta-se também uma chave de transcrição alternativa que engloba apenas caracteres pertencentes ao código ASCII. Com relação à tabela das vogais (\ref{tab:new_vocals}), a dimensão de arredondamento foi dispensada pois não havia mais a necessidade dessa marcação já que essa informação seria redundante devido ao fato de que toda vogal posterior é arredondada e nenhuma posterior é.
+A ideia do AFI é mapear e caracterizar todos os sons das línguas humanas. Desse modo, cada língua aproveita apenas um subconjunto do AFI. Os fones presentes no Português-Brasileiro estão circulados. Levando em conta apenas o subconjunto dos fones do PB, e também tendo em mente que os símbolos do alfabeto fonético precisam ser transformados em código ASCII para serem interpretados, faz sentido construir uma nova tabela adaptada para o problema em questão. O resultado desta adaptação pode ser visto nas Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. Nessas novas tabelas, além da exclusão de alguns pontos e modos de articulação (motivada pela própria natureza do PB), apresenta-se também uma chave de transcrição alternativa que engloba apenas caracteres pertencentes ao código ASCII. Com relação à tabela das vogais (\ref{tab:new_vocals}), a dimensão de arredondamento foi dispensada pois não havia mais a necessidade dessa marcação já que essa informação seria redundante devido ao fato de que toda vogal posterior é arredondada no português brasileiro e nenhuma anterior é.
 
 \begin{center}
 \scalebox{0.9}{
@@ -337,7 +337,7 @@ A ideia do AFI é mapear e caracterizar todos os sons das línguas humanas. Dess
 \end{table}
 \end{center}
 
-  A Tabela \ref{tab:chave} exibe a chave de transcrição proposta utilizando as tabelas  fonéticas criadas e a Tabela \ref{tab:transc} exibe alguns exemplos de transcrições possíveis.  
+  A Tabela \ref{tab:chave} exibe a chave de transcrição proposta utilizando as tabelas  fonéticas criadas e a Tabela \ref{tab:transc} exibe alguns exemplos de transcrições possíveis.\footnote{Com intuito de facilitar o pré-processamento, algumas transcrições fonéticas foram representadas por um mesmo símbolo, é o caso de: t\ipa{S} e t $\rightarrow$ t; u, w e \textupsilon $\rightarrow$ u.}  
 
 \begin{table}[H]
 \begin{center}
@@ -409,19 +409,19 @@ voltar & voutar \\ \hline
 \subsection{Os inputs do modelo Encoder-Decoder}
 \label{sec:inputs}
 
-Após a construção do corpus, os verbos transcritos tiveram seus respectivos fones associados aos traços fonéticos que os compõe, os mesmos traços que originaram as Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. A Tabela \ref{tab:pOsu} apresenta um exemplo desse processo para o verbo “posso” - “\textit{pOsu}”. 
+Após a construção do corpus, os verbos transcritos tiveram seus respectivos fones associados aos traços fonéticos que os compõem, os mesmos traços que originaram as Tabelas \ref{tab:new_rep} e \ref{tab:new_vocals}. A Tabela \ref{tab:pOsu} apresenta um exemplo desse processo para o verbo “posso” - “\textit{pOsu}”. 
 
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{lll}
 Fone & Traços Fonéticos &  \\ \cline{1-2}
-p & bilabial, oclusiva, surda &  \\
+p & bilabial, oclusiva, não vozeada &  \\
 O & meio-aberta, posterior &  \\
-s & fricativa, alveolar, surda &  \\
+s & fricativa, alveolar, não vozeada &  \\
 u & fechada, posterior & 
 \end{tabular}
 \end{center}
-\caption{Traços Fonéticos para o Verbo “Posso“}
+\caption{Traços Fonéticos para o Verbo “Posso”}
 \label{tab:pOsu}
 \end{table}
 
@@ -449,7 +449,7 @@ alveolar & 0 & 0 \\
 p-alveolar & 0 & 0 \\
 velar & 0 & 0 \\
 glotal & 0 & 0 \\
-sonora & 0 & 1 \\
+vozeada & 0 & 1 \\
 fechada & 0 & 0 \\
 m-fechada & 0 & 0 \\
 m-aberta & 0 & 0 \\
@@ -457,7 +457,7 @@ aberta & 0 & 0 \\
 anterior & 0 & 0 \\
 posterior & 0 & 0 \\
 <beg> & 0 & 0 \\
-<end> & 0 & 0
+<eos> & 0 & 0
 \end{tabular}
 \end{center}
 \caption{Exemplo de Codificação de fones}

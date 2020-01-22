@@ -17,6 +17,7 @@
 \node[box2, below=0pt of box7] (box8) {0};
 \node[box3, below=0pt of box8] (box9) {1};
 \node[box2, below=0pt of box9] (box10) {0};
+\node[textonly, below=0pt of box10] (dim) {dim: 460x1};
 % \node[textonly, below=0pt of box10] (dim) {460x1};
 \node[textonly, below=0pt of dim] (space) {};
 %wickelfeatures
@@ -25,8 +26,8 @@
 \node[textonly, right=20pt of box3] (wi3) {\#, interrompida, vogal};
 \node[textonly, right=20pt of box4] (wi4) {\#, anterior, vogal};
 \node[textonly, right=20pt of box5] (wi5) {\reflectbox{$\vdots$}};
-\node[textonly, right=20pt of box6] (wi6) {\#, surda, baixa};
-\node[textonly, right=20pt of box7] (wi7) {\#, surda, frontal};
+\node[textonly, right=20pt of box6] (wi6) {\#, não vozeada, baixa};
+\node[textonly, right=20pt of box7] (wi7) {\#, não vozeada, frontal};
 \node[textonly, right=20pt of box8] (wi8) {contínua, vogal, vogal };
 \node[textonly, right=20pt of box9] (wi9) {interrompida, vogal, nasal };
 \node[textonly, right=20pt of box10] (wi10) {fricativa, posterior, \#};
@@ -53,9 +54,10 @@
 %features
 \node[textonly, right=20pt of tri1] (f1) {\#, interrompida, vogal};
 \node[textonly, below=0pt of f1] (f2) {\#, interrompida, baixa};
-\node[textonly, below=0pt of f2] (f3) {\#, surda, longa};
-\node[textonly, below=0pt of f3] (f4) {\#, surda, posterior};
+\node[textonly, below=0pt of f2] (f3) {\#, não vozeada, longa};
+\node[textonly, below=0pt of f3] (f4) {\#, não vozeada, posterior};
 \node[textonly, below=0pt of f4] (f5) {\reflectbox{$\vdots$}};
+
 \end{tikzpicture}
 }\caption{Esquema de Codificação de Rumelhart e McClelland} 
 \label{fig:wick}
